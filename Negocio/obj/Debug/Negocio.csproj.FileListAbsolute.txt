@@ -1,0 +1,5 @@
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\Negocio\bin\Debug\Negocio.dll
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\Negocio\bin\Debug\Negocio.pdb
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\Negocio\obj\Debug\Negocio.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\Negocio\obj\Debug\Negocio.dll
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\Negocio\obj\Debug\Negocio.pdb

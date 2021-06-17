@@ -1,0 +1,13 @@
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\bin\Debug\LabGrilla.exe.config
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\bin\Debug\LabGrilla.exe
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\bin\Debug\LabGrilla.pdb
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\bin\Debug\Negocio.dll
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\bin\Debug\Negocio.pdb
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.csproj.AssemblyReference.cache
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.formListaUsuarios.resources
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.Properties.Resources.resources
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.csproj.GenerateResource.cache
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.csproj.CopyComplete
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.exe
+D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab2\TP2\LabGrilla\obj\Debug\LabGrilla.pdb
