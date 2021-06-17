@@ -89,6 +89,59 @@ namespace LabGrilla
             //de la columna de la cual obtiene su valor
 
             this.dgvUsuarios.Columns.Add(colTipoDoc);
+
+            //Creando la columna telefono
+            DataGridViewTextBoxColumn colTel = new DataGridViewTextBoxColumn();
+            colTel.Name = "telefono";
+            colTel.HeaderText = "Teléfono";
+            colTel.DataPropertyName = "telefono";
+            this.dgvUsuarios.Columns.Add(colTel);
+
+            //Creando la columna Email
+            DataGridViewTextBoxColumn colEmail = new DataGridViewTextBoxColumn();
+            colEmail.Name = "email";
+            colEmail.HeaderText = "Email";
+            colEmail.DataPropertyName = "email";
+            this.dgvUsuarios.Columns.Add(colEmail);
+
+            //Creando la columna celular
+            DataGridViewTextBoxColumn colCel = new DataGridViewTextBoxColumn();
+            colCel.Name = "celular";
+            colCel.HeaderText = "Celular";
+            colCel.DataPropertyName = "celular";
+            this.dgvUsuarios.Columns.Add(colCel);
+
+            //Creando la columna usuario
+            DataGridViewTextBoxColumn colUsuario = new DataGridViewTextBoxColumn();
+            colUsuario.Name = "usuario";
+            colUsuario.HeaderText = "Usuario";
+            colUsuario.DataPropertyName = "usuario";
+            this.dgvUsuarios.Columns.Add(colUsuario);
+
+            //Creando la columna clave
+            DataGridViewTextBoxColumn colClave = new DataGridViewTextBoxColumn();
+            colClave.Name = "clave";
+            colClave.HeaderText = "Clave";
+            colClave.DataPropertyName = "clave";
+            this.dgvUsuarios.Columns.Add(colClave);
+
+            colEmail.Width = 250;
+            colNroDoc.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colClave.Visible = false;
+
+            //como las columnas direccion, nombre, apellido y fecha de nacimiento las creamos
+            //con el diseñador de formularios no disponemos de una variable para hacer 
+            //referencia a ellas. Entonces debemos referenciarlas con 
+            //this.dgvUsuarios.Columns["nombre_columna"] donde el nombre_columna es lo que 
+            //indicamos en la propiedad Name de las columnas
+            this.dgvUsuarios.Columns["direccion"].Width = 250;
+            this.dgvUsuarios.Columns["apellido"].DefaultCellStyle.Font =
+            new Font(this.dgvUsuarios.DefaultCellStyle.Font, FontStyle.Bold);
+            this.dgvUsuarios.Columns["nombre"].DefaultCellStyle.Font =
+            new Font(this.dgvUsuarios.DefaultCellStyle.Font, FontStyle.Bold);
+            this.dgvUsuarios.Columns["fecha_nac"].DefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleRight;
+
         }
 
 

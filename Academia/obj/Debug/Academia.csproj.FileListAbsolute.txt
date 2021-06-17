@@ -8,3 +8,13 @@ D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Academia\obj\Debug
 D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Academia\obj\Debug\Academia.csproj.CoreCompileInputs.cache
 D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Academia\obj\Debug\Academia.exe
 D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Academia\obj\Debug\Academia.pdb
+D:\Facultad\.Net\TP-NET\Academia\bin\Debug\Academia.exe.config
+D:\Facultad\.Net\TP-NET\Academia\bin\Debug\Academia.exe
+D:\Facultad\.Net\TP-NET\Academia\bin\Debug\Academia.pdb
+D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.csprojAssemblyReference.cache
+D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.formLogin.resources
+D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.Properties.Resources.resources
+D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.csproj.GenerateResource.cache
+D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.csproj.CoreCompileInputs.cache
+D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.exe
+D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.pdb
