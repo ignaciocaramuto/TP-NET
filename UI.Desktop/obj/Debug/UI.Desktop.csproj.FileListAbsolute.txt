@@ -8,10 +8,12 @@ D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\bin\Debug\Business.Entities.pdb
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\bin\Debug\Business.Logic.pdb
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\bin\Debug\Data.Database.pdb
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.csprojAssemblyReference.cache
-D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.Form1.resources
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.Properties.Resources.resources
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.csproj.GenerateResource.cache
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.csproj.CoreCompileInputs.cache
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.csproj.CopyComplete
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.exe
 D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.pdb
+D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.ApplicationForm.resources
+D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.UsuarioDesktop.resources
+D:\Facultad\.Net\Unidad4\TP-NET\UI.Desktop\obj\Debug\UI.Desktop.Usuarios.resources
