@@ -12,3 +12,17 @@ D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Agenda\obj\Debug\A
 D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Agenda\obj\Debug\Agenda.csproj.CopyComplete
 D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Agenda\obj\Debug\Agenda.exe
 D:\Tecnologías de desarrollo de software IDE\Labs\U3Lab1\TP2\Agenda\obj\Debug\Agenda.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\bin\Debug\Agenda.exe.config
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\bin\Debug\Agenda.exe
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\bin\Debug\Agenda.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\bin\Debug\Academia.exe
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\bin\Debug\Academia.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\bin\Debug\Academia.exe.config
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.csproj.AssemblyReference.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.formMain.resources
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.Properties.Resources.resources
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.csproj.GenerateResource.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.csproj.CopyComplete
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.exe
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Agenda\obj\Debug\Agenda.pdb

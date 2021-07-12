@@ -18,3 +18,13 @@ D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.csproj.GenerateResource.cach
 D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.csproj.CoreCompileInputs.cache
 D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.exe
 D:\Facultad\.Net\TP-NET\Academia\obj\Debug\Academia.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\bin\Debug\Academia.exe.config
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\bin\Debug\Academia.exe
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\bin\Debug\Academia.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\obj\Debug\Academia.csproj.AssemblyReference.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\obj\Debug\Academia.formLogin.resources
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\obj\Debug\Academia.Properties.Resources.resources
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\obj\Debug\Academia.csproj.GenerateResource.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\obj\Debug\Academia.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\obj\Debug\Academia.exe
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Academia\obj\Debug\Academia.pdb

@@ -44,5 +44,12 @@ namespace UI.Desktop
         {
 
         }
+
+        private void tsbNuevo_Click(object sender, EventArgs e)
+        {
+            UsuarioDesktop formUsuario = new UsuarioDesktop(ApplicationForm.ModoForm.Alta);
+            formUsuario.ShowDialog();
+            this.Listar();
+        }
     }
 }

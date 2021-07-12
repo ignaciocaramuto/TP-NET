@@ -31,10 +31,12 @@ namespace UI.Desktop
             Consulta
         }
 
+        private ModoForm modo;
+
         public ModoForm Modo
         {
-            get;
-            set;
+            get { return modo; }
+            set { modo = value; }
         }
 
         public virtual void MapearDeDatos() { }

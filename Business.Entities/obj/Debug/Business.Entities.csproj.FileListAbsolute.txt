@@ -1,0 +1,6 @@
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Entities\bin\Debug\Business.Entities.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Entities\bin\Debug\Business.Entities.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Entities\obj\Debug\Business.Entities.csproj.AssemblyReference.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Entities\obj\Debug\Business.Entities.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Entities\obj\Debug\Business.Entities.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Entities\obj\Debug\Business.Entities.pdb

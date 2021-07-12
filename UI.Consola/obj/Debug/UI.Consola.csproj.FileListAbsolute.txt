@@ -1,0 +1,14 @@
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\UI.Consola.exe.config
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\UI.Consola.exe
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\UI.Consola.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\Business.Entities.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\Business.Logic.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\Data.Database.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\Business.Entities.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\Business.Logic.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\bin\Debug\Data.Database.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\obj\Debug\UI.Consola.csproj.AssemblyReference.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\obj\Debug\UI.Consola.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\obj\Debug\UI.Consola.csproj.CopyComplete
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\obj\Debug\UI.Consola.exe
+D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\UI.Consola\obj\Debug\UI.Consola.pdb
