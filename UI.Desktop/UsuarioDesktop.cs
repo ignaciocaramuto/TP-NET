@@ -24,6 +24,7 @@ namespace UI.Desktop
         public UsuarioDesktop(ModoForm modo) : this()
         {
             this.Modo = modo;
+            MapearDeDatos();
         }
 
         public UsuarioDesktop(int ID, ModoForm modo) : this()
@@ -47,19 +48,47 @@ namespace UI.Desktop
 
         public override void MapearDeDatos()
         {
-            this.txtID.Text = this.UsuarioActual.ID.ToString();
-            this.chkHabilitado.Checked = this.UsuarioActual.Habilitado;
-            this.txtNombre.Text = this.UsuarioActual.Nombre;
-            this.txtApellido.Text = this.UsuarioActual.Apellido;
-            this.txtEmail.Text = this.UsuarioActual.EMail;
-            this.txtUsuario.Text = this.UsuarioActual.NombreUsuario;
-            this.txtClave.Text = this.UsuarioActual.Clave;
-            this.txtConfirmarClave.Text = this.UsuarioActual.Clave;
+            if (Modo == ModoForm.Alta) this.btnAceptar.Text = "Guardar";
+            else if (Modo == ModoForm.Baja)
+            {
+                this.btnAceptar.Text = "Eliminar";
+                this.txtID.Text = this.UsuarioActual.ID.ToString();
+                this.chkHabilitado.Checked = this.UsuarioActual.Habilitado;
+                this.txtNombre.Text = this.UsuarioActual.Nombre;
+                this.txtApellido.Text = this.UsuarioActual.Apellido;
+                this.txtEmail.Text = this.UsuarioActual.EMail;
+                this.txtUsuario.Text = this.UsuarioActual.NombreUsuario;
+                this.txtClave.Text = this.UsuarioActual.Clave;
+                this.txtConfirmarClave.Text = this.UsuarioActual.Clave;
+            }
+            else if (Modo == ModoForm.Modificacion)
+            {
+                this.btnAceptar.Text = "Guardar";
+                this.txtID.Text = this.UsuarioActual.ID.ToString();
+                this.chkHabilitado.Checked = this.UsuarioActual.Habilitado;
+                this.txtNombre.Text = this.UsuarioActual.Nombre;
+                this.txtApellido.Text = this.UsuarioActual.Apellido;
+                this.txtEmail.Text = this.UsuarioActual.EMail;
+                this.txtUsuario.Text = this.UsuarioActual.NombreUsuario;
+                this.txtClave.Text = this.UsuarioActual.Clave;
+                this.txtConfirmarClave.Text = this.UsuarioActual.Clave;
+            }
 
-            if (Modo == ModoForm.Alta || Modo == ModoForm.Modificacion) this.btnAceptar.Text = "Guardar";
-            else if (Modo == ModoForm.Baja) this.btnAceptar.Text = "Eliminar";
-            else if (Modo == ModoForm.Consulta) this.btnAceptar.Text = "Aceptar";
-        }
+
+            else if (Modo == ModoForm.Consulta)
+            {
+                this.btnAceptar.Text = "Aceptar";
+                this.txtID.Text = this.UsuarioActual.ID.ToString();
+                this.chkHabilitado.Checked = this.UsuarioActual.Habilitado;
+                this.txtNombre.Text = this.UsuarioActual.Nombre;
+                this.txtApellido.Text = this.UsuarioActual.Apellido;
+                this.txtEmail.Text = this.UsuarioActual.EMail;
+                this.txtUsuario.Text = this.UsuarioActual.NombreUsuario;
+                this.txtClave.Text = this.UsuarioActual.Clave;
+                this.txtConfirmarClave.Text = this.UsuarioActual.Clave;
+            }
+
+            }
         public override void MapearADatos()
         {
             if (Modo == ModoForm.Alta)
@@ -72,10 +101,10 @@ namespace UI.Desktop
                 this.UsuarioActual.EMail = this.txtEmail.Text;
                 this.UsuarioActual.NombreUsuario = this.txtUsuario.Text;
                 this.UsuarioActual.Clave = this.txtClave.Text;
-                UsuarioActual.State = BusinessEntity.States.New;
+                this.UsuarioActual.State = BusinessEntity.States.New;
             }
 
-            if (Modo == ModoForm.Modificacion)
+            else if (Modo == ModoForm.Modificacion)
             {
                 this.txtID.Text = this.UsuarioActual.ID.ToString();
                 this.UsuarioActual.Habilitado = this.chkHabilitado.Checked;
@@ -84,7 +113,19 @@ namespace UI.Desktop
                 this.UsuarioActual.EMail = this.txtEmail.Text;
                 this.UsuarioActual.NombreUsuario = this.txtUsuario.Text;
                 this.UsuarioActual.Clave = this.txtClave.Text;
-                UsuarioActual.State = BusinessEntity.States.Modified;
+                this.UsuarioActual.State = BusinessEntity.States.Modified;
+            }
+
+            else if (Modo == ModoForm.Baja)
+            {
+                this.txtID.Text = this.UsuarioActual.ID.ToString();
+                this.UsuarioActual.Habilitado = this.chkHabilitado.Checked;
+                this.UsuarioActual.Nombre = this.txtNombre.Text;
+                this.UsuarioActual.Apellido = this.txtApellido.Text;
+                this.UsuarioActual.EMail = this.txtEmail.Text;
+                this.UsuarioActual.NombreUsuario = this.txtUsuario.Text;
+                this.UsuarioActual.Clave = this.txtClave.Text;
+                this.UsuarioActual.State = BusinessEntity.States.Deleted;
             }
         }
 
