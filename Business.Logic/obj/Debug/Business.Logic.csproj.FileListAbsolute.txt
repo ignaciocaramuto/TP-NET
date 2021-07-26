@@ -9,3 +9,14 @@ D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Lo
 D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Logic\obj\Debug\Business.Logic.csproj.CopyComplete
 D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Logic\obj\Debug\Business.Logic.dll
 D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Business.Logic\obj\Debug\Business.Logic.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\bin\Debug\Business.Logic.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\bin\Debug\Business.Logic.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\bin\Debug\Business.Entities.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\bin\Debug\Data.Database.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\bin\Debug\Business.Entities.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\bin\Debug\Data.Database.pdb
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\obj\Debug\Business.Logic.csproj.AssemblyReference.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\obj\Debug\Business.Logic.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\obj\Debug\Business.Logic.csproj.CopyComplete
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\obj\Debug\Business.Logic.dll
+D:\Tecnologías de desarrollo de software IDE\Repositorio\Business.Logic\obj\Debug\Business.Logic.pdb
