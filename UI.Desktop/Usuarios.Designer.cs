@@ -29,6 +29,7 @@ namespace UI.Desktop
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Usuarios));
             this.tcUsuarios = new System.Windows.Forms.ToolStripContainer();
             this.tlUsuarios = new System.Windows.Forms.TableLayoutPanel();
@@ -47,6 +48,8 @@ namespace UI.Desktop
             this.tsbEditar = new System.Windows.Forms.ToolStripButton();
             this.tsBorrar = new System.Windows.Forms.ToolStrip();
             this.tsbBorrar = new System.Windows.Forms.ToolStripButton();
+            this.academiaDataSet = new UI.Desktop.AcademiaDataSet();
+            this.academiaDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tcUsuarios.ContentPanel.SuspendLayout();
             this.tcUsuarios.TopToolStripPanel.SuspendLayout();
             this.tcUsuarios.SuspendLayout();
@@ -55,6 +58,8 @@ namespace UI.Desktop
             this.tsUsuarios.SuspendLayout();
             this.tsEdit.SuspendLayout();
             this.tsBorrar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tcUsuarios
@@ -98,6 +103,7 @@ namespace UI.Desktop
             // 
             this.dgvUsuarios.AllowUserToAddRows = false;
             this.dgvUsuarios.AllowUserToDeleteRows = false;
+            this.dgvUsuarios.AutoGenerateColumns = false;
             this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUsuarios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -107,6 +113,7 @@ namespace UI.Desktop
             this.email,
             this.habilitado});
             this.tlUsuarios.SetColumnSpan(this.dgvUsuarios, 2);
+            this.dgvUsuarios.DataSource = this.academiaDataSetBindingSource;
             this.dgvUsuarios.Location = new System.Drawing.Point(3, 3);
             this.dgvUsuarios.MultiSelect = false;
             this.dgvUsuarios.Name = "dgvUsuarios";
@@ -227,7 +234,7 @@ namespace UI.Desktop
             this.tsBorrar.Dock = System.Windows.Forms.DockStyle.None;
             this.tsBorrar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbBorrar});
-            this.tsBorrar.Location = new System.Drawing.Point(73, 0);
+            this.tsBorrar.Location = new System.Drawing.Point(76, 0);
             this.tsBorrar.Name = "tsBorrar";
             this.tsBorrar.Size = new System.Drawing.Size(35, 25);
             this.tsBorrar.TabIndex = 2;
@@ -241,6 +248,16 @@ namespace UI.Desktop
             this.tsbBorrar.Size = new System.Drawing.Size(23, 22);
             this.tsbBorrar.Text = "Borrar";
             this.tsbBorrar.Click += new System.EventHandler(this.tsbBorrar_Click);
+            // 
+            // academiaDataSet
+            // 
+            this.academiaDataSet.DataSetName = "AcademiaDataSet";
+            this.academiaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // academiaDataSetBindingSource
+            // 
+            this.academiaDataSetBindingSource.DataSource = this.academiaDataSet;
+            this.academiaDataSetBindingSource.Position = 0;
             // 
             // Usuarios
             // 
@@ -264,6 +281,8 @@ namespace UI.Desktop
             this.tsEdit.PerformLayout();
             this.tsBorrar.ResumeLayout(false);
             this.tsBorrar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -287,6 +306,8 @@ namespace UI.Desktop
         private System.Windows.Forms.DataGridViewTextBoxColumn usuario;
         private System.Windows.Forms.DataGridViewTextBoxColumn email;
         private System.Windows.Forms.DataGridViewCheckBoxColumn habilitado;
+        private System.Windows.Forms.BindingSource academiaDataSetBindingSource;
+        private AcademiaDataSet academiaDataSet;
     }
 }
 

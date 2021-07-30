@@ -16,3 +16,12 @@ D:\Tecnologías de desarrollo de software IDE\Repositorio\Data.Database\Data.Dat
 D:\Tecnologías de desarrollo de software IDE\Repositorio\Data.Database\Data.Database\obj\Debug\Data.Database.csproj.CopyComplete
 D:\Tecnologías de desarrollo de software IDE\Repositorio\Data.Database\Data.Database\obj\Debug\Data.Database.dll
 D:\Tecnologías de desarrollo de software IDE\Repositorio\Data.Database\Data.Database\obj\Debug\Data.Database.pdb
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\bin\Debug\Data.Database.dll
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\bin\Debug\Data.Database.pdb
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\bin\Debug\Business.Entities.dll
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\bin\Debug\Business.Entities.pdb
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\obj\Debug\Data.Database.csproj.AssemblyReference.cache
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\obj\Debug\Data.Database.csproj.CoreCompileInputs.cache
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\obj\Debug\Data.Database.csproj.CopyComplete
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\obj\Debug\Data.Database.dll
+D:\Tecnologías de desarrollo de software IDE\Labs\TP2L05v2\Data.Database\Data.Database\obj\Debug\Data.Database.pdb
