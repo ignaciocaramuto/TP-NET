@@ -1,6 +1,0 @@
-D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Util\bin\Debug\Util.dll
-D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Util\bin\Debug\Util.pdb
-D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Util\obj\Debug\Util.csproj.AssemblyReference.cache
-D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Util\obj\Debug\Util.csproj.CoreCompileInputs.cache
-D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Util\obj\Debug\Util.dll
-D:\Tecnologías de desarrollo de software IDE\Repositorio\TP2\TP-NET\Util\obj\Debug\Util.pdb
