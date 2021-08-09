@@ -26,12 +26,6 @@ namespace Business.Entities
             set { _cupo = value; }
         }
 
-        public string Descripcion
-        {
-            get { return _descripcion; }
-            set { _descripcion = value; }
-        }
-
         public int IdComision
         {
             get { return _idComision; }

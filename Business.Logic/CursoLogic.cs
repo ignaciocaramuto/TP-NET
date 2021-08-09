@@ -8,7 +8,7 @@ using Data.Database;
 
 namespace Business.Logic
 {
-    class CursoLogic : BusinessLogic
+    public class CursoLogic : BusinessLogic
     {
         public CursoAdapter CursoData
         {
