@@ -46,10 +46,10 @@ namespace UI.Desktop
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.83838F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.16161F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.64357F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.35644F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.Controls.Add(this.labelID, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelDescripcion, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelAnio, 0, 2);
@@ -101,30 +101,30 @@ namespace UI.Desktop
             // txtID
             // 
             this.txtID.BackColor = System.Drawing.SystemColors.Control;
-            this.txtID.Location = new System.Drawing.Point(72, 3);
+            this.txtID.Location = new System.Drawing.Point(75, 3);
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
-            this.txtID.Size = new System.Drawing.Size(128, 20);
+            this.txtID.Size = new System.Drawing.Size(124, 20);
             this.txtID.TabIndex = 0;
             this.txtID.Text = "Autogenerado";
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(72, 31);
+            this.txtDescripcion.Location = new System.Drawing.Point(75, 31);
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(128, 20);
+            this.txtDescripcion.Size = new System.Drawing.Size(124, 20);
             this.txtDescripcion.TabIndex = 1;
             // 
             // txtAnio
             // 
-            this.txtAnio.Location = new System.Drawing.Point(72, 58);
+            this.txtAnio.Location = new System.Drawing.Point(75, 58);
             this.txtAnio.Name = "txtAnio";
-            this.txtAnio.Size = new System.Drawing.Size(128, 20);
+            this.txtAnio.Size = new System.Drawing.Size(124, 20);
             this.txtAnio.TabIndex = 2;
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(206, 204);
+            this.btnAceptar.Location = new System.Drawing.Point(205, 204);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 4;
@@ -134,7 +134,7 @@ namespace UI.Desktop
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(288, 204);
+            this.btnCancelar.Location = new System.Drawing.Point(287, 204);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 4;
@@ -153,9 +153,9 @@ namespace UI.Desktop
             // 
             // txtIdPlan
             // 
-            this.txtIdPlan.Location = new System.Drawing.Point(72, 87);
+            this.txtIdPlan.Location = new System.Drawing.Point(75, 87);
             this.txtIdPlan.Name = "txtIdPlan";
-            this.txtIdPlan.Size = new System.Drawing.Size(128, 20);
+            this.txtIdPlan.Size = new System.Drawing.Size(124, 20);
             this.txtIdPlan.TabIndex = 3;
             // 
             // ComisionDesktop

@@ -39,13 +39,13 @@ namespace UI.Desktop
             this.tsbEditar = new System.Windows.Forms.ToolStripButton();
             this.tsbBorrar = new System.Windows.Forms.ToolStripButton();
             this.dgvComisiones = new System.Windows.Forms.DataGridView();
-            this.btnSalir = new System.Windows.Forms.Button();
-            this.btnActualizar = new System.Windows.Forms.Button();
-            this.academiaDataSetBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.anioEspecialidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idPlan = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.academiaDataSetBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.btnSalir = new System.Windows.Forms.Button();
+            this.btnActualizar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -129,32 +129,6 @@ namespace UI.Desktop
             this.dgvComisiones.Size = new System.Drawing.Size(1019, 392);
             this.dgvComisiones.TabIndex = 1;
             // 
-            // btnSalir
-            // 
-            this.btnSalir.Location = new System.Drawing.Point(944, 426);
-            this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(75, 23);
-            this.btnSalir.TabIndex = 2;
-            this.btnSalir.Text = "Salir";
-            this.btnSalir.UseVisualStyleBackColor = true;
-            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
-            // 
-            // btnActualizar
-            // 
-            this.btnActualizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnActualizar.Location = new System.Drawing.Point(863, 426);
-            this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(75, 23);
-            this.btnActualizar.TabIndex = 3;
-            this.btnActualizar.Text = "Actualizar";
-            this.btnActualizar.UseVisualStyleBackColor = true;
-            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
-            // 
-            // academiaDataSetBindingSource1
-            // 
-            this.academiaDataSetBindingSource1.DataSource = this.academiaDataSet;
-            this.academiaDataSetBindingSource1.Position = 0;
-            // 
             // id
             // 
             this.id.DataPropertyName = "ID";
@@ -182,6 +156,32 @@ namespace UI.Desktop
             this.idPlan.HeaderText = "ID Plan";
             this.idPlan.Name = "idPlan";
             this.idPlan.ReadOnly = true;
+            // 
+            // academiaDataSetBindingSource1
+            // 
+            this.academiaDataSetBindingSource1.DataSource = this.academiaDataSet;
+            this.academiaDataSetBindingSource1.Position = 0;
+            // 
+            // btnSalir
+            // 
+            this.btnSalir.Location = new System.Drawing.Point(944, 426);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(75, 23);
+            this.btnSalir.TabIndex = 2;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
+            // 
+            // btnActualizar
+            // 
+            this.btnActualizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnActualizar.Location = new System.Drawing.Point(863, 426);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(75, 23);
+            this.btnActualizar.TabIndex = 3;
+            this.btnActualizar.Text = "Actualizar";
+            this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // Comisiones
             // 
