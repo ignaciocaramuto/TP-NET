@@ -34,29 +34,38 @@ namespace UI.Desktop
             this.tscMaterias = new System.Windows.Forms.ToolStripContainer();
             this.tlMaterias = new System.Windows.Forms.TableLayoutPanel();
             this.dgvMaterias = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hs_semanales = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hs_totales = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_plan = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.academiaDataSetBindingSource4 = new System.Windows.Forms.BindingSource(this.components);
+            this.academiaDataSet = new UI.Desktop.AcademiaDataSet();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.tsMaterias = new System.Windows.Forms.ToolStrip();
             this.tsbNuevo = new System.Windows.Forms.ToolStripButton();
             this.tbsEditar = new System.Windows.Forms.ToolStripButton();
             this.tbsEliminar = new System.Windows.Forms.ToolStripButton();
-            this.academiaDataSet = new UI.Desktop.AcademiaDataSet();
             this.academiaDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.academiaDataSetBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.academiaDataSetBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
+            this.academiaDataSetBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
+            this.materiasBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.materiasTableAdapter = new UI.Desktop.AcademiaDataSetTableAdapters.materiasTableAdapter();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hs_semanales = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hs_totales = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_plan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tscMaterias.ContentPanel.SuspendLayout();
             this.tscMaterias.TopToolStripPanel.SuspendLayout();
             this.tscMaterias.SuspendLayout();
             this.tlMaterias.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaterias)).BeginInit();
-            this.tsMaterias.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).BeginInit();
+            this.tsMaterias.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.materiasBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // tscMaterias
@@ -107,7 +116,7 @@ namespace UI.Desktop
             this.hs_totales,
             this.id_plan});
             this.tlMaterias.SetColumnSpan(this.dgvMaterias, 2);
-            this.dgvMaterias.DataSource = this.academiaDataSet;
+            this.dgvMaterias.DataSource = this.academiaDataSetBindingSource4;
             this.dgvMaterias.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMaterias.Location = new System.Drawing.Point(3, 3);
             this.dgvMaterias.Name = "dgvMaterias";
@@ -115,35 +124,15 @@ namespace UI.Desktop
             this.dgvMaterias.Size = new System.Drawing.Size(794, 390);
             this.dgvMaterias.TabIndex = 0;
             // 
-            // id
+            // academiaDataSetBindingSource4
             // 
-            this.id.HeaderText = "ID";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
+            this.academiaDataSetBindingSource4.DataSource = this.academiaDataSet;
+            this.academiaDataSetBindingSource4.Position = 0;
             // 
-            // descripcion
+            // academiaDataSet
             // 
-            this.descripcion.HeaderText = "Descripción";
-            this.descripcion.Name = "descripcion";
-            this.descripcion.ReadOnly = true;
-            // 
-            // hs_semanales
-            // 
-            this.hs_semanales.HeaderText = "Horas semanales";
-            this.hs_semanales.Name = "hs_semanales";
-            this.hs_semanales.ReadOnly = true;
-            // 
-            // hs_totales
-            // 
-            this.hs_totales.HeaderText = "Horas totales";
-            this.hs_totales.Name = "hs_totales";
-            this.hs_totales.ReadOnly = true;
-            // 
-            // id_plan
-            // 
-            this.id_plan.HeaderText = "ID Plan";
-            this.id_plan.Name = "id_plan";
-            this.id_plan.ReadOnly = true;
+            this.academiaDataSet.DataSetName = "AcademiaDataSet";
+            this.academiaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // btnActualizar
             // 
@@ -209,11 +198,6 @@ namespace UI.Desktop
             this.tbsEliminar.Text = "Eliminar";
             this.tbsEliminar.Click += new System.EventHandler(this.tbsEliminar_Click);
             // 
-            // academiaDataSet
-            // 
-            this.academiaDataSet.DataSetName = "AcademiaDataSet";
-            this.academiaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // academiaDataSetBindingSource
             // 
             this.academiaDataSetBindingSource.DataSource = this.academiaDataSet;
@@ -223,6 +207,60 @@ namespace UI.Desktop
             // 
             this.academiaDataSetBindingSource1.DataSource = this.academiaDataSet;
             this.academiaDataSetBindingSource1.Position = 0;
+            // 
+            // academiaDataSetBindingSource2
+            // 
+            this.academiaDataSetBindingSource2.DataSource = this.academiaDataSet;
+            this.academiaDataSetBindingSource2.Position = 0;
+            // 
+            // academiaDataSetBindingSource3
+            // 
+            this.academiaDataSetBindingSource3.DataSource = this.academiaDataSet;
+            this.academiaDataSetBindingSource3.Position = 0;
+            // 
+            // materiasBindingSource
+            // 
+            this.materiasBindingSource.DataMember = "materias";
+            this.materiasBindingSource.DataSource = this.academiaDataSetBindingSource3;
+            // 
+            // materiasTableAdapter
+            // 
+            this.materiasTableAdapter.ClearBeforeFill = true;
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "ID";
+            this.id.HeaderText = "ID";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            // 
+            // descripcion
+            // 
+            this.descripcion.DataPropertyName = "Descripcion";
+            this.descripcion.HeaderText = "Descripción";
+            this.descripcion.Name = "descripcion";
+            this.descripcion.ReadOnly = true;
+            // 
+            // hs_semanales
+            // 
+            this.hs_semanales.DataPropertyName = "HsSemanales";
+            this.hs_semanales.HeaderText = "Horas semanales";
+            this.hs_semanales.Name = "hs_semanales";
+            this.hs_semanales.ReadOnly = true;
+            // 
+            // hs_totales
+            // 
+            this.hs_totales.DataPropertyName = "HsTotales";
+            this.hs_totales.HeaderText = "Horas totales";
+            this.hs_totales.Name = "hs_totales";
+            this.hs_totales.ReadOnly = true;
+            // 
+            // id_plan
+            // 
+            this.id_plan.DataPropertyName = "IdPlan";
+            this.id_plan.HeaderText = "ID Plan";
+            this.id_plan.Name = "id_plan";
+            this.id_plan.ReadOnly = true;
             // 
             // Materias
             // 
@@ -240,11 +278,15 @@ namespace UI.Desktop
             this.tscMaterias.PerformLayout();
             this.tlMaterias.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaterias)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).EndInit();
             this.tsMaterias.ResumeLayout(false);
             this.tsMaterias.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.materiasBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -257,16 +299,21 @@ namespace UI.Desktop
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.ToolStrip tsMaterias;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descripcion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hs_semanales;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hs_totales;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_plan;
         private System.Windows.Forms.ToolStripButton tsbNuevo;
         private System.Windows.Forms.ToolStripButton tbsEditar;
         private System.Windows.Forms.ToolStripButton tbsEliminar;
         private System.Windows.Forms.BindingSource academiaDataSetBindingSource;
         private AcademiaDataSet academiaDataSet;
         private System.Windows.Forms.BindingSource academiaDataSetBindingSource1;
+        private System.Windows.Forms.BindingSource academiaDataSetBindingSource2;
+        private System.Windows.Forms.BindingSource academiaDataSetBindingSource3;
+        private System.Windows.Forms.BindingSource materiasBindingSource;
+        private AcademiaDataSetTableAdapters.materiasTableAdapter materiasTableAdapter;
+        private System.Windows.Forms.BindingSource academiaDataSetBindingSource4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descripcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hs_semanales;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hs_totales;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id_plan;
     }
 }

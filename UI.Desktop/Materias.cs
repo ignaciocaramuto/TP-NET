@@ -18,18 +18,12 @@ namespace UI.Desktop
         {
             InitializeComponent();
             dgvMaterias.AutoGenerateColumns = false;
-            this.Listar();
         }
 
         public void Listar()
         {
             MateriaLogic ml = new MateriaLogic();
             this.dgvMaterias.DataSource = ml.GetAll();
-        }
-
-        private void Materias_Load(object sender, EventArgs e)
-        {
-            Listar();
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
@@ -69,6 +63,11 @@ namespace UI.Desktop
                 formMateria.ShowDialog();
                 this.Listar();
             }
+        }
+
+        private void Materias_Load(object sender, EventArgs e)
+        {
+            Listar();
         }
     }
 }
