@@ -135,13 +135,13 @@ namespace Data.Database
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdSave = new SqlCommand("UPDATE cursos SET id_comision = @id_comision, id_materia = @id_materia, cupo = @cupo, anio_calendario = @anio_calendario = @descripcion WHERE id_usuario=@id", sqlConn);
+                SqlCommand cmdSave = new SqlCommand("UPDATE cursos SET id_comision = @id_comision, id_materia = @id_materia, cupo = @cupo, anio_calendario = @anio_calendario WHERE id_curso=@id", sqlConn);
 
                 cmdSave.Parameters.Add("@id", SqlDbType.Int).Value = curso.ID;
                 cmdSave.Parameters.Add("@id_comision", SqlDbType.VarChar, 50).Value = curso.IdComision;
                 cmdSave.Parameters.Add("@id_materia", SqlDbType.VarChar, 50).Value = curso.IdMateria;
                 cmdSave.Parameters.Add("@cupo", SqlDbType.VarChar, 50).Value = curso.Cupo;
-                cmdSave.Parameters.Add("@anio_calendario", SqlDbType.Bit).Value = curso.AnioCalendario;
+                cmdSave.Parameters.Add("@anio_calendario", SqlDbType.Int).Value = curso.AnioCalendario;
 
                 cmdSave.ExecuteNonQuery();
             }
