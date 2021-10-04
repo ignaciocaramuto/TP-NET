@@ -24,7 +24,6 @@
             ControlToValidate="nombreTextBox" 
             ErrorMessage="Nombre es obligatorio" 
             ForeColor="Red">
-            *
         </asp:RequiredFieldValidator>
         <br />
         <asp:Label ID="apellidoLabel" runat="server" Text="Apellido: "></asp:Label>
@@ -33,7 +32,6 @@
             ControlToValidate="apellidoTextBox" 
             ErrorMessage="Apellido es obligatorio" 
             ForeColor="Red">
-            *
         </asp:RequiredFieldValidator>
         <br />
         <asp:Label ID="emailLabel" runat="server" Text="Email: "></asp:Label>
@@ -42,13 +40,11 @@
             ControlToValidate="emailTextBox" 
             ErrorMessage="Email es obligatorio" 
             ForeColor="Red">
-            *
         </asp:RequiredFieldValidator>
         <asp:RegularExpressionValidator ID="RegularExpressionValidatorEmail" runat="server" 
             ControlToValidate="emailTextBox" 
             ErrorMessage="Debe ingresar un correo electrónico valido" 
             ForeColor="Red" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">
-            *
         </asp:RegularExpressionValidator>
         <br />
         <asp:Label ID="habilitadoLabel" runat="server" Text="Habilitado: "></asp:Label>
@@ -60,20 +56,34 @@
             ControlToValidate="nombreUsuarioTextBox" 
             ErrorMessage="Nombre de usuario es obligatorio" 
             ForeColor="Red">
-            *
         </asp:RequiredFieldValidator>
         <br />
         <asp:Label ID="claveLabel" runat="server" Text="Clave: "></asp:Label>
         <asp:TextBox ID="claveTextBox" TextMode="Password" runat="server"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidatorClave" runat="server" 
+            ControlToValidate="claveTextBox" 
+            ErrorMessage="Clave de usuario es obligatorio" 
+            ForeColor="Red">
+        </asp:RequiredFieldValidator>
         <br />
         <asp:Label ID="repetirClaveLabel" runat="server" Text="Repetir clave: "></asp:Label>
         <asp:TextBox ID="repetirClaveTextBox" TextMode="Password" runat="server"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidatorRepetirClave" runat="server" 
+            ControlToValidate="repetirClaveTextBox" 
+            ErrorMessage="Repetir clave de usuario es obligatorio" 
+            ForeColor="Red">
+        </asp:RequiredFieldValidator>
+        <asp:CompareValidator ID="CompareValidator1" runat="server" 
+            ControlToCompare="claveTextBox" 
+            ControlToValidate="repetirClaveTextBox" 
+            ErrorMessage="Las claves deben coincidir" 
+            ForeColor="Red">
+        </asp:CompareValidator>
          <asp:Panel ID="formActionsPanel" runat="server">
         <asp:LinkButton ID="aceptarLinkButton" runat="server" OnClick="aceptarLinkButton_Click">Aceptar</asp:LinkButton>
-        <asp:LinkButton ID="cancelarLinkButton" runat="server" OnClick="cancelarLinkButton_Click">Cancelar</asp:LinkButton>
+        <asp:LinkButton ID="cancelarLinkButton" runat="server" OnClick="cancelarLinkButton_Click" ValidateRequestMode="Disabled" CausesValidation="False">Cancelar</asp:LinkButton>
         </asp:Panel>
         <br />
-
     </asp:Panel>
     <asp:Panel ID="gridActionsPanel" runat="server">
         <asp:LinkButton ID="editarLinkButton" runat="server" OnClick="editarLinkButton_Click">Editar</asp:LinkButton>
