@@ -48,6 +48,8 @@
     <Compile Include="MateriaLogic.cs" />
     <Compile Include="ComisionLogic.cs" />
     <Compile Include="CursoLogic.cs" />
+    <Compile Include="ModuloLogic.cs" />
+    <Compile Include="ModuloUsuarioLogic.cs" />
     <Compile Include="PersonaLogic.cs" />
     <Compile Include="PlanLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

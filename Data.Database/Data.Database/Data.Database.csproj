@@ -50,6 +50,8 @@
     <Compile Include="DocenteCursoAdapter.cs" />
     <Compile Include="EspecilidadAdapter.cs" />
     <Compile Include="MateriaAdapter.cs" />
+    <Compile Include="ModuloAdapter.cs" />
+    <Compile Include="ModuloUsuarioAdapter.cs" />
     <Compile Include="PersonaAdapter.cs" />
     <Compile Include="PlanAdapter.cs" />
     <Compile Include="UsuarioAdapter.cs" />

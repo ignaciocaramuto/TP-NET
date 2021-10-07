@@ -5,167 +5,128 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Business.Logic;
 using Business.Entities;
+using Business.Logic;
 
 namespace UI.Desktop
 {
-    public partial class AlumnoInscripcionDesktop : ApplicationForm
+    public partial class InscripcionDesktop : ApplicationForm
     {
-        public AlumnoInscripcionDesktop()
+        public InscripcionDesktop(Usuario u)
         {
             InitializeComponent();
+            this.usuarioActual = u;
+            this.inscripcionActual = new AlumnoInscripcion();
+            this.inscripcionActual.State = BusinessEntity.States.New;
         }
 
-        public AlumnoInscripcionDesktop(ModoForm modo) : this()
+        private void InscripcionCurso_Load(object sender, EventArgs e)
         {
-            this.Modo = modo;
-            MapearDeDatos();
+            this.dgvComisiones.AutoGenerateColumns = false;
+            this.dgvMaterias.AutoGenerateColumns = false;
+            this.ListarMaterias();
         }
 
-        public AlumnoInscripcionDesktop(int ID, ModoForm modo) : this()
-        {
-            this.Modo = modo;
-            AlumnoInscripcionLogic inscripcionLogic = new AlumnoInscripcionLogic();
-            InscripcionActual = inscripcionLogic.GetOne(ID);
-            MapearDeDatos();
-        }
+        private Usuario usuarioActual;
 
-        public AlumnoInscripcion InscripcionActual
-        {
-            get;
-            set;
-        }
+        private AlumnoInscripcion inscripcionActual;
 
-        public override void MapearDeDatos()
+        private void ListarMaterias()
         {
-            if (Modo == ModoForm.Alta) this.btnAceptar.Text = "Guardar";
-            else if (Modo == ModoForm.Baja)
+            try
             {
-                this.btnAceptar.Text = "Eliminar";
-                this.txtID.Text = this.InscripcionActual.ID.ToString();
-                this.txtIdAlumno.Text = this.InscripcionActual.IdAlumno.ToString();
-                this.txtIdCurso.Text = this.InscripcionActual.IdCurso.ToString();
-                this.txtCondicion.Text = this.InscripcionActual.Condicion;
-                this.txtNota.Text = this.InscripcionActual.Nota.ToString();
+                MateriaLogic matlog = new MateriaLogic();
+                this.dgvMaterias.DataSource = matlog.GetMateriasParaInscripcion(usuarioActual.Persona.Plan.ID, usuarioActual.Persona.ID);
+                this.dgvMaterias.ClearSelection();
             }
-            else if (Modo == ModoForm.Modificacion)
+            catch (Exception ex)
             {
-                this.btnAceptar.Text = "Guardar";
-                this.txtID.Text = this.InscripcionActual.ID.ToString();
-                this.txtIdAlumno.Text = this.InscripcionActual.IdAlumno.ToString();
-                this.txtIdCurso.Text = this.InscripcionActual.IdCurso.ToString();
-                this.txtCondicion.Text = this.InscripcionActual.Condicion;
-                this.txtNota.Text = this.InscripcionActual.Nota.ToString();
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-            else if (Modo == ModoForm.Consulta)
-            {
-                this.btnAceptar.Text = "Aceptar";
-                this.txtID.Text = this.InscripcionActual.ID.ToString();
-                this.txtIdAlumno.Text = this.InscripcionActual.IdAlumno.ToString();
-                this.txtIdCurso.Text = this.InscripcionActual.IdCurso.ToString();
-                this.txtCondicion.Text = this.InscripcionActual.Condicion;
-                this.txtNota.Text = this.InscripcionActual.Nota.ToString();
-            }
-
         }
+
         public override void MapearADatos()
         {
-            if (Modo == ModoForm.Alta)
+            try
             {
-                AlumnoInscripcion a = new AlumnoInscripcion();
-                InscripcionActual = a;
-                this.InscripcionActual.IdAlumno = Int32.Parse(this.txtIdAlumno.Text);
-                this.InscripcionActual.IdCurso = Int32.Parse(this.txtIdCurso.Text);
-                this.InscripcionActual.Condicion = this.txtCondicion.Text;
-                this.InscripcionActual.Nota = Int32.Parse(this.txtNota.Text);
-                this.InscripcionActual.State = BusinessEntity.States.New;
+                inscripcionActual.Alumno = usuarioActual.Persona;
+                inscripcionActual.Condicion = "Inscripto";
+                CursoLogic curlog = new CursoLogic();
+                int IDMateria = ((Materia)this.dgvMaterias.SelectedRows[0].DataBoundItem).ID;
+                int IDComision = ((Comision)this.dgvComisiones.SelectedRows[0].DataBoundItem).ID;
+                foreach (Curso c in curlog.GetAll())
+                {
+                    if (c.Comision.ID == IDComision && c.Materia.ID == IDMateria)
+                    {
+                        c.Cupo--;
+                        inscripcionActual.Curso = c;
+                        inscripcionActual.Curso.State = BusinessEntity.States.Modified;
+                    }
+                }
             }
-
-            else if (Modo == ModoForm.Modificacion)
+            catch (Exception ex)
             {
-                this.txtID.Text = this.InscripcionActual.ID.ToString();
-                this.InscripcionActual.IdAlumno = Int32.Parse(this.txtIdAlumno.Text);
-                this.InscripcionActual.IdCurso = Int32.Parse(this.txtIdCurso.Text);
-                this.InscripcionActual.Condicion = this.txtCondicion.Text;
-                this.InscripcionActual.Nota = Int32.Parse(this.txtNota.Text);
-                this.InscripcionActual.State = BusinessEntity.States.Modified;
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
-            else if (Modo == ModoForm.Baja)
+        private void dgvMaterias_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
             {
-                this.txtID.Text = this.InscripcionActual.ID.ToString();
-                this.InscripcionActual.IdAlumno = Int32.Parse(this.txtIdAlumno.Text);
-                this.InscripcionActual.IdCurso = Int32.Parse(this.txtIdCurso.Text);
-                this.InscripcionActual.Condicion = this.txtCondicion.Text;
-                this.InscripcionActual.Nota = Int32.Parse(this.txtNota.Text);
-                this.InscripcionActual.State = BusinessEntity.States.Deleted;
+                int IDMateria = ((Materia)this.dgvMaterias.SelectedRows[0].DataBoundItem).ID;
+                ComisionLogic comlog = new ComisionLogic();
+                this.dgvComisiones.DataSource = comlog.GetComisionesDisponibles(IDMateria);
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         public override void GuardarCambios()
         {
-            this.MapearADatos();
-            AlumnoInscripcionLogic a = new AlumnoInscripcionLogic();
-            a.Save(InscripcionActual);
-        }
-        public override bool Validar()
-        {
-            if (string.IsNullOrEmpty(this.txtIdAlumno.Text.Trim()))
+            try
             {
-                this.Notificar("El ID de alumno es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                this.MapearADatos();
+                AlumnoInscripcionLogic inslogic = new AlumnoInscripcionLogic();
+                if (Modo != ModoForm.Alta || !inslogic.ExisteInscripcion(inscripcionActual.Alumno.ID, inscripcionActual.Curso.ID))
+                {
+                    inslogic.Save(inscripcionActual);
+                    CursoLogic curlog = new CursoLogic();
+                    curlog.Save(inscripcionActual.Curso);
+                }
+                else this.Notificar("Ya estas inscripto a este Curso", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            else if (string.IsNullOrEmpty(this.txtIdCurso.Text.Trim()))
+            catch (Exception ex)
             {
-                this.Notificar("El ID de curso es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            else if (string.IsNullOrEmpty(this.txtCondicion.Text.Trim()))
-            {
-                this.Notificar("La condicion ingresada es invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (string.IsNullOrEmpty(this.txtNota.Text.Trim()) || (Int32.Parse(this.txtNota.Text.Trim())) < 0 || (Int32.Parse(this.txtNota.Text.Trim())) > 10)
-            {
-                this.Notificar("La nota ingresada es invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else { return true; }
         }
 
-
-        public new void Notificar(string titulo, string mensaje, MessageBoxButtons
-        botones, MessageBoxIcon icono)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(mensaje, titulo, botones, icono);
-        }
-        public new void Notificar(string mensaje, MessageBoxButtons botones,
-        MessageBoxIcon icono)
-        {
-            this.Notificar(this.Text, mensaje, botones, icono);
+            this.Close();
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (this.Validar())
+            if (dgvComisiones.SelectedRows.Count > 0)
             {
-                this.GuardarCambios();
+                var rta = MessageBox.Show("Se esta inscribiendo a la Materia: " + ((Materia)this.dgvMaterias.SelectedRows[0].DataBoundItem).Descripcion +
+                    " en la Comision: " + ((Comision)this.dgvComisiones.SelectedRows[0].DataBoundItem).Descripcion, "Atencion", MessageBoxButtons.YesNo);
+                if (rta == DialogResult.Yes)
+                {
+                    this.GuardarCambios();
+                    this.Close();
+                }
             }
-            this.Close();
+            else
+                this.Notificar("Seleccione una comision a la cual inscribirse", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void btnCancelar_Click_1(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+
+
     }
 }

@@ -17,6 +17,13 @@ namespace Business.Entities
         private string _nombre;
         private string _telefono;
         private int _tipoPersona;
+        private string _descTipoPersona;
+        private Plan _plan;
+
+        public Persona()
+        {
+            this.Plan = new Plan();
+        }
 
         public string Direccion
         {
@@ -63,6 +70,28 @@ namespace Business.Entities
         {
             get { return _tipoPersona; }
             set { _tipoPersona = value; }
+        }
+
+        public Plan Plan
+        {
+            get { return _plan; }
+            set { _plan = value; }
+        }
+
+        public string DescTipoPersona
+        {
+            get { return _descTipoPersona; }
+            set { _descTipoPersona = value; }
+        }
+
+        public string DescPlan
+        {
+            get { return _plan.Descripcion; }
+        }
+
+        public string DescEspecialidad
+        {
+            get { return _plan.DescEspecialidad; }
         }
     }
 }

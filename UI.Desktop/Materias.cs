@@ -5,30 +5,59 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business.Entities;
 using Business.Logic;
 
 namespace UI.Desktop
 {
-    public partial class Materias : Form
+    public partial class Materias : ApplicationForm
     {
-        public Materias()
+        private Usuario usuarioActual;
+
+        public Usuario UsuarioActual
+        {
+            get { return usuarioActual; }
+            set { usuarioActual = value; }
+        }
+        public Materias(Usuario us)
         {
             InitializeComponent();
+            UsuarioActual = us;
             dgvMaterias.AutoGenerateColumns = false;
         }
 
         public void Listar()
         {
-            MateriaLogic ml = new MateriaLogic();
-            this.dgvMaterias.DataSource = ml.GetAll();
+            try
+            {
+                MateriaLogic ml = new MateriaLogic();
+                dgvMaterias.DataSource = ml.GetAll();
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Materias_Load(object sender, EventArgs e)
+        {
+            foreach (ModuloUsuario mu in UsuarioActual.ModulosUsuarios)
+            {
+                if (mu.Modulo.Descripcion == "Materias")
+                {
+                    this.dgvMaterias.Visible = mu.PermiteConsulta;
+                    this.tsbNuevo.Visible = mu.PermiteAlta;
+                    this.tsbEliminar.Visible = mu.PermiteBaja;
+                    this.tsbEditar.Visible = mu.PermiteModificacion;
+                }
+            }
+            this.Listar();
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            Listar();
+            this.Listar();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -38,36 +67,40 @@ namespace UI.Desktop
 
         private void tsbNuevo_Click(object sender, EventArgs e)
         {
-            MateriaDesktop formMateria = new MateriaDesktop(ApplicationForm.ModoForm.Alta);
-            formMateria.ShowDialog();
+            MateriaDesktop MateriaDesktop = new MateriaDesktop(ApplicationForm.ModoForm.Alta);
+            MateriaDesktop.ShowDialog();
             this.Listar();
         }
 
-        private void tbsEditar_Click(object sender, EventArgs e)
+        private void tsbEditar_Click(object sender, EventArgs e)
         {
-            if (this.dgvMaterias.SelectedRows != null)
-            {
-                int ID = ((Business.Entities.Materia)this.dgvMaterias.SelectedRows[0].DataBoundItem).ID;
-                MateriaDesktop formMateria = new MateriaDesktop(ID, ApplicationForm.ModoForm.Modificacion);
-                formMateria.ShowDialog();
-                this.Listar();
-            }
+            int ID = ((Business.Entities.Materia)this.dgvMaterias.SelectedRows[0].DataBoundItem).ID;
+            MateriaDesktop MateriaDesktop = new MateriaDesktop(ID, ApplicationForm.ModoForm.Modificacion);
+            MateriaDesktop.ShowDialog();
+            this.Listar();
         }
 
-        private void tbsEliminar_Click(object sender, EventArgs e)
+        private void tsbEliminar_Click(object sender, EventArgs e)
         {
-            if (this.dgvMaterias.SelectedRows != null)
+            var rta = MessageBox.Show("¿Esta seguro que desea eliminar la Materia seleccionada?", "Atencion", MessageBoxButtons.YesNo);
+            if (rta == DialogResult.Yes)
             {
-                int ID = ((Business.Entities.Materia)this.dgvMaterias.SelectedRows[0].DataBoundItem).ID;
-                MateriaDesktop formMateria = new MateriaDesktop(ID, ApplicationForm.ModoForm.Baja);
-                formMateria.ShowDialog();
-                this.Listar();
+                try
+                {
+                    int ID = ((Business.Entities.Materia)this.dgvMaterias.SelectedRows[0].DataBoundItem).ID;
+                    MateriaLogic materia = new MateriaLogic();
+                    materia.Delete(ID);
+                    this.Listar();
+                }
+                catch (Exception ex)
+                {
+                    this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+
+
         }
 
-        private void Materias_Load(object sender, EventArgs e)
-        {
-            Listar();
-        }
+
     }
 }

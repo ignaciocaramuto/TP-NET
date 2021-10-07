@@ -10,37 +10,43 @@ namespace Business.Logic
 {
     public class DocenteCursoLogic:BusinessLogic
     {
+        private DocenteCursoAdapter docenteCursoData;
+
         public DocenteCursoLogic()
         {
-            this.DocenteCursoData = new Data.Database.DocenteCursoAdapter();
+            docenteCursoData = new DocenteCursoAdapter();
         }
 
-        public Data.Database.DocenteCursoAdapter DocenteCursoData
+        public DocenteCursoAdapter DocenteCursoData
         {
-            get;
-            set;
+            get { return docenteCursoData; }
+            set { docenteCursoData = value; }
+        }
+
+        public DocenteCurso GetOne(int ID)
+        {
+            return docenteCursoData.GetOne(ID);
+        }
+
+        public bool Existe(int id_cur, int id_doc, string cargo)
+        {
+            return docenteCursoData.ExisteDocenteCurso(id_cur, id_doc, cargo);
         }
 
         public List<DocenteCurso> GetAll()
         {
-            return (DocenteCursoData.GetAll());
+            return docenteCursoData.GetAll();
         }
 
-        public Business.Entities.DocenteCurso GetOne(int id)
+        public void Save(DocenteCurso dc)
         {
-            return (DocenteCursoData.GetOne(id));
+            docenteCursoData.Save(dc);
         }
 
-        public void Delete(int id)
+        public void Delete(int ID)
         {
-            DocenteCursoData.Delete(id);
+            docenteCursoData.Delete(ID);
         }
-
-        public void Save(Business.Entities.DocenteCurso dc)
-        {
-            DocenteCursoData.Save(dc);
-        }
-
     }
 }
 

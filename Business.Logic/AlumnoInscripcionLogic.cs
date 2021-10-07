@@ -8,37 +8,49 @@ using Data.Database;
 
 namespace Business.Logic
 {
-    public class AlumnoInscripcionLogic:BusinessLogic 
+    public class AlumnoInscripcionLogic : BusinessLogic
     {
+        private AlumnoInscripcionAdapter alumnoInscripcionData;
+
         public AlumnoInscripcionLogic()
         {
-            this.AlumnoInscripcionData = new Data.Database.AlumnoInscripcionAdapter();
+            alumnoInscripcionData = new AlumnoInscripcionAdapter();
         }
 
-        public Data.Database.AlumnoInscripcionAdapter AlumnoInscripcionData
+        public AlumnoInscripcionAdapter InscripcionData
         {
-            get;
-            set;
+            get { return alumnoInscripcionData; }
+            set { alumnoInscripcionData = value; }
+        }
+
+        public AlumnoInscripcion GetOne(int ID)
+        {
+            return alumnoInscripcionData.GetOne(ID);
+        }
+
+        public bool ExisteInscripcion(int idAlu, int idCur)
+        {
+            return alumnoInscripcionData.ExisteInscripcion(idAlu, idCur);
+        }
+
+        public List<AlumnoInscripcion> GetAll(int IDAlumno)
+        {
+            return alumnoInscripcionData.GetAll(IDAlumno);
         }
 
         public List<AlumnoInscripcion> GetAll()
         {
-            return (AlumnoInscripcionData.GetAll());
+            return alumnoInscripcionData.GetAll();
         }
 
-        public Business.Entities.AlumnoInscripcion GetOne(int id)
+        public void Save(AlumnoInscripcion inscripcion)
         {
-            return (AlumnoInscripcionData.GetOne(id));
+            alumnoInscripcionData.Save(inscripcion);
         }
 
-        public void Delete(int id)
+        public void Delete(int ID)
         {
-            AlumnoInscripcionData.Delete(id);
-        }
-
-        public void Save(Business.Entities.AlumnoInscripcion a)
-        {
-            AlumnoInscripcionData.Save(a);
+            alumnoInscripcionData.Delete(ID);
         }
     }
 }

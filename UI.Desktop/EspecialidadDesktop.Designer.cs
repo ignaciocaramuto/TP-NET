@@ -1,5 +1,4 @@
-﻿
-namespace UI.Desktop
+﻿namespace UI.Desktop
 {
     partial class EspecialidadDesktop
     {
@@ -29,116 +28,94 @@ namespace UI.Desktop
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnAceptar = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
-            this.lblID = new System.Windows.Forms.Label();
-            this.lblDescripcion = new System.Windows.Forms.Label();
+            this.btnSalir = new System.Windows.Forms.Button();
+            this.labelID = new System.Windows.Forms.Label();
             this.txtID = new System.Windows.Forms.TextBox();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.labelDesc = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.21033F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.78967F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
-            this.tableLayoutPanel1.Controls.Add(this.btnAceptar, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.btnCancelar, 3, 3);
-            this.tableLayoutPanel1.Controls.Add(this.lblID, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblDescripcion, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.txtID, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtDescripcion, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.62319F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 46.37681F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 133F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(435, 240);
-            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(224, 205);
+            this.btnAceptar.Location = new System.Drawing.Point(149, 68);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
-            this.btnAceptar.TabIndex = 3;
+            this.btnAceptar.TabIndex = 0;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
-            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click_1);
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
-            // btnCancelar
+            // btnSalir
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(308, 205);
-            this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelar.TabIndex = 4;
-            this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = true;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click_1);
+            this.btnSalir.Location = new System.Drawing.Point(231, 68);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(75, 23);
+            this.btnSalir.TabIndex = 1;
+            this.btnSalir.Text = "Cancelar";
+            this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // lblID
+            // labelID
             // 
-            this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(3, 0);
-            this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(18, 13);
-            this.lblID.TabIndex = 2;
-            this.lblID.Text = "ID";
-            // 
-            // lblDescripcion
-            // 
-            this.lblDescripcion.AutoSize = true;
-            this.lblDescripcion.Location = new System.Drawing.Point(3, 37);
-            this.lblDescripcion.Name = "lblDescripcion";
-            this.lblDescripcion.Size = new System.Drawing.Size(63, 13);
-            this.lblDescripcion.TabIndex = 3;
-            this.lblDescripcion.Text = "Descripcion";
+            this.labelID.AutoSize = true;
+            this.labelID.Location = new System.Drawing.Point(12, 19);
+            this.labelID.Name = "labelID";
+            this.labelID.Size = new System.Drawing.Size(18, 13);
+            this.labelID.TabIndex = 2;
+            this.labelID.Text = "ID";
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(76, 3);
+            this.txtID.Location = new System.Drawing.Point(84, 12);
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
-            this.txtID.Size = new System.Drawing.Size(142, 20);
-            this.txtID.TabIndex = 0;
-            this.txtID.Text = "Autogenerado";
+            this.txtID.Size = new System.Drawing.Size(85, 20);
+            this.txtID.TabIndex = 3;
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(76, 40);
+            this.txtDescripcion.Location = new System.Drawing.Point(84, 42);
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(142, 20);
-            this.txtDescripcion.TabIndex = 1;
+            this.txtDescripcion.Size = new System.Drawing.Size(221, 20);
+            this.txtDescripcion.TabIndex = 4;
+            // 
+            // labelDesc
+            // 
+            this.labelDesc.AutoSize = true;
+            this.labelDesc.Location = new System.Drawing.Point(12, 49);
+            this.labelDesc.Name = "labelDesc";
+            this.labelDesc.Size = new System.Drawing.Size(63, 13);
+            this.labelDesc.TabIndex = 5;
+            this.labelDesc.Text = "Descripción";
             // 
             // EspecialidadDesktop
             // 
-            this.AcceptButton = this.btnAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(459, 264);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(318, 98);
+            this.Controls.Add(this.labelDesc);
+            this.Controls.Add(this.txtDescripcion);
+            this.Controls.Add(this.txtID);
+            this.Controls.Add(this.labelID);
+            this.Controls.Add(this.btnSalir);
+            this.Controls.Add(this.btnAceptar);
             this.Name = "EspecialidadDesktop";
-            this.Text = "EspecialidadDesktop";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.Text = "Especialidad";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnAceptar;
-        private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.Label lblID;
-        private System.Windows.Forms.Label lblDescripcion;
+        private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.Label labelID;
         private System.Windows.Forms.TextBox txtID;
         private System.Windows.Forms.TextBox txtDescripcion;
+        private System.Windows.Forms.Label labelDesc;
+
     }
 }

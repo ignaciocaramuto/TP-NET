@@ -8,37 +8,64 @@ using Data.Database;
 
 namespace Business.Logic
 {
-    public class PersonaLogic:BusinessLogic
+    public class PersonaLogic : BusinessLogic
     {
+        private PersonaAdapter personaData;
+
         public PersonaLogic()
         {
-            this.PersonaData = new Data.Database.PersonaAdapter();
+            personaData = new PersonaAdapter();
         }
 
-        public Data.Database.PersonaAdapter PersonaData
+        public PersonaAdapter PersonaData
         {
-            get;
-            set;
+            get { return personaData; }
+            set { personaData = value; }
+        }
+
+        public Persona GetOne(int ID)
+        {
+            return PersonaData.GetOne(ID);
+        }
+
+        public bool Existe(int leg)
+        {
+            return personaData.ExistePersona(leg);
         }
 
         public List<Persona> GetAll()
         {
-            return (PersonaData.GetAll());
+            return PersonaData.GetAll(0);
         }
 
-        public Business.Entities.Persona GetOne(int id)
+        public List<Persona> GetNoDocentes()
         {
-            return (PersonaData.GetOne(id));
+            return PersonaData.GetAll(1);
         }
 
-        public void Delete(int id)
+        public List<Persona> GetAlumnos()
         {
-            PersonaData.Delete(id);
+            return PersonaData.GetAll(2);
         }
 
-        public void Save(Business.Entities.Persona u)
+        public List<Persona> GetDocentes()
         {
-            PersonaData.Save(u);
+            return PersonaData.GetAll(3);
+        }
+
+        public List<Persona> GetDocentesPorPlan(int idPlan)
+        {
+            return PersonaData.GetDocentesPorPlan(idPlan);
+        }
+
+        public void Save(Persona per)
+        {
+            PersonaData.Save(per);
+        }
+
+        public void Delete(int ID)
+        {
+            PersonaData.Delete(ID);
         }
     }
 }

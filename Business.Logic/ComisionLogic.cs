@@ -10,35 +10,56 @@ namespace Business.Logic
 {
     public class ComisionLogic:BusinessLogic
     {
+        private ComisionAdapter comisionData;
+
         public ComisionLogic()
         {
-            this.ComisionData = new Data.Database.ComisionAdapter();
+            ComisionData = new ComisionAdapter();
         }
 
-        public Data.Database.ComisionAdapter ComisionData
+        public ComisionAdapter ComisionData
         {
-            get;
-            set;
+            get { return comisionData; }
+            set { comisionData = value; }
+        }
+
+        public Comision GetOne(int ID)
+        {
+            return ComisionData.GetOne(ID);
+        }
+
+        public bool Existe(int idPlan, string desc)
+        {
+            return ComisionData.ExisteComision(idPlan, desc);
         }
 
         public List<Comision> GetAll()
         {
-            return (ComisionData.GetAll());
+            return ComisionData.GetAll();
         }
 
-        public Business.Entities.Comision GetOne(int id)
+        public void Save(Comision comi)
         {
-            return (ComisionData.GetOne(id));
+            ComisionData.Save(comi);
         }
 
-        public void Delete(int id)
+        public void Delete(int ID)
         {
-            ComisionData.Delete(id);
+            ComisionData.Delete(ID);
         }
 
-        public void Save(Business.Entities.Comision u)
+        public List<Comision> GetComisionesDisponibles(int IDMateria)
         {
-            ComisionData.Save(u);
+            List<Comision> comisiones = new List<Comision>();
+            CursoLogic curlog = new CursoLogic();
+            foreach (Curso c in curlog.GetAll())
+            {
+                if (c.Materia.ID == IDMateria && c.Cupo > 0)
+                {
+                    comisiones.Add(c.Comision);
+                }
+            }
+            return comisiones;
         }
     }
 }

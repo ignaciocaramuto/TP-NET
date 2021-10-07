@@ -5,10 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Business.Logic;
 using Business.Entities;
+using Business.Logic;
 
 namespace UI.Desktop
 {
@@ -19,128 +18,106 @@ namespace UI.Desktop
             InitializeComponent();
         }
 
+        private void UsuarioDesktop_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        Especialidad _EspecialidadActual;
+
         public EspecialidadDesktop(ModoForm modo) : this()
         {
             this.Modo = modo;
-            MapearDeDatos();
         }
 
         public EspecialidadDesktop(int ID, ModoForm modo) : this()
         {
             this.Modo = modo;
-            EspecialidadLogic especialidadLogic = new EspecialidadLogic();
-            EspecialidadActual = especialidadLogic.GetOne(ID);
-            MapearDeDatos();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+            EspecialidadLogic EspecialidadNegocio = new EspecialidadLogic();
+            _EspecialidadActual = EspecialidadNegocio.GetOne(ID);
+            this.MapearDeDatos();
         }
 
         public Especialidad EspecialidadActual
         {
-            get;
-            set;
+            get { return _EspecialidadActual; }
+            set { _EspecialidadActual = value; }
         }
 
         public override void MapearDeDatos()
         {
-            if (Modo == ModoForm.Alta) this.btnAceptar.Text = "Guardar";
-            else if (Modo == ModoForm.Baja)
+            this.txtID.Text = _EspecialidadActual.ID.ToString();
+            this.txtDescripcion.Text = _EspecialidadActual.Descripcion;
+
+            switch (this.Modo)
             {
-                this.btnAceptar.Text = "Eliminar";
-                this.txtID.Text = this.EspecialidadActual.ID.ToString();
-                this.txtDescripcion.Text = this.EspecialidadActual.Descripcion; 
+                case ModoForm.Baja:
+                    this.btnAceptar.Text = "Eliminar";
+                    break;
+                case ModoForm.Consulta:
+                    this.btnAceptar.Text = "Aceptar";
+                    break;
+                default:
+                    this.btnAceptar.Text = "Guardar";
+                    break;
             }
-
-            else if (Modo == ModoForm.Modificacion)
-            {
-                this.btnAceptar.Text = "Guardar";
-                this.txtID.Text = this.EspecialidadActual.ID.ToString();
-                this.txtDescripcion.Text = this.EspecialidadActual.Descripcion;
-            }
-
-
-            else if (Modo == ModoForm.Consulta)
-            {
-                this.btnAceptar.Text = "Aceptar";
-                this.txtID.Text = this.EspecialidadActual.ID.ToString();
-                this.txtDescripcion.Text = this.EspecialidadActual.Descripcion;
-                
-            }
-
         }
+
         public override void MapearADatos()
         {
-            if (Modo == ModoForm.Alta)
+            switch (this.Modo)
             {
-                Especialidad e = new Especialidad();
-                EspecialidadActual = e;
-                this.EspecialidadActual.Descripcion = this.txtDescripcion.Text;
-                this.EspecialidadActual.State = BusinessEntity.States.New;
+                case ModoForm.Baja:
+                    _EspecialidadActual.State = Especialidad.States.Deleted;
+                    break;
+                case ModoForm.Consulta:
+                    _EspecialidadActual.State = Especialidad.States.Unmodified;
+                    break;
+                case ModoForm.Alta:
+                    _EspecialidadActual = new Especialidad();
+                    _EspecialidadActual.State = Especialidad.States.New;
+                    break;
+                case ModoForm.Modificacion:
+                    _EspecialidadActual.State = Especialidad.States.Modified;
+                    break;
+            }
+            if (Modo == ModoForm.Alta || Modo == ModoForm.Modificacion)
+            {
+                if (Modo == ModoForm.Modificacion)
+                    _EspecialidadActual.ID = Convert.ToInt32(this.txtID.Text);
+                _EspecialidadActual.Descripcion = this.txtDescripcion.Text;
             }
 
-            else if (Modo == ModoForm.Modificacion)
-            {
-                this.txtID.Text = this.EspecialidadActual.ID.ToString();
-                this.EspecialidadActual.Descripcion = this.txtDescripcion.Text;
-                this.EspecialidadActual.State = BusinessEntity.States.Modified;
-            }
-
-            else if (Modo == ModoForm.Baja)
-            {
-                this.txtID.Text = this.EspecialidadActual.ID.ToString();
-                this.EspecialidadActual.Descripcion = this.txtDescripcion.Text;
-                this.EspecialidadActual.State = BusinessEntity.States.Deleted;
-            }
         }
 
         public override void GuardarCambios()
         {
             this.MapearADatos();
-            EspecialidadLogic e = new EspecialidadLogic();
-            e.Save(EspecialidadActual);
+            EspecialidadLogic esplogic = new EspecialidadLogic();
+            esplogic.Save(_EspecialidadActual);
         }
+
         public override bool Validar()
         {
-            if (string.IsNullOrEmpty(this.txtDescripcion.Text.Trim()))
+            Boolean EsValido = true;
+            if (txtDescripcion.Text == String.Empty)
             {
-                this.Notificar("La descripción es invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                EsValido = false;
+                this.Notificar("Complete la descripción por favor.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-            else { return true; }
+            return EsValido;
         }
 
-
-        public new void Notificar(string titulo, string mensaje, MessageBoxButtons
-        botones, MessageBoxIcon icono)
+        private void btnAceptar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(mensaje, titulo, botones, icono);
-        }
-        public new void Notificar(string mensaje, MessageBoxButtons botones,
-        MessageBoxIcon icono)
-        {
-            this.Notificar(this.Text, mensaje, botones, icono);
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnAceptar_Click_1(object sender, EventArgs e)
-        {
-            if (this.Validar())
+            if (Validar())
             {
                 this.GuardarCambios();
+                this.Close();
             }
-            this.Close();
         }
 
-        private void btnCancelar_Click_1(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
         }

@@ -5,20 +5,26 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business.Entities;
 using Business.Logic;
 
 namespace UI.Desktop
 {
-    public partial class Especialidades : Form
+    public partial class Especialidades : ApplicationForm
     {
-        public Especialidades()
+        private Usuario usuarioActual;
+
+        public Usuario UsuarioActual
+        {
+            get { return usuarioActual; }
+            set { usuarioActual = value; }
+        }
+        public Especialidades(Usuario us)
         {
             InitializeComponent();
+            UsuarioActual = us;
             dgvEspecialidades.AutoGenerateColumns = false;
-            this.Listar();
         }
 
         public void Listar()
@@ -27,45 +33,69 @@ namespace UI.Desktop
             this.dgvEspecialidades.DataSource = el.GetAll();
         }
 
-        private void tsbNuevo_Click_1(object sender, EventArgs e)
+        private void Especialidades_Load(object sender, EventArgs e)
         {
-            EspecialidadDesktop formEspecialidad = new EspecialidadDesktop(ApplicationForm.ModoForm.Alta);
-            formEspecialidad.ShowDialog();
+            foreach (ModuloUsuario mu in UsuarioActual.ModulosUsuarios)
+            {
+                if (mu.Modulo.Descripcion == "Especialidades")
+                {
+                    this.dgvEspecialidades.Visible = mu.PermiteConsulta;
+                    this.tsbNuevo.Visible = mu.PermiteAlta;
+                    this.tsbEliminar.Visible = mu.PermiteBaja;
+                    this.tsbEditar.Visible = mu.PermiteModificacion;
+                }
+            }
             this.Listar();
         }
 
-        private void tsbEditar_Click_1(object sender, EventArgs e)
+        private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (this.dgvEspecialidades.SelectedRows != null)
-            {
-                int ID = ((Business.Entities.Especialidad)this.dgvEspecialidades.SelectedRows[0].DataBoundItem).ID;
-                EspecialidadDesktop formEspecialidad = new EspecialidadDesktop(ID, ApplicationForm.ModoForm.Modificacion);
-                formEspecialidad.ShowDialog();
-                this.Listar();
-            }
+            this.Listar();
         }
 
-        private void tsbBorrar_Click_1(object sender, EventArgs e)
-        {
-            if (this.dgvEspecialidades.SelectedRows != null)
-            {
-                int ID = ((Business.Entities.Especialidad)this.dgvEspecialidades.SelectedRows[0].DataBoundItem).ID;
-                EspecialidadDesktop formEspecialidad = new EspecialidadDesktop(ID, ApplicationForm.ModoForm.Baja);
-                formEspecialidad.ShowDialog();
-                this.Listar();
-            }
-        }
-
-        private void btnActualizar_Click_1(object sender, EventArgs e)
-        {
-            Listar();
-        }
-
-        private void btnSalir_Click_1(object sender, EventArgs e)
+        private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-    }
-   
-}
 
+        private void tsbNuevo_Click(object sender, EventArgs e)
+        {
+            EspecialidadDesktop EspDesktop = new EspecialidadDesktop(ApplicationForm.ModoForm.Alta);
+            EspDesktop.ShowDialog();
+            this.Listar();
+        }
+
+        private void tsbEditar_Click(object sender, EventArgs e)
+        {
+            int ID = ((Business.Entities.Especialidad)this.dgvEspecialidades.SelectedRows[0].DataBoundItem).ID;
+            EspecialidadDesktop EspeDesktop = new EspecialidadDesktop(ID, ApplicationForm.ModoForm.Modificacion);
+            EspeDesktop.ShowDialog();
+            this.Listar();
+
+        }
+
+        private void tsbEliminar_Click(object sender, EventArgs e)
+        {
+
+            var rta = MessageBox.Show("¿Esta seguro que desea eliminar el Plan seleccionado?", "Atencion", MessageBoxButtons.YesNo);
+            if (rta == DialogResult.Yes)
+            {
+                try
+                {
+                    if (this.dgvEspecialidades.SelectedRows.Count > 0)
+                    {
+
+                        int ID = ((Especialidad)this.dgvEspecialidades.SelectedRows[0].DataBoundItem).ID;
+                        EspecialidadLogic especialidadLogic = new EspecialidadLogic();
+                        especialidadLogic.Delete(ID);
+                        this.Listar();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+    }
+}

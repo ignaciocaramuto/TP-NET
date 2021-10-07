@@ -10,14 +10,18 @@ namespace Business.Logic
 {
     public class CursoLogic : BusinessLogic
     {
+        
+        private CursoAdapter cursoData;
+
+        public CursoLogic()
+        {
+            cursoData = new CursoAdapter();
+        }
+
         public CursoAdapter CursoData
         {
-            get;
-            set;
-        }
-        public CursoLogic() 
-        {
-            this.CursoData = new CursoAdapter();
+            get { return cursoData; }
+            set { cursoData = value; }
         }
 
         public List<Curso> GetAll()
@@ -25,20 +29,28 @@ namespace Business.Logic
             return CursoData.GetAll();
         }
 
-        public Curso GetOne(int id)
+        public Curso GetOne(int ID)
         {
-            return CursoData.GetOne(id);
+            return CursoData.GetOne(ID);
         }
 
-        public void Delete(int id)
+        public bool Existe(int idMat, int idCom, int anio)
         {
-            CursoData.Delete(id);
+            return cursoData.ExisteCurso(idMat, idCom, anio);
         }
 
-        public void Save(Curso curso)
+        public void Delete(int ID)
         {
-            CursoData.Save(curso);
+            CursoData.Delete(ID);
         }
 
+        public void Save(Curso cur)
+        {
+            CursoData.Save(cur);
+        }
+        public List<Curso> GetCursosDocente(int IDDocente)
+        {
+            return CursoData.GetCursosDocente(IDDocente);
+        }
     }
 }

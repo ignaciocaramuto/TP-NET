@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business.Logic;
 using Business.Entities;
@@ -14,191 +13,165 @@ namespace UI.Desktop
 {
     public partial class UsuarioDesktop : ApplicationForm
     {
-
         public UsuarioDesktop()
         {
             InitializeComponent();
         }
 
+        private void UsuarioDesktop_Load(object sender, EventArgs e)
+        {
+            if (usuarioActual.Persona.DescTipoPersona == "No docente")
+                this.dgvPermisos.Visible = true;
+            else
+                this.dgvPermisos.Visible = false;
+        }
+
+        Usuario usuarioActual;
+
         public UsuarioDesktop(ModoForm modo) : this()
         {
             this.Modo = modo;
-            MapearDeDatos();
+            usuarioActual = new Usuario();
+
         }
 
         public UsuarioDesktop(int ID, ModoForm modo) : this()
         {
             this.Modo = modo;
-            UsuarioLogic usuarioLogic = new UsuarioLogic();
-            UsuarioActual = usuarioLogic.GetOne(ID);
-            MapearDeDatos();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+            UsuarioLogic UsuarioNegocio = new UsuarioLogic();
+            try
+            {
+                usuarioActual = UsuarioNegocio.GetOne(ID);
+                if (usuarioActual.Persona.DescTipoPersona == "No docente")
+                {
+                    this.dgvPermisos.AutoGenerateColumns = false;
+                    ModuloUsuarioLogic logic = new ModuloUsuarioLogic();
+                    dgvPermisos.DataSource = logic.GetAll(ID);
+                }
+                this.MapearDeDatos();
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public Usuario UsuarioActual
         {
-            get;
-            set;
+            get { return usuarioActual; }
+            set { usuarioActual = value; }
         }
 
         public override void MapearDeDatos()
         {
-            if (Modo == ModoForm.Alta) this.btnAceptar.Text = "Guardar";
-            else if (Modo == ModoForm.Baja)
-            {
-                this.btnAceptar.Text = "Eliminar";
-                this.txtID.Text = this.UsuarioActual.ID.ToString();
-                this.chkHabilitado.Checked = this.UsuarioActual.Habilitado;
-                this.txtNombre.Text = this.UsuarioActual.Nombre;
-                this.txtApellido.Text = this.UsuarioActual.Apellido;
-                this.txtEmail.Text = this.UsuarioActual.EMail;
-                this.txtUsuario.Text = this.UsuarioActual.NombreUsuario;
-                this.txtClave.Text = this.UsuarioActual.Clave;
-                this.txtConfirmarClave.Text = this.UsuarioActual.Clave;
-            }
-            else if (Modo == ModoForm.Modificacion)
-            {
-                this.btnAceptar.Text = "Guardar";
-                this.txtID.Text = this.UsuarioActual.ID.ToString();
-                this.chkHabilitado.Checked = this.UsuarioActual.Habilitado;
-                this.txtNombre.Text = this.UsuarioActual.Nombre;
-                this.txtApellido.Text = this.UsuarioActual.Apellido;
-                this.txtEmail.Text = this.UsuarioActual.EMail;
-                this.txtUsuario.Text = this.UsuarioActual.NombreUsuario;
-                this.txtClave.Text = this.UsuarioActual.Clave;
-                this.txtConfirmarClave.Text = this.UsuarioActual.Clave;
-            }
+            this.txtID.Text = usuarioActual.ID.ToString();
+            this.txtUsuario.Text = usuarioActual.NombreUsuario;
+            this.txtClave.Text = usuarioActual.Clave;
+            this.txtConfirmarClave.Text = usuarioActual.Clave;
+            this.chkHabilitado.Checked = usuarioActual.Habilitado;
+            this.txtPersona.Text = usuarioActual.Apellido + " " + usuarioActual.Nombre;
 
-
-            else if (Modo == ModoForm.Consulta)
+            switch (this.Modo)
             {
-                this.btnAceptar.Text = "Aceptar";
-                this.txtID.Text = this.UsuarioActual.ID.ToString();
-                this.chkHabilitado.Checked = this.UsuarioActual.Habilitado;
-                this.txtNombre.Text = this.UsuarioActual.Nombre;
-                this.txtApellido.Text = this.UsuarioActual.Apellido;
-                this.txtEmail.Text = this.UsuarioActual.EMail;
-                this.txtUsuario.Text = this.UsuarioActual.NombreUsuario;
-                this.txtClave.Text = this.UsuarioActual.Clave;
-                this.txtConfirmarClave.Text = this.UsuarioActual.Clave;
+                case ModoForm.Baja:
+                    this.btnAceptar.Text = "Eliminar";
+                    break;
+                case ModoForm.Consulta:
+                    this.btnAceptar.Text = "Aceptar";
+                    break;
+                default:
+                    this.btnAceptar.Text = "Guardar";
+                    break;
             }
+        }
 
-            }
         public override void MapearADatos()
         {
-            if (Modo == ModoForm.Alta)
+            switch (this.Modo)
             {
-                Usuario u = new Usuario();
-                UsuarioActual = u;
-                this.UsuarioActual.Habilitado = this.chkHabilitado.Checked;
-                this.UsuarioActual.Nombre = this.txtNombre.Text;
-                this.UsuarioActual.Apellido = this.txtApellido.Text;
-                this.UsuarioActual.EMail = this.txtEmail.Text;
-                this.UsuarioActual.NombreUsuario = this.txtUsuario.Text;
-                this.UsuarioActual.Clave = this.txtClave.Text;
-                this.UsuarioActual.State = BusinessEntity.States.New;
+                case ModoForm.Baja:
+                    usuarioActual.State = Usuario.States.Deleted;
+                    break;
+                case ModoForm.Consulta:
+                    usuarioActual.State = Usuario.States.Unmodified;
+                    break;
+                case ModoForm.Alta:
+                    usuarioActual.State = Usuario.States.New;
+                    break;
+                case ModoForm.Modificacion:
+                    usuarioActual.State = Usuario.States.Modified;
+                    break;
+            }
+            if (Modo == ModoForm.Alta || Modo == ModoForm.Modificacion)
+            {
+                if (Modo == ModoForm.Modificacion)
+                    usuarioActual.ID = Convert.ToInt32(this.txtID.Text);
+                usuarioActual.NombreUsuario = this.txtUsuario.Text;
+                usuarioActual.Clave = this.txtClave.Text;
+                usuarioActual.Habilitado = this.chkHabilitado.Checked;
+                foreach (DataGridViewRow row in this.dgvPermisos.Rows)
+                {
+                    usuarioActual.ModulosUsuarios.Add((ModuloUsuario)row.DataBoundItem);
+                }
+                
             }
 
-            else if (Modo == ModoForm.Modificacion)
-            {
-                this.txtID.Text = this.UsuarioActual.ID.ToString();
-                this.UsuarioActual.Habilitado = this.chkHabilitado.Checked;
-                this.UsuarioActual.Nombre = this.txtNombre.Text;
-                this.UsuarioActual.Apellido = this.txtApellido.Text;
-                this.UsuarioActual.EMail = this.txtEmail.Text;
-                this.UsuarioActual.NombreUsuario = this.txtUsuario.Text;
-                this.UsuarioActual.Clave = this.txtClave.Text;
-                this.UsuarioActual.State = BusinessEntity.States.Modified;
-            }
-
-            else if (Modo == ModoForm.Baja)
-            {
-                this.txtID.Text = this.UsuarioActual.ID.ToString();
-                this.UsuarioActual.Habilitado = this.chkHabilitado.Checked;
-                this.UsuarioActual.Nombre = this.txtNombre.Text;
-                this.UsuarioActual.Apellido = this.txtApellido.Text;
-                this.UsuarioActual.EMail = this.txtEmail.Text;
-                this.UsuarioActual.NombreUsuario = this.txtUsuario.Text;
-                this.UsuarioActual.Clave = this.txtClave.Text;
-                this.UsuarioActual.State = BusinessEntity.States.Deleted;
-            }
         }
 
         public override void GuardarCambios()
         {
-            this.MapearADatos();
-            UsuarioLogic u = new UsuarioLogic();
-            u.Save(UsuarioActual);
+            try
+            {
+                this.MapearADatos();
+                UsuarioLogic userlogic = new UsuarioLogic();
+                if (Modo != ModoForm.Alta || !userlogic.Existe(usuarioActual.NombreUsuario))
+                    userlogic.Save(usuarioActual);
+                else this.Notificar("Ya existe un Usuario con ese Nombre de Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
         public override bool Validar()
         {
-            if (string.IsNullOrEmpty(this.txtNombre.Text.Trim()))
+            Boolean EsValido = true;
+            foreach (Control oControls in this.Controls)
             {
-                this.Notificar("El nombre ingresado es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                if (oControls is TextBox && oControls.Text == String.Empty && oControls != this.txtID)
+                {
+                    EsValido = false;
+                    break;
+                }
             }
-
-            else if (string.IsNullOrEmpty(this.txtApellido.Text.Trim()))
+            if (EsValido == false)
+                this.Notificar("Todos los campos son obligatorios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (this.txtClave.Text != this.txtConfirmarClave.Text)
             {
-                this.Notificar("El apellido ingresado es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                EsValido = false;
+                this.Notificar("La clave no coincide con la confirmacion de la misma", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            else if (!Business.Logic.Validaciones.EsEmailValido(this.txtEmail.Text))
+            if (this.txtClave.Text.Length < 8)
             {
-                this.Notificar("El email ingresado es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                EsValido = false;
+                this.Notificar("La clave debe tener al menos 8 caracteres", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            else if (string.IsNullOrEmpty(this.txtUsuario.Text.Trim()))
+            if (this.usuarioActual.Persona.ID == 0)
             {
-                this.Notificar("El usuario ingresado es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                EsValido = false;
+                this.Notificar("No se le asignó una Persona al Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            else if (string.IsNullOrEmpty(this.txtClave.Text.Trim()))
-            {
-                this.Notificar("La clave ingresada es invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if ((string.IsNullOrEmpty(this.txtConfirmarClave.Text.Trim())) || this.txtConfirmarClave.Text != this.txtClave.Text)
-            {
-                this.Notificar("La clave o confirmación de clave ingresada es invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else { return true; }
+            return EsValido;
         }
 
-
-        public new void Notificar(string titulo, string mensaje, MessageBoxButtons
-        botones, MessageBoxIcon icono)
+        private void btnAceptar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(mensaje, titulo, botones, icono);
-        }
-        public new void Notificar(string mensaje, MessageBoxButtons botones,
-        MessageBoxIcon icono)
-        {
-            this.Notificar(this.Text, mensaje, botones, icono);
-        }
-        
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            if (this.Validar())
+            if (Validar())
             {
                 this.GuardarCambios();
+                this.Close();
             }
-            this.Close();
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -206,13 +179,28 @@ namespace UI.Desktop
             this.Close();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private void btnSeleccionarPersona_Click(object sender, EventArgs e)
         {
-            if (this.Validar())
+            SeleccionarPersona select = new SeleccionarPersona(usuarioActual);
+            select.ShowDialog();
+            this.usuarioActual = select.UsuarioActual;
+            this.txtPersona.Text = usuarioActual.Apellido + " " + usuarioActual.Nombre;
+            if (usuarioActual.Persona.DescTipoPersona == "No docente")
             {
-                this.GuardarCambios();
+                try
+                {
+                    this.dgvPermisos.AutoGenerateColumns = false;
+                    ModuloUsuarioLogic logic = new ModuloUsuarioLogic();
+                    dgvPermisos.DataSource = logic.GetAll(UsuarioActual.ID);
+                    dgvPermisos.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            this.Close();
+            else
+                this.dgvPermisos.Visible = false;
         }
     }
 }

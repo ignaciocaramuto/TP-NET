@@ -10,20 +10,35 @@ using System.Windows.Forms;
 using Business.Entities;
 using Business.Logic;
 
+
 namespace UI.Desktop
 {
-    public partial class Usuarios : Form
+    public partial class Usuarios : ApplicationForm
     {
-        public Usuarios()
-        {
-            InitializeComponent();
-            dgvUsuarios.AutoGenerateColumns = false;
-        }
+        private Usuario usuarioActual;
 
+        public Usuario UsuarioActual
+        {
+            get { return usuarioActual; }
+            set { usuarioActual = value; }
+        }
+        public Usuarios(Usuario us)
+        {
+            UsuarioActual = us;
+            InitializeComponent();
+            this.dgvUsuarios.AutoGenerateColumns = false;
+        }
         public void Listar()
         {
-            UsuarioLogic ul = new UsuarioLogic();
-            this.dgvUsuarios.DataSource = ul.GetAll();
+            try
+            {
+                UsuarioLogic ul = new UsuarioLogic();
+                this.dgvUsuarios.DataSource = ul.GetAll();
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Usuarios_Load(object sender, EventArgs e)
@@ -41,11 +56,6 @@ namespace UI.Desktop
             this.Close();
         }
 
-        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void tsbNuevo_Click(object sender, EventArgs e)
         {
             UsuarioDesktop formUsuario = new UsuarioDesktop(ApplicationForm.ModoForm.Alta);
@@ -55,24 +65,39 @@ namespace UI.Desktop
 
         private void tsbEditar_Click(object sender, EventArgs e)
         {
-            if (this.dgvUsuarios.SelectedRows != null)
-                    {
-                        int ID = ((Business.Entities.Usuario)this.dgvUsuarios.SelectedRows[0].DataBoundItem).ID;
-                        UsuarioDesktop formUsuario = new UsuarioDesktop(ID, ApplicationForm.ModoForm.Modificacion);
-                        formUsuario.ShowDialog();
-                        this.Listar();
-                    }
-        }
-
-        private void tsbBorrar_Click(object sender, EventArgs e)
-        {
-            if (this.dgvUsuarios.SelectedRows != null)
+            if (this.dgvUsuarios.SelectedRows.Count > 0)
             {
-                int ID = ((Business.Entities.Usuario)this.dgvUsuarios.SelectedRows[0].DataBoundItem).ID;
-                UsuarioDesktop formUsuario = new UsuarioDesktop(ID, ApplicationForm.ModoForm.Baja);
+                int ID = ((Usuario)this.dgvUsuarios.SelectedRows[0].DataBoundItem).ID;
+                UsuarioDesktop formUsuario = new UsuarioDesktop(ID, ApplicationForm.ModoForm.Modificacion);
                 formUsuario.ShowDialog();
                 this.Listar();
             }
+            
         }
+
+        private void tsbEliminar_Click(object sender, EventArgs e)
+        {
+
+            var rta = MessageBox.Show("¿Esta seguro que desea eliminar el Usuario seleccionado?", "Atencion", MessageBoxButtons.YesNo);
+            if (rta == DialogResult.Yes)
+            {
+                try
+                {
+                    if (this.dgvUsuarios.SelectedRows.Count > 0)
+                    {
+                        int ID = ((Usuario)this.dgvUsuarios.SelectedRows[0].DataBoundItem).ID;
+                        UsuarioLogic usuarioLogic = new UsuarioLogic();
+                        usuarioLogic.Delete(ID);
+                        this.Listar();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        
     }
 }

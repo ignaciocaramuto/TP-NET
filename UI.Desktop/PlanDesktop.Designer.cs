@@ -1,5 +1,4 @@
-﻿
-namespace UI.Desktop
+﻿namespace UI.Desktop
 {
     partial class PlanDesktop
     {
@@ -29,96 +28,70 @@ namespace UI.Desktop
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelID = new System.Windows.Forms.Label();
-            this.labelDescripcion = new System.Windows.Forms.Label();
-            this.labelIdEspecialidad = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtID = new System.Windows.Forms.TextBox();
+            this.cbxEspecialidad = new System.Windows.Forms.ComboBox();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.txtIdEspecialidad = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // label1
             // 
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.11111F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.88889F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
-            this.tableLayoutPanel1.Controls.Add(this.labelID, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.labelDescripcion, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelIdEspecialidad, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.txtID, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtDescripcion, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.txtIdEspecialidad, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnAceptar, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.btnCancelar, 3, 3);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 5);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 148F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(444, 247);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(61, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(18, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "ID";
             // 
-            // labelID
+            // label2
             // 
-            this.labelID.AutoSize = true;
-            this.labelID.Location = new System.Drawing.Point(3, 0);
-            this.labelID.Name = "labelID";
-            this.labelID.Size = new System.Drawing.Size(18, 13);
-            this.labelID.TabIndex = 0;
-            this.labelID.Text = "ID";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 41);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Especialidad";
             // 
-            // labelDescripcion
+            // label3
             // 
-            this.labelDescripcion.AutoSize = true;
-            this.labelDescripcion.Location = new System.Drawing.Point(3, 31);
-            this.labelDescripcion.Name = "labelDescripcion";
-            this.labelDescripcion.Size = new System.Drawing.Size(63, 13);
-            this.labelDescripcion.TabIndex = 1;
-            this.labelDescripcion.Text = "Descripción";
-            // 
-            // labelIdEspecialidad
-            // 
-            this.labelIdEspecialidad.AutoSize = true;
-            this.labelIdEspecialidad.Location = new System.Drawing.Point(3, 62);
-            this.labelIdEspecialidad.Name = "labelIdEspecialidad";
-            this.labelIdEspecialidad.Size = new System.Drawing.Size(79, 13);
-            this.labelIdEspecialidad.TabIndex = 2;
-            this.labelIdEspecialidad.Text = "Id Especialidad";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(63, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Descripción";
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(89, 3);
+            this.txtID.Enabled = false;
+            this.txtID.Location = new System.Drawing.Point(120, 6);
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
-            this.txtID.Size = new System.Drawing.Size(129, 20);
-            this.txtID.TabIndex = 0;
-            this.txtID.Text = "Autogenerado";
+            this.txtID.Size = new System.Drawing.Size(80, 20);
+            this.txtID.TabIndex = 5;
+            // 
+            // cbxEspecialidad
+            // 
+            this.cbxEspecialidad.FormattingEnabled = true;
+            this.cbxEspecialidad.Location = new System.Drawing.Point(120, 38);
+            this.cbxEspecialidad.Name = "cbxEspecialidad";
+            this.cbxEspecialidad.Size = new System.Drawing.Size(190, 21);
+            this.cbxEspecialidad.TabIndex = 1;
             // 
             // txtDescripcion
             // 
-            this.txtDescripcion.Location = new System.Drawing.Point(89, 34);
+            this.txtDescripcion.Location = new System.Drawing.Point(120, 74);
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(129, 20);
-            this.txtDescripcion.TabIndex = 1;
-            // 
-            // txtIdEspecialidad
-            // 
-            this.txtIdEspecialidad.Location = new System.Drawing.Point(89, 65);
-            this.txtIdEspecialidad.Name = "txtIdEspecialidad";
-            this.txtIdEspecialidad.Size = new System.Drawing.Size(129, 20);
-            this.txtIdEspecialidad.TabIndex = 2;
+            this.txtDescripcion.Size = new System.Drawing.Size(190, 20);
+            this.txtDescripcion.TabIndex = 2;
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(224, 213);
+            this.btnAceptar.Location = new System.Drawing.Point(157, 114);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 3;
@@ -128,7 +101,7 @@ namespace UI.Desktop
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(311, 213);
+            this.btnCancelar.Location = new System.Drawing.Point(254, 114);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 4;
@@ -138,28 +111,33 @@ namespace UI.Desktop
             // 
             // PlanDesktop
             // 
-            this.AcceptButton = this.btnAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(459, 264);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(341, 149);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.btnAceptar);
+            this.Controls.Add(this.txtDescripcion);
+            this.Controls.Add(this.cbxEspecialidad);
+            this.Controls.Add(this.txtID);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Name = "PlanDesktop";
-            this.Text = "Plan";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.Text = "Planes";
+            this.Load += new System.EventHandler(this.PlanDesktop_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label labelID;
-        private System.Windows.Forms.Label labelDescripcion;
-        private System.Windows.Forms.Label labelIdEspecialidad;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtID;
+        private System.Windows.Forms.ComboBox cbxEspecialidad;
         private System.Windows.Forms.TextBox txtDescripcion;
-        private System.Windows.Forms.TextBox txtIdEspecialidad;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
     }

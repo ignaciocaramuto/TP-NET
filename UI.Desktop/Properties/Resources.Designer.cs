@@ -66,5 +66,14 @@ namespace UI.Desktop.Properties
                 resourceCulture = value;
             }
         }
+
+        internal static System.Drawing.Bitmap Teachers
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("Teachers", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

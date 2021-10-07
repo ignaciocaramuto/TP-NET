@@ -5,35 +5,61 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Business.Entities;
 using Business.Logic;
+using Business.Entities;
 
 namespace UI.Desktop
 {
-    public partial class Cursos : Form
+    public partial class Cursos : ApplicationForm
     {
-        public Cursos()
+        private Usuario usuarioActual;
+
+        public Usuario UsuarioActual
+        {
+            get { return usuarioActual; }
+            set { usuarioActual = value; }
+        }
+        
+        public Cursos(Usuario us)
         {
             InitializeComponent();
-            this.dgvCursos.AutoGenerateColumns = false;
+            UsuarioActual = us;
+            dgvCursos.AutoGenerateColumns = false;
         }
 
         public void Listar()
         {
-            CursoLogic cl = new CursoLogic();
-            this.dgvCursos.DataSource = cl.GetAll();
+            try
+            {
+                CursoLogic cl = new CursoLogic();
+                this.dgvCursos.DataSource = cl.GetAll();
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Cursos_Load(object sender, EventArgs e)
         {
-            Listar();
+            foreach (ModuloUsuario mu in UsuarioActual.ModulosUsuarios)
+            {
+                if (mu.Modulo.Descripcion == "Cursos")
+                {
+                    this.dgvCursos.Visible = mu.PermiteConsulta;
+                    this.tsbNuevo.Visible = mu.PermiteAlta;
+                    this.tsbEliminar.Visible = mu.PermiteBaja;
+                    this.tsbEditar.Visible = mu.PermiteModificacion;
+                    this.tsbDocentes.Visible = mu.PermiteModificacion || mu.PermiteAlta || mu.PermiteBaja; 
+                }
+            }
+            this.Listar();
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            Listar();
+            this.Listar();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -43,36 +69,43 @@ namespace UI.Desktop
 
         private void tsbNuevo_Click(object sender, EventArgs e)
         {
-            CursoDesktop formCurso = new CursoDesktop(ApplicationForm.ModoForm.Alta);
-            formCurso.ShowDialog();
+            CursoDesktop curDesktop = new CursoDesktop(ApplicationForm.ModoForm.Alta);
+            curDesktop.ShowDialog();
             this.Listar();
         }
 
         private void tsbEditar_Click(object sender, EventArgs e)
         {
-            if (this.dgvCursos.SelectedRows != null)
-            {
-                int ID = ((Business.Entities.Curso)this.dgvCursos.SelectedRows[0].DataBoundItem).ID;
-                CursoDesktop formCurso = new CursoDesktop(ID, ApplicationForm.ModoForm.Modificacion);
-                formCurso.ShowDialog();
-                this.Listar();
-            }
+            int ID = ((Curso)this.dgvCursos.SelectedRows[0].DataBoundItem).ID;
+            CursoDesktop CursoDesktop = new CursoDesktop(ID, ApplicationForm.ModoForm.Modificacion);
+            CursoDesktop.ShowDialog();
+            this.Listar();
         }
-        
-        private void tsbBorrar_Click(object sender, EventArgs e)
-        {
-            if (this.dgvCursos.SelectedRows != null)
-            {
-                int ID = ((Business.Entities.Curso)this.dgvCursos.SelectedRows[0].DataBoundItem).ID;
-                CursoDesktop formCurso = new CursoDesktop(ID, ApplicationForm.ModoForm.Baja);
-                formCurso.ShowDialog();
-                this.Listar();
-            }
-        }
-        
-        private void dvgCursos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
+        private void tsbEliminar_Click(object sender, EventArgs e)
+        {
+            var rta = MessageBox.Show("¿Esta seguro que desea eliminar el Curso seleccionado?", "Atencion", MessageBoxButtons.YesNo);
+            if (rta == DialogResult.Yes)
+            {
+                try
+                {
+                    int ID = ((Curso)this.dgvCursos.SelectedRows[0].DataBoundItem).ID;
+                    CursoLogic curso = new CursoLogic();
+                    curso.Delete(ID);
+                    this.Listar();
+                }
+                catch (Exception ex)
+                {
+                    this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
+
+        private void tsbDocentes_Click(object sender, EventArgs e)
+        {
+            DocentesCursos dc = new DocentesCursos((Curso)this.dgvCursos.SelectedRows[0].DataBoundItem);
+            dc.ShowDialog();
+        }
+
     }
 }

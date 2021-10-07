@@ -5,142 +5,134 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Business.Logic;
 using Business.Entities;
+using Business.Logic;
 
 namespace UI.Desktop
 {
     public partial class DocenteCursoDesktop : ApplicationForm
     {
+        private Curso cursoActual;
+        private DocenteCurso docenteCursoActual;
+
         public DocenteCursoDesktop()
         {
             InitializeComponent();
         }
 
-        public DocenteCursoDesktop(ModoForm modo) : this()
+        public DocenteCursoDesktop(ModoForm modo, Curso c) : this()
         {
             this.Modo = modo;
-            MapearDeDatos();
+            cursoActual = c;
+            docenteCursoActual = new DocenteCurso();
         }
 
-        public DocenteCursoDesktop(int ID, ModoForm modo) : this()
+        public DocenteCursoDesktop(int ID, ModoForm modo, Curso c) : this()
         {
             this.Modo = modo;
-            DocenteCursoLogic docentesCursosLogic = new DocenteCursoLogic();
-            DocenteCursoActual = docentesCursosLogic.GetOne(ID);
-            MapearDeDatos();
-        }
-
-        public DocenteCurso DocenteCursoActual
-        {
-            get;
-            set;
+            try
+            {
+                cursoActual = c;
+                DocenteCursoLogic DocCursNegocio = new DocenteCursoLogic();
+                docenteCursoActual = DocCursNegocio.GetOne(ID);
+                this.MapearDeDatos();
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public override void MapearDeDatos()
         {
-            if (Modo == ModoForm.Alta) this.btnAceptar.Text = "Guardar";
-            else if (Modo == ModoForm.Baja)
-            {
-                this.btnAceptar.Text = "Eliminar";
-                this.txtID.Text = this.DocenteCursoActual.ID.ToString();
-                this.txtIdDocente.Text = this.DocenteCursoActual.IdDocente.ToString();
-                this.txtIdCurso.Text = this.DocenteCursoActual.IdCurso.ToString();
-                this.txtCargo.Text = this.DocenteCursoActual.Cargo.ToString();
-            }
-            else if (Modo == ModoForm.Modificacion)
-            {
-                this.btnAceptar.Text = "Guardar";
-                this.txtID.Text = this.DocenteCursoActual.ID.ToString();
-                this.txtIdDocente.Text = this.DocenteCursoActual.IdDocente.ToString();
-                this.txtIdCurso.Text = this.DocenteCursoActual.IdCurso.ToString();
-                this.txtCargo.Text = this.DocenteCursoActual.Cargo.ToString();
-            }
+            this.txtID.Text = docenteCursoActual.ID.ToString();
+            this.cbxCargo.SelectedItem = docenteCursoActual.Cargo;
 
-
-            else if (Modo == ModoForm.Consulta)
+            switch (this.Modo)
             {
-                this.btnAceptar.Text = "Aceptar";
-                this.txtID.Text = this.DocenteCursoActual.ID.ToString();
-                this.txtIdDocente.Text = this.DocenteCursoActual.IdDocente.ToString();
-                this.txtIdCurso.Text = this.DocenteCursoActual.IdCurso.ToString();
-                this.txtCargo.Text = this.DocenteCursoActual.Cargo.ToString();
+                case ModoForm.Modificacion:
+                    this.btnAceptar.Text = "Guardar";
+                    this.btnSelecDocente.Visible = false;
+                    break;
+                case ModoForm.Consulta:
+                    this.btnAceptar.Text = "Aceptar";
+                    break;
             }
-
         }
+
         public override void MapearADatos()
         {
-            if (Modo == ModoForm.Alta)
+            switch (this.Modo)
             {
-                DocenteCurso dc = new DocenteCurso();
-                DocenteCursoActual = dc;
-                this.DocenteCursoActual.IdDocente = Int32.Parse(this.txtIdDocente.Text);
-                this.DocenteCursoActual.IdCurso = Int32.Parse(this.txtIdCurso.Text);
-                this.DocenteCursoActual.Cargo = Int32.Parse(this.txtCargo.Text);
-                this.DocenteCursoActual.State = BusinessEntity.States.New;
+                case ModoForm.Baja:
+                    docenteCursoActual.State = DocenteCurso.States.Deleted;
+                    break;
+                case ModoForm.Consulta:
+                    docenteCursoActual.State = DocenteCurso.States.Unmodified;
+                    break;
+                case ModoForm.Alta:
+                    docenteCursoActual.State = Plan.States.New;
+                    break;
+                case ModoForm.Modificacion:
+                    docenteCursoActual.State = DocenteCurso.States.Modified;
+                    break;
             }
-
-            else if (Modo == ModoForm.Modificacion)
+            if (Modo == ModoForm.Alta || Modo == ModoForm.Modificacion)
             {
-                this.txtID.Text = this.DocenteCursoActual.ID.ToString();
-                this.DocenteCursoActual.IdDocente = Int32.Parse(this.txtIdDocente.Text);
-                this.DocenteCursoActual.IdCurso = Int32.Parse(this.txtIdCurso.Text);
-                this.DocenteCursoActual.Cargo = Int32.Parse(this.txtCargo.Text);
-                this.DocenteCursoActual.State = BusinessEntity.States.Modified;
-            }
-
-            else if (Modo == ModoForm.Baja)
-            {
-                this.txtID.Text = this.DocenteCursoActual.ID.ToString();
-                this.DocenteCursoActual.IdDocente = Int32.Parse(this.txtIdDocente.Text);
-                this.DocenteCursoActual.IdCurso = Int32.Parse(this.txtIdCurso.Text);
-                this.DocenteCursoActual.Cargo = Int32.Parse(this.txtCargo.Text);
-                this.DocenteCursoActual.State = BusinessEntity.States.Deleted;
+                if (Modo == ModoForm.Modificacion)
+                    docenteCursoActual.ID = Convert.ToInt32(this.txtID.Text);
+                docenteCursoActual.Curso.ID = cursoActual.ID;
+                docenteCursoActual.Cargo = cbxCargo.SelectedItem.ToString();
             }
         }
 
         public override void GuardarCambios()
         {
-            this.MapearADatos();
-            DocenteCursoLogic u = new DocenteCursoLogic();
-            u.Save(DocenteCursoActual);
+            try
+            {
+                this.MapearADatos();
+                DocenteCursoLogic DCLogic = new DocenteCursoLogic();
+                if (Modo != ModoForm.Alta || !DCLogic.Existe(docenteCursoActual.Curso.ID, docenteCursoActual.Docente.ID, docenteCursoActual.Cargo))
+                    DCLogic.Save(docenteCursoActual);
+                else this.Notificar("Este Docente ya se encuentra asignado a este Curso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
         public override bool Validar()
         {
-            if (string.IsNullOrEmpty(this.txtIdDocente.Text.Trim()))
+            Boolean EsValido = true;
+            if (this.cbxCargo.SelectedItem == null)
             {
-                this.Notificar("ID de docente ingresado invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                EsValido = false;
+                this.Notificar("No se seleccionó un Cargo para el Docente", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            else if (string.IsNullOrEmpty(this.txtIdCurso.Text.Trim()))
+            if (this.docenteCursoActual.Docente.ID == 0)
             {
-                this.Notificar("ID de curso ingresado invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                this.Notificar("No se seleccionó un Docente para el Curso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EsValido = false;
             }
-
-            else if (string.IsNullOrEmpty(this.txtCargo.Text.Trim()))
-            {
-                this.Notificar("ID de cargo ingresado invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else { return true; }
-
+            return EsValido;
         }
 
-
-        public new void Notificar(string titulo, string mensaje, MessageBoxButtons
-        botones, MessageBoxIcon icono)
+        private void btnSelecDocente_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(mensaje, titulo, botones, icono);
+            SeleccionarDocentes doc = new SeleccionarDocentes(cursoActual);
+            doc.ShowDialog();
+            docenteCursoActual.Docente = doc.Docente;
+            if (docenteCursoActual.Docente != null)
+            {
+                this.txtDocente.Text = docenteCursoActual.Docente.Apellido + " " + docenteCursoActual.Docente.Nombre;
+            }
         }
-        public new void Notificar(string mensaje, MessageBoxButtons botones,
-        MessageBoxIcon icono)
+
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.Notificar(this.Text, mensaje, botones, icono);
+            this.Close();
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -148,13 +140,9 @@ namespace UI.Desktop
             if (this.Validar())
             {
                 this.GuardarCambios();
+                this.Close();
             }
-            this.Close();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

@@ -8,38 +8,49 @@ using Data.Database;
 
 namespace Business.Logic
 {
-    public class MateriaLogic
+    public class MateriaLogic:BusinessLogic
     {
-        public Data.Database.MateriaAdapter MateriaData
-        {
-            get;
-            set;
-        }
+        private MateriaAdapter materiaData;
 
         public MateriaLogic()
         {
-            this.MateriaData = new Data.Database.MateriaAdapter();
+            MateriaData = new MateriaAdapter();
         }
 
+        public MateriaAdapter MateriaData
+        {
+            get { return materiaData; }
+            set { materiaData = value; }
+        }
+
+        public Materia GetOne(int ID)
+        {
+            return MateriaData.GetOne(ID);
+        }
+
+        public bool Existe(int idPlan, string desc)
+        {
+            return MateriaData.ExisteMateria(idPlan, desc);
+        }
 
         public List<Materia> GetAll()
         {
-            return (MateriaData.GetAll());
+            return MateriaData.GetAll();
         }
 
-        public Business.Entities.Materia GetOne(int id)
+        public void Save(Materia mat)
         {
-            return (MateriaData.GetOne(id));
+            MateriaData.Save(mat);
         }
 
-        public void Delete(int id)
+        public void Delete(int ID)
         {
-            MateriaData.Delete(id);
+            MateriaData.Delete(ID);
         }
 
-        public void Save(Business.Entities.Materia m)
+        public List<Materia> GetMateriasParaInscripcion(int IDPlan, int IDAlumno)
         {
-            MateriaData.Save(m);
+            return MateriaData.GetMateriasParaInscripcion(IDPlan, IDAlumno);
         }
     }
 }

@@ -10,10 +10,15 @@ namespace Business.Entities
     {
         private string _nombreUsuario;
         private string _clave;
-        private string _nombre;
-        private string _apellido;
-        private string _email;
         private bool _habilitado;
+        private Persona _persona;
+        private List<ModuloUsuario> _modulosUsuarios;
+        
+        public Usuario()
+        {
+            this._persona = new Persona();
+            this._modulosUsuarios = new List<ModuloUsuario>();
+        }
         
         public string NombreUsuario
         {
@@ -29,20 +34,17 @@ namespace Business.Entities
 
         public string Nombre
         {
-            get { return _nombre; }
-            set { _nombre = value; }
+            get { return this.Persona.Nombre; }
         }
 
         public string Apellido
         {
-            get { return _apellido; }
-            set { _apellido = value; }
+            get { return this.Persona.Apellido; }
         }
 
         public string EMail
         {
-            get { return _email; }
-            set { _email = value; }
+            get { return this.Persona.Email; }
         }
 
         public bool Habilitado
@@ -50,5 +52,24 @@ namespace Business.Entities
             get { return _habilitado; }
             set { _habilitado = value; }
         }
+
+        public Persona Persona
+        {
+            get { return _persona; }
+            set { _persona = value; }
+        }
+
+        public List<ModuloUsuario> ModulosUsuarios
+        {
+            get { return _modulosUsuarios; }
+            set { _modulosUsuarios = value; }
+        }
+
+        public string TipoPersona
+        {
+            get { return this.Persona.DescTipoPersona; }
+        }
+
+
     }
 }

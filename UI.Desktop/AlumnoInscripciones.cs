@@ -5,65 +5,80 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business.Entities;
 using Business.Logic;
 
 namespace UI.Desktop
 {
-    public partial class AlumnoInscripciones : Form
-    { 
-        public AlumnoInscripciones()
+    public partial class Inscripciones : ApplicationForm
+    {
+        public Inscripciones(Usuario u)
         {
             InitializeComponent();
-            dgvInscripciones.AutoGenerateColumns = false;
-            this.Listar();
+            this.dgvInscripciones.AutoGenerateColumns = false;
+            this.usuarioActual = u;
         }
+
+        private Usuario usuarioActual;
 
         public void Listar()
         {
-            AlumnoInscripcionLogic a = new AlumnoInscripcionLogic();
-            this.dgvInscripciones.DataSource = a.GetAll();
+            try
+            {
+                AlumnoInscripcionLogic ail = new AlumnoInscripcionLogic();
+                this.dgvInscripciones.DataSource = ail.GetAll(usuarioActual.Persona.ID);
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void tsbNuevo_Click_1(object sender, EventArgs e)
+        private void Inscripciones_Load(object sender, EventArgs e)
         {
-            AlumnoInscripcionDesktop formInscripcion = new AlumnoInscripcionDesktop(ApplicationForm.ModoForm.Alta);
-            formInscripcion.ShowDialog();
             this.Listar();
         }
 
-        private void tsbEditar_Click_1(object sender, EventArgs e)
+        private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (this.dgvInscripciones.SelectedRows != null)
-            {
-                int ID = ((Business.Entities.AlumnoInscripcion)this.dgvInscripciones.SelectedRows[0].DataBoundItem).ID;
-                AlumnoInscripcionDesktop formInscripcion = new AlumnoInscripcionDesktop(ID, ApplicationForm.ModoForm.Modificacion);
-                formInscripcion.ShowDialog();
-                this.Listar();
-            }
+            this.Listar();
         }
 
-        private void tsbBorrar_Click_1(object sender, EventArgs e)
-        {
-            if (this.dgvInscripciones.SelectedRows != null)
-            {
-                int ID = ((Business.Entities.AlumnoInscripcion)this.dgvInscripciones.SelectedRows[0].DataBoundItem).ID;
-                AlumnoInscripcionDesktop formInscripcion = new AlumnoInscripcionDesktop(ID, ApplicationForm.ModoForm.Baja);
-                formInscripcion.ShowDialog();
-                this.Listar();
-            }
-        }
-
-        private void btnActualizar_Click_1(object sender, EventArgs e)
-        {
-            Listar();
-        }
-
-        private void btnSalir_Click_1(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void tsbNuevo_Click(object sender, EventArgs e)
+        {
+            InscripcionDesktop insdesktop = new InscripcionDesktop(usuarioActual);
+            insdesktop.ShowDialog();
+            this.Listar();
+        }
+
+        private void tsbEliminar_Click(object sender, EventArgs e)
+        {
+            var rta = MessageBox.Show("¿Esta seguro que desea eliminar esta Inscripción?", "Atencion", MessageBoxButtons.YesNo);
+            if (rta == DialogResult.Yes)
+            {
+                try
+                {
+                    int ID = ((AlumnoInscripcion)this.dgvInscripciones.SelectedRows[0].DataBoundItem).ID;
+                    AlumnoInscripcionLogic insc = new AlumnoInscripcionLogic();
+                    insc.Delete(ID);
+                    CursoLogic curlog = new CursoLogic();
+                    Curso cur = curlog.GetOne(((AlumnoInscripcion)this.dgvInscripciones.SelectedRows[0].DataBoundItem).Curso.ID);
+                    cur.State = BusinessEntity.States.Modified;
+                    cur.Cupo++;
+                    curlog.Save(cur);
+                    this.Listar();
+                }
+                catch (Exception ex)
+                {
+                    this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

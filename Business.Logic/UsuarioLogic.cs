@@ -10,6 +10,9 @@ namespace Business.Logic
 {
     public class UsuarioLogic:BusinessLogic
     {
+
+        private UsuarioAdapter _usuarioData;
+        
         public UsuarioLogic()
         {
             this.UsuarioData = new Data.Database.UsuarioAdapter();
@@ -17,8 +20,8 @@ namespace Business.Logic
         
         public Data.Database.UsuarioAdapter UsuarioData
         {
-            get;
-            set;
+            get { return _usuarioData; }
+            set { _usuarioData = value; }
         }
 
         public List<Usuario> GetAll()
@@ -31,6 +34,11 @@ namespace Business.Logic
             return (UsuarioData.GetOne(id));
         }
 
+        public bool Existe(string nomUsu)
+        {
+            return _usuarioData.ExisteUsuario(nomUsu);
+        }
+
         public void Delete(int id)
         {
             UsuarioData.Delete(id);
@@ -39,6 +47,11 @@ namespace Business.Logic
         public void Save(Business.Entities.Usuario u)
         {
             UsuarioData.Save(u);
+        }
+
+        public Usuario GetUsuarioForLogin (string user, string pass)
+        {
+            return UsuarioData.GetUsuarioForLogin(user, pass);
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Business.Logic;
 using Business.Entities;
@@ -19,214 +18,194 @@ namespace UI.Desktop
             InitializeComponent();
         }
 
+        private void PersonaDesktop_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        Persona personaActual;
+
+        public Persona PersonaActual
+        {
+            get { return personaActual; }
+            set { personaActual = value; }
+        }
+
         public PersonaDesktop(ModoForm modo) : this()
         {
             this.Modo = modo;
-            MapearDeDatos();
+            this.LlenarComboEspecialidades();
         }
 
         public PersonaDesktop(int ID, ModoForm modo) : this()
         {
             this.Modo = modo;
-            PersonaLogic personasLogic = new PersonaLogic();
-            PersonaActual = personasLogic.GetOne(ID);
-            MapearDeDatos();
+            PersonaLogic PersonaNegocio = new PersonaLogic();
+            try
+            {
+                personaActual = PersonaNegocio.GetOne(ID);
+                this.LlenarComboEspecialidades();
+                this.MapearDeDatos();
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        public Persona PersonaActual
+        private void LlenarComboEspecialidades()
         {
-            get;
-            set;
+            try
+            {
+                EspecialidadLogic EspecialidadNegocio = new EspecialidadLogic();
+                cbxEspecialidades.DataSource = EspecialidadNegocio.GetAll();
+                cbxEspecialidades.DisplayMember = "Descripcion";
+                cbxEspecialidades.ValueMember = "ID";
+                this.cbxEspecialidades.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LlenarComboPlanes()
+        {
+            try
+            {
+                PlanLogic pl = new PlanLogic();
+                List<Plan> planes = new List<Plan>();
+                foreach (Plan p in pl.GetAll())
+                {
+                    if (p.Especialidad.ID == Convert.ToInt32(cbxEspecialidades.SelectedValue))
+                    {
+                        planes.Add(p);
+                    }
+                }
+                cbxPlanes.DataSource = planes;
+                cbxPlanes.DisplayMember = "Descripcion";
+                cbxPlanes.ValueMember = "ID";
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public override void MapearDeDatos()
         {
-            if (Modo == ModoForm.Alta) this.btnAceptar.Text = "Guardar";
-            else if (Modo == ModoForm.Baja)
-            {
-                this.btnAceptar.Text = "Eliminar";
-                this.txtID.Text = this.PersonaActual.ID.ToString();
-                this.txtNombre.Text = this.PersonaActual.Nombre;
-                this.txtApellido.Text = this.PersonaActual.Apellido;
-                this.txtDireccion.Text = this.PersonaActual.Direccion;
-                this.txtEmail.Text = this.PersonaActual.Email;
-                this.txtTelefono.Text = this.PersonaActual.Telefono;
-                this.txtFechaNacimiento.Text = this.PersonaActual.FechaNacimiento.ToString();
-                this.txtLegajo.Text = this.PersonaActual.Legajo.ToString();
-                this.txtTipoPersona.Text = this.PersonaActual.TipoPersona.ToString();
-                this.txtIdPlan.Text = this.PersonaActual.IdPlan.ToString();
-            }
-            else if (Modo == ModoForm.Modificacion)
-            {
-                this.btnAceptar.Text = "Guardar";
-                this.txtID.Text = this.PersonaActual.ID.ToString();
-                this.txtNombre.Text = this.PersonaActual.Nombre;
-                this.txtApellido.Text = this.PersonaActual.Apellido;
-                this.txtDireccion.Text = this.PersonaActual.Direccion;
-                this.txtEmail.Text = this.PersonaActual.Email;
-                this.txtTelefono.Text = this.PersonaActual.Telefono;
-                this.txtFechaNacimiento.Text = this.PersonaActual.FechaNacimiento.ToString();
-                this.txtLegajo.Text = this.PersonaActual.Legajo.ToString();
-                this.txtTipoPersona.Text = this.PersonaActual.TipoPersona.ToString();
-                this.txtIdPlan.Text = this.PersonaActual.IdPlan.ToString();
-            }
+            this.txtID.Text = PersonaActual.ID.ToString();
+            this.txtLegajo.Text = PersonaActual.Legajo.ToString();
+            this.txtApellido.Text = PersonaActual.Apellido;
+            this.txtNombre.Text = PersonaActual.Nombre;
+            this.txtDia.Text = PersonaActual.FechaNacimiento.Day.ToString();
+            this.txtMes.Text = PersonaActual.FechaNacimiento.Month.ToString();
+            this.txtAnio.Text = PersonaActual.FechaNacimiento.Year.ToString();
+            this.txtDireccion.Text = PersonaActual.Direccion;
+            this.txtTelefono.Text = PersonaActual.Telefono;
+            this.txtEmail.Text = PersonaActual.Email;
+            this.cbxTipoPersona.SelectedItem = PersonaActual.TipoPersona;
+            this.cbxEspecialidades.SelectedValue = PersonaActual.Plan.Especialidad.ID;
+            this.LlenarComboPlanes();
+            this.cbxPlanes.SelectedValue = PersonaActual.Plan.ID;
 
-
-            else if (Modo == ModoForm.Consulta)
+            switch (this.Modo)
             {
-                this.btnAceptar.Text = "Aceptar";
-                this.txtID.Text = this.PersonaActual.ID.ToString();
-                this.txtNombre.Text = this.PersonaActual.Nombre;
-                this.txtApellido.Text = this.PersonaActual.Apellido;
-                this.txtDireccion.Text = this.PersonaActual.Direccion;
-                this.txtEmail.Text = this.PersonaActual.Email;
-                this.txtTelefono.Text = this.PersonaActual.Telefono;
-                this.txtFechaNacimiento.Text = this.PersonaActual.FechaNacimiento.ToString();
-                this.txtLegajo.Text = this.PersonaActual.Legajo.ToString();
-                this.txtTipoPersona.Text = this.PersonaActual.TipoPersona.ToString();
-                this.txtIdPlan.Text = this.PersonaActual.IdPlan.ToString();
+                case ModoForm.Baja:
+                    this.btnAceptar.Text = "Eliminar";
+                    break;
+                case ModoForm.Consulta:
+                    this.btnAceptar.Text = "Aceptar";
+                    break;
+                default:
+                    this.btnAceptar.Text = "Guardar";
+                    break;
             }
-
         }
+
         public override void MapearADatos()
         {
-            if (Modo == ModoForm.Alta)
+            switch (this.Modo)
             {
-                Persona p = new Persona();
-                PersonaActual = p;
-                this.PersonaActual.Nombre = this.txtNombre.Text;
-                this.PersonaActual.Apellido = this.txtApellido.Text;
-                this.PersonaActual.Direccion = this.txtDireccion.Text;
-                this.PersonaActual.Email = this.txtEmail.Text;
-                this.PersonaActual.Telefono = this.txtTelefono.Text;
-                this.PersonaActual.FechaNacimiento = DateTime.Parse(this.txtFechaNacimiento.Text);
-                this.PersonaActual.Legajo = Int32.Parse(this.txtLegajo.Text);
-                this.PersonaActual.TipoPersona = Int32.Parse(this.txtTipoPersona.Text);
-                this.PersonaActual.IdPlan = Int32.Parse(this.txtIdPlan.Text);
-                this.PersonaActual.State = BusinessEntity.States.New;
+                case ModoForm.Baja:
+                    PersonaActual.State = Persona.States.Deleted;
+                    break;
+                case ModoForm.Consulta:
+                    PersonaActual.State = Persona.States.Unmodified;
+                    break;
+                case ModoForm.Alta:
+                    PersonaActual = new Persona();
+                    PersonaActual.State = Persona.States.New;
+                    break;
+                case ModoForm.Modificacion:
+                    PersonaActual.State = Persona.States.Modified;
+                    break;
             }
-
-            else if (Modo == ModoForm.Modificacion)
+            if (Modo == ModoForm.Alta || Modo == ModoForm.Modificacion)
             {
-                this.txtID.Text = this.PersonaActual.ID.ToString();
-                this.PersonaActual.Nombre = this.txtNombre.Text;
-                this.PersonaActual.Apellido = this.txtApellido.Text;
-                this.PersonaActual.Direccion = this.txtDireccion.Text;
-                this.PersonaActual.Email = this.txtEmail.Text;
-                this.PersonaActual.Telefono = this.txtTelefono.Text;
-                this.PersonaActual.FechaNacimiento = DateTime.Parse(this.txtFechaNacimiento.Text);
-                this.PersonaActual.Legajo = Int32.Parse(this.txtLegajo.Text);
-                this.PersonaActual.TipoPersona = Int32.Parse(this.txtTipoPersona.Text);
-                this.PersonaActual.IdPlan = Int32.Parse(this.txtIdPlan.Text);
-                this.PersonaActual.State = BusinessEntity.States.Modified;
-            }
-
-            else if (Modo == ModoForm.Baja)
-            {
-                this.txtID.Text = this.PersonaActual.ID.ToString();
-                this.PersonaActual.Nombre = this.txtNombre.Text;
-                this.PersonaActual.Apellido = this.txtApellido.Text;
-                this.PersonaActual.Direccion = this.txtDireccion.Text;
-                this.PersonaActual.Email = this.txtEmail.Text;
-                this.PersonaActual.Telefono = this.txtTelefono.Text;
-                this.PersonaActual.FechaNacimiento = DateTime.Parse(this.txtFechaNacimiento.Text);
-                this.PersonaActual.Legajo = Int32.Parse(this.txtLegajo.Text);
-                this.PersonaActual.TipoPersona = Int32.Parse(this.txtTipoPersona.Text);
-                this.PersonaActual.IdPlan = Int32.Parse(this.txtIdPlan.Text);
-                this.PersonaActual.State = BusinessEntity.States.Deleted;
+                if (Modo == ModoForm.Modificacion)
+                PersonaActual.ID = Convert.ToInt32(this.txtID.Text);
+                PersonaActual.Legajo = Convert.ToInt32(this.txtLegajo.Text);
+                PersonaActual.Apellido = this.txtApellido.Text;
+                PersonaActual.Nombre = this.txtNombre.Text;
+                PersonaActual.FechaNacimiento = new DateTime(Convert.ToInt32(txtAnio.Text), Convert.ToInt32(txtMes.Text), Convert.ToInt32(txtDia.Text));
+                PersonaActual.Direccion = this.txtDireccion.Text;
+                PersonaActual.Telefono = this.txtTelefono.Text;
+                PersonaActual.Email = this.txtEmail.Text;
+                PersonaActual.Plan.ID = Convert.ToInt32(this.cbxPlanes.SelectedValue);
+                PersonaActual.DescTipoPersona = this.cbxTipoPersona.SelectedItem.ToString();
             }
         }
 
         public override void GuardarCambios()
         {
-            this.MapearADatos();
-            PersonaLogic u = new PersonaLogic();
-            u.Save(PersonaActual);
+            try
+            {
+                this.MapearADatos();
+                PersonaLogic PersonaLogic = new PersonaLogic();
+                if (Modo != ModoForm.Alta || !PersonaLogic.Existe(personaActual.Legajo))
+                    PersonaLogic.Save(PersonaActual);
+                else this.Notificar("Ya existe una Persona con este Legajo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
         public override bool Validar()
         {
-            if (string.IsNullOrEmpty(this.txtNombre.Text.Trim()))
+            Boolean EsValido = true;
+            if (this.txtLegajo.Text == String.Empty || this.txtApellido.Text == String.Empty || this.txtNombre.Text == String.Empty ||
+                this.txtDia.Text == "dd" || this.txtMes.Text == "mm" || this.txtAnio.Text == "aaaa" ||
+                this.cbxEspecialidades.SelectedItem == null || this.cbxPlanes.SelectedItem == null ||
+                this.cbxTipoPersona.SelectedItem == null)
             {
-                this.Notificar("El nombre es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                EsValido = false;
+                this.Notificar("Falta completar algunos campos obligatorios", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            else if (string.IsNullOrEmpty(this.txtApellido.Text.Trim()))
-            {
-                this.Notificar("El apellido es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (string.IsNullOrEmpty(this.txtDireccion.Text.Trim()))
-            {
-                this.Notificar("La dirección es invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (!Business.Logic.Validaciones.EsEmailValido(this.txtEmail.Text))
-            {
-                this.Notificar("El email ingresado es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (string.IsNullOrEmpty(this.txtTelefono.Text.Trim()))
-            {
-                this.Notificar("El teléfono es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (string.IsNullOrEmpty(this.txtFechaNacimiento.Text.Trim()))
-            {
-                this.Notificar("La fecha de nacimiento es invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (string.IsNullOrEmpty(this.txtLegajo.Text.Trim()))
-            {
-                this.Notificar("El legajo es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (string.IsNullOrEmpty(this.txtTipoPersona.Text.Trim()))
-            {
-                this.Notificar("El tipo de persona es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else if (string.IsNullOrEmpty(this.txtIdPlan.Text.Trim()))
-            {
-                this.Notificar("El id de plan es invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            else { return true; }
-
-        }
-
-
-        public new void Notificar(string titulo, string mensaje, MessageBoxButtons
-        botones, MessageBoxIcon icono)
-        {
-            MessageBox.Show(mensaje, titulo, botones, icono);
-        }
-        public new void Notificar(string mensaje, MessageBoxButtons botones,
-        MessageBoxIcon icono)
-        {
-            this.Notificar(this.Text, mensaje, botones, icono);
+            return EsValido;
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (this.Validar())
+            if (Validar())
             {
                 this.GuardarCambios();
+                this.Close();
             }
-            this.Close();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void cbxEspecialidades_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            this.LlenarComboPlanes();
+        }
+
+
     }
 }

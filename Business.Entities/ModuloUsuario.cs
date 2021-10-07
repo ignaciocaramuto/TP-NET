@@ -9,11 +9,16 @@ namespace Business.Entities
     public class ModuloUsuario:BusinessEntity
     {
         private int _idUsuario;
-        private int _idModulo;
         private bool _permiteAlta;
         private bool _permiteBaja;
         private bool _permiteModificacion;
         private bool _permiteConsulta;
+        private Modulo _modulo;
+
+        public ModuloUsuario()
+        {
+            this.Modulo = new Modulo();
+        }
 
         public int IdUsuario
         {
@@ -23,8 +28,13 @@ namespace Business.Entities
 
         public int IdModulo
         {
-            get { return _idModulo; }
-            set { _idModulo = value; }
+            get { return this.Modulo.ID; }
+        }
+
+        public Modulo Modulo
+        {
+            get { return _modulo; }
+            set { _modulo = value; }
         }
 
         public bool PermiteAlta
@@ -49,6 +59,11 @@ namespace Business.Entities
         {
             get { return _permiteConsulta; }
             set { _permiteConsulta = value; }
+        }
+
+        public string DescModulo
+        {
+            get { return this.Modulo.Descripcion; }
         }
     }
 }

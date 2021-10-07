@@ -12,6 +12,14 @@ namespace Business.Entities
         private int _idAlumno;
         private int _idCurso;
         private int _nota;
+        private Persona _alumno;
+        private Curso _curso;
+
+        public AlumnoInscripcion()
+        {
+            this._alumno = new Persona();
+            this._curso = new Curso();
+        }
 
         public string Condicion
         {
@@ -19,22 +27,48 @@ namespace Business.Entities
             set { _condicion = value; }
         }
 
-        public int IdAlumno
+        public Persona Alumno
         {
-            get { return _idAlumno; }
-            set { _idAlumno = value; }
+            get { return _alumno; }
+            set { _alumno = value; }
+
         }
 
-        public int IdCurso
+        public Curso Curso
         {
-            get { return _idCurso; }
-            set { _idCurso = value; }
+            get { return _curso; }
+            set { _curso = value; }
         }
 
         public int Nota
         {
             get { return _nota; }
             set { _nota = value; }
+        }
+
+        public string DescComision
+        {
+            get { return Curso.Comision.Descripcion; }
+        }
+
+        public string DescMateria
+        {
+            get { return Curso.Materia.Descripcion; }
+        }
+
+        public int AnioCurso
+        {
+            get { return Curso.AnioCalendario; }
+        }
+
+        public string Apellido
+        {
+            get { return this.Alumno.Apellido; }
+        }
+
+        public string Nombre
+        {
+            get { return this.Alumno.Nombre; }
         }
     }
 }

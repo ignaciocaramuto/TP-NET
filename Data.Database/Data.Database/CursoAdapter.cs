@@ -11,84 +11,139 @@ namespace Data.Database
 {
     public class CursoAdapter: Adapter
     {
-        private static List<Curso> Cursos
-        {
-            get;
-            set;
-        }
-
-
         public List<Curso> GetAll()
         {
             List<Curso> cursos = new List<Curso>();
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdCursos = new SqlCommand("select * from cursos", sqlConn);
+                SqlCommand cmdCursos = new SqlCommand("select * from cursos c INNER JOIN materias m on c.id_materia = m.id_materia "
+                   + " INNER JOIN planes p on p.id_plan = m.id_plan INNER JOIN comisiones co on c.id_comision = co.id_comision", sqlConn);
                 SqlDataReader drCursos = cmdCursos.ExecuteReader();
-
                 while (drCursos.Read())
                 {
-                    Curso curso = new Curso();
+                    Curso cur = new Curso();
+                    cur.ID = (int)drCursos["id_curso"];
+                    cur.AnioCalendario = (int)drCursos["anio_calendario"];
+                    cur.Cupo = (int)drCursos["cupo"];
 
-                    curso.ID = (int)drCursos["id_curso"];
-                    curso.IdComision = (int)drCursos["id_comision"];
-                    curso.IdMateria = (int)drCursos["id_materia"];
-                    curso.AnioCalendario = (int)drCursos["anio_calendario"];
-                    curso.Cupo = (int)drCursos["cupo"];
+                    Materia mat = new Materia();
+                    mat.ID = (int)drCursos["id_materia"];
+                    mat.Descripcion = (string)drCursos["desc_materia"];
+                    mat.HSSemanales = (int)drCursos["hs_semanales"];
+                    mat.HSTotales = (int)drCursos["hs_totales"];
 
-                    cursos.Add(curso);
+                    Plan pla = new Plan();
+                    pla.ID = (int)drCursos["id_plan"];
+                    mat.Plan = pla;
+
+                    Comision com = new Comision();
+                    com.ID = (int)drCursos["id_comision"];
+                    com.Descripcion = (string)drCursos["desc_comision"];
+                    com.AnioEspecialidad = (int)drCursos["anio_especialidad"];
+                    com.Plan = pla;
+
+                    cur.Comision = com;
+                    cur.Materia = mat;
+                    cursos.Add(cur);
                 }
-
                 drCursos.Close();
-                this.CloseConnection();
-
-                return cursos;
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al recuperar lista de cursos", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al recuperar lista de cursos", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
+
+            return cursos;
         }
 
-        public Business.Entities.Curso GetOne(int ID)
+        public Curso GetOne(int ID)
         {
-            Curso curso = new Curso();
+            Curso cur = new Curso();
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdCursos = new SqlCommand("select * from cursos where id_curso=@id", sqlConn);
-                cmdCursos.Parameters.Add("@id", SqlDbType.Int).Value = ID;
-                SqlDataReader drCursos = cmdCursos.ExecuteReader();
+                SqlCommand cmdCurso = new SqlCommand("select * from cursos c INNER JOIN materias m on c.id_materia = m.id_materia"
+                   + " INNER JOIN planes p on p.id_plan = m.id_plan INNER JOIN especialidades e on e.id_especialidad = p.id_especialidad"
+                   + " INNER JOIN comisiones co on c.id_comision = co.id_comision where id_curso=@id"
+                   , sqlConn);
+                cmdCurso.Parameters.Add("@id", SqlDbType.Int).Value = ID;
+                SqlDataReader drCursos = cmdCurso.ExecuteReader();
                 if (drCursos.Read())
                 {
-                    curso.ID = (int)drCursos["id_curso"];
-                    curso.IdComision = (int)drCursos["id_comision"];
-                    curso.IdMateria = (int)drCursos["id_materia"];
-                    curso.AnioCalendario = (int)drCursos["anio_calendario"];
-                    curso.Cupo = (int)drCursos["cupo"];
+                    cur.ID = (int)drCursos["id_curso"];
+                    cur.AnioCalendario = (int)drCursos["anio_calendario"];
+                    cur.Cupo = (int)drCursos["cupo"];
+
+                    Materia mat = new Materia();
+                    mat.ID = (int)drCursos["id_materia"];
+                    mat.Descripcion = (string)drCursos["desc_materia"];
+                    mat.HSSemanales = (int)drCursos["hs_semanales"];
+                    mat.HSTotales = (int)drCursos["hs_totales"];
+
+                    Comision com = new Comision();
+                    com.ID = (int)drCursos["id_comision"];
+                    com.Descripcion = (string)drCursos["desc_comision"];
+                    com.AnioEspecialidad = (int)drCursos["anio_especialidad"];
+
+                    Plan pla = new Plan();
+                    pla.ID = (int)drCursos["id_plan"];
+                    pla.Descripcion = (string)drCursos["desc_plan"];
+
+                    Especialidad esp = new Especialidad();
+                    esp.ID = (int)drCursos["id_especialidad"];
+                    esp.Descripcion = (string)drCursos["desc_especialidad"];
+
+                    pla.Especialidad = esp;
+                    com.Plan = pla;
+                    cur.Materia = mat;
+                    cur.Comision = com;
                 }
                 drCursos.Close();
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al recuperar datos del curso", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al recuperar datos del curso", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
-            return curso;
+            return cur;
+        }
+
+        public bool ExisteCurso(int idMat, int idCom, int anio)
+        {
+            bool existe;
+            try
+            {
+                this.OpenConnection();
+                SqlCommand cmdGetOne = new SqlCommand("select * from cursos where "
+                    + "id_materia=@idMat and id_comision=@idCom and anio_calendario=@anio", sqlConn);
+                cmdGetOne.Parameters.Add("@idMat", SqlDbType.Int).Value = idMat;
+                cmdGetOne.Parameters.Add("@idCom", SqlDbType.Int).Value = idCom;
+                cmdGetOne.Parameters.Add("@anio", SqlDbType.Int).Value = anio;
+                existe = Convert.ToBoolean(cmdGetOne.ExecuteScalar());
+            }
+            catch (Exception Ex)
+            {
+                Exception ExcepcionManejada =
+                    new Exception("Error al validar la existencia del curso", Ex);
+                throw ExcepcionManejada;
+            }
+            finally
+            {
+                this.CloseConnection();
+            }
+            return existe;
         }
 
         public void Delete(int ID)
@@ -100,13 +155,65 @@ namespace Data.Database
                 cmdDelete.Parameters.Add("@id", SqlDbType.Int).Value = ID;
                 cmdDelete.ExecuteNonQuery();
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al eliminar curso", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al eliminar el curso", Ex);
                 throw ExcepcionManejada;
             }
+            finally
+            {
+                this.CloseConnection();
+            }
+        }
 
+        public void Update(Curso curso)
+        {
+            try
+            {
+                this.OpenConnection();
+                SqlCommand cmdUpdate = new SqlCommand("UPDATE cursos SET id_comision=@idCom, id_materia=@idMat, anio_calendario=@anio, cupo=@cupo "
+                    + "WHERE id_curso=@id", sqlConn);
+                cmdUpdate.Parameters.Add("@id", SqlDbType.Int).Value = curso.ID;
+                cmdUpdate.Parameters.Add("@idCom", SqlDbType.Int).Value = curso.Comision.ID;
+                cmdUpdate.Parameters.Add("@idMat", SqlDbType.Int).Value = curso.Materia.ID;
+                cmdUpdate.Parameters.Add("@anio", SqlDbType.Int).Value = curso.AnioCalendario;
+                cmdUpdate.Parameters.Add("@cupo", SqlDbType.Int).Value = curso.Cupo;
+                cmdUpdate.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                Exception ExcepcionManejada =
+                    new Exception("Error al modificar datos del curso", Ex);
+                throw ExcepcionManejada;
+            }
+            finally
+            {
+                this.CloseConnection();
+            }
+        }
+
+        public void Insert(Curso curso)
+        {
+            try
+            {
+                this.OpenConnection();
+                SqlCommand cmdInsert = new SqlCommand(
+                "insert into cursos(id_materia,id_comision,anio_calendario,cupo) " +
+                "values(@idMat,@idCom,@anio,@cupo) " +
+                "select @@identity", sqlConn);
+                cmdInsert.Parameters.Add("@idMat", SqlDbType.Int).Value = curso.Materia.ID;
+                cmdInsert.Parameters.Add("@idCom", SqlDbType.Int).Value = curso.Comision.ID;
+                cmdInsert.Parameters.Add("@anio", SqlDbType.Int).Value = curso.AnioCalendario;
+                cmdInsert.Parameters.Add("@cupo", SqlDbType.Int).Value = curso.Cupo;
+                cmdInsert.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                Exception ExcepcionManejada =
+                    new Exception("Error al crear un nuevo curso", Ex);
+                throw ExcepcionManejada;
+            }
             finally
             {
                 this.CloseConnection();
@@ -130,60 +237,57 @@ namespace Data.Database
             curso.State = BusinessEntity.States.Unmodified;
         }
 
-        protected void Update(Curso curso)
+        public List<Curso> GetCursosDocente(int IDDocente)
         {
+            List<Curso> cursosDocente = new List<Curso>();
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdSave = new SqlCommand("UPDATE cursos SET id_comision = @id_comision, id_materia = @id_materia, cupo = @cupo, anio_calendario = @anio_calendario WHERE id_curso=@id", sqlConn);
+                SqlCommand cmdCursosDocente = new SqlCommand("select * from docentes_cursos d INNER JOIN cursos c on d.id_curso = c.id_curso"
+                   + " INNER JOIN materias m on c.id_materia = m.id_materia "
+                   + " INNER JOIN comisiones co on c.id_comision = co.id_comision where id_docente=@id ", sqlConn);
+                cmdCursosDocente.Parameters.Add("@id", SqlDbType.Int).Value = IDDocente;
+                SqlDataReader drCursosDocente = cmdCursosDocente.ExecuteReader();
 
-                cmdSave.Parameters.Add("@id", SqlDbType.Int).Value = curso.ID;
-                cmdSave.Parameters.Add("@id_comision", SqlDbType.VarChar, 50).Value = curso.IdComision;
-                cmdSave.Parameters.Add("@id_materia", SqlDbType.VarChar, 50).Value = curso.IdMateria;
-                cmdSave.Parameters.Add("@cupo", SqlDbType.VarChar, 50).Value = curso.Cupo;
-                cmdSave.Parameters.Add("@anio_calendario", SqlDbType.Int).Value = curso.AnioCalendario;
+                while (drCursosDocente.Read())
+                {
+                    Curso cur = new Curso();
+                    cur.ID = (int)drCursosDocente["id_curso"];
+                    cur.AnioCalendario = (int)drCursosDocente["anio_calendario"];
+                    cur.Cupo = (int)drCursosDocente["cupo"];
 
-                cmdSave.ExecuteNonQuery();
+                    Materia mat = new Materia();
+                    mat.ID = (int)drCursosDocente["id_materia"];
+                    mat.Descripcion = (string)drCursosDocente["desc_materia"];
+                    mat.HSSemanales = (int)drCursosDocente["hs_semanales"];
+                    mat.HSTotales = (int)drCursosDocente["hs_totales"];
+
+                    Plan pla = new Plan();
+                    pla.ID = (int)drCursosDocente["id_plan"];
+                    mat.Plan = pla;
+
+                    Comision com = new Comision();
+                    com.ID = (int)drCursosDocente["id_comision"];
+                    com.Descripcion = (string)drCursosDocente["desc_comision"];
+                    com.AnioEspecialidad = (int)drCursosDocente["anio_especialidad"];
+                    com.Plan = pla;
+
+                    cur.Materia = mat;
+                    cur.Comision = com;
+                    cursosDocente.Add(cur);
+                }
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al modificar datos del curso", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al recuperar los cursos del docente.", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
-        }
-
-        protected void Insert(Curso curso)
-        {
-            try
-            {
-                this.OpenConnection();
-                SqlCommand cmdSave = new SqlCommand("insert into cursos (id_comision, id_materia, cupo, anio_calendario) values (@id_comision, @id_materia, @cupo, @anio_calendario) select @@identity", sqlConn);
-
-                cmdSave.Parameters.Add("@id", SqlDbType.Int).Value = curso.ID;
-                cmdSave.Parameters.Add("@id_comision", SqlDbType.VarChar, 50).Value = curso.IdComision;
-                cmdSave.Parameters.Add("@id_materia", SqlDbType.VarChar, 50).Value = curso.IdMateria;
-                cmdSave.Parameters.Add("@cupo", SqlDbType.VarChar, 50).Value = curso.Cupo;
-                cmdSave.Parameters.Add("@anio_calendario", SqlDbType.Bit).Value = curso.AnioCalendario;
-                curso.ID = Decimal.ToInt32((decimal)cmdSave.ExecuteScalar());
-            }
-
-            catch (Exception Ex)
-            {
-                Exception ExcepcionManejada = new Exception("Error al crear curso", Ex);
-                throw ExcepcionManejada;
-            }
-
-            finally
-            {
-                this.CloseConnection();
-            }
-
+            return cursosDocente;
         }
     }
 }

@@ -11,83 +11,119 @@ namespace Data.Database
 {
     public class MateriaAdapter: Adapter
     {
-        private static List<Materia> Materias
-        {
-            get;
-            set;
-        }
-
         public List<Materia> GetAll()
         {
             List<Materia> materias = new List<Materia>();
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdMaterias = new SqlCommand("select * from materias", sqlConn);
+                SqlCommand cmdMaterias = new SqlCommand("select * from materias m INNER JOIN planes p on m.id_plan = p.id_plan "
+                   + " INNER JOIN especialidades e on p.id_especialidad = e.id_especialidad", sqlConn);
                 SqlDataReader drMaterias = cmdMaterias.ExecuteReader();
 
                 while (drMaterias.Read())
                 {
                     Materia mat = new Materia();
-
                     mat.ID = (int)drMaterias["id_materia"];
                     mat.Descripcion = (string)drMaterias["desc_materia"];
-                    mat.HsSemanales = (int)drMaterias["hs_semanales"];
-                    mat.HsTotales = (int)drMaterias["hs_totales"];
-                    mat.IdPlan = (int)drMaterias["id_plan"];
+                    mat.HSSemanales = (int)drMaterias["hs_semanales"];
+                    mat.HSTotales = (int)drMaterias["hs_totales"];
 
+                    Plan pla = new Plan();
+                    pla.ID = (int)drMaterias["id_plan"];
+                    pla.Descripcion = (string)drMaterias["desc_plan"];
+
+                    Especialidad esp = new Especialidad();
+                    esp.ID = (int)drMaterias["id_especialidad"];
+                    esp.Descripcion = (string)drMaterias["desc_especialidad"];
+
+                    pla.Especialidad = esp;
+                    mat.Plan = pla;
                     materias.Add(mat);
                 }
-
                 drMaterias.Close();
-                this.CloseConnection();
-
-                return materias;
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al recuperar lista de materias", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al recuperar lista de materias", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
+            return materias;
         }
 
-        public Business.Entities.Materia GetOne(int ID)
+        public Materia GetOne(int ID)
         {
             Materia mat = new Materia();
             try
             {
                 this.OpenConnection();
-                SqlCommand cdmMaterias = new SqlCommand("select * from materias where id_materia=@id", sqlConn);
-                cdmMaterias.Parameters.Add("@id", SqlDbType.Int).Value = ID;
-                SqlDataReader drMaterias = cdmMaterias.ExecuteReader();
+                SqlCommand cmdMateria = new SqlCommand("select * from materias m INNER JOIN planes p on m.id_plan = p.id_plan "
+                    + "INNER JOIN especialidades e on p.id_especialidad = e.id_especialidad where id_materia=@id", sqlConn);
+                cmdMateria.Parameters.Add("@id", SqlDbType.Int).Value = ID;
+                SqlDataReader drMaterias = cmdMateria.ExecuteReader();
                 if (drMaterias.Read())
                 {
                     mat.ID = (int)drMaterias["id_materia"];
                     mat.Descripcion = (string)drMaterias["desc_materia"];
-                    mat.HsSemanales = (int)drMaterias["hs_semanales"];
-                    mat.HsTotales = (int)drMaterias["hs_totales"];
-                    mat.IdPlan = (int)drMaterias["id_plan"];
+                    mat.HSSemanales = (int)drMaterias["hs_semanales"];
+                    mat.HSTotales = (int)drMaterias["hs_totales"];
+
+                    Plan pla = new Plan();
+                    pla.ID = (int)drMaterias["id_plan"];
+                    pla.Descripcion = (string)drMaterias["desc_plan"];
+
+                    Especialidad esp = new Especialidad();
+                    esp.ID = (int)drMaterias["id_especialidad"];
+                    esp.Descripcion = (string)drMaterias["desc_especialidad"];
+
+                    pla.Especialidad = esp;
+
+                    mat.Plan = pla;
                 }
+
                 drMaterias.Close();
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al recuperar datos de la materia", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al recuperar datos de la materia", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
             return mat;
+        }
+
+        public bool ExisteMateria(int idPlan, string desc)
+        {
+            bool existeMate;
+            try
+            {
+                this.OpenConnection();
+                SqlCommand cmdExisteMate = new SqlCommand("select * from materias where "
+                    + "id_plan=@idPlan and desc_materia=@desc", sqlConn);
+                cmdExisteMate.Parameters.Add("@desc", SqlDbType.VarChar).Value = desc;
+                cmdExisteMate.Parameters.Add("@idPlan", SqlDbType.Int).Value = idPlan;
+                existeMate = Convert.ToBoolean(cmdExisteMate.ExecuteScalar());
+            }
+            catch (Exception Ex)
+            {
+                Exception ExcepcionManejada =
+                    new Exception("Error al validar la existencia de la materia", Ex);
+                throw ExcepcionManejada;
+            }
+            finally
+            {
+                this.CloseConnection();
+            }
+            return existeMate;
         }
 
         public void Delete(int ID)
@@ -99,89 +135,127 @@ namespace Data.Database
                 cmdDelete.Parameters.Add("@id", SqlDbType.Int).Value = ID;
                 cmdDelete.ExecuteNonQuery();
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al eliminar materia", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al eliminar la materia", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
         }
 
-        public void Save(Materia materia)
-        {
-            if (materia.State == BusinessEntity.States.Deleted)
-            {
-                this.Delete(materia.ID);
-            }
-            else if (materia.State == BusinessEntity.States.New)
-            {
-                this.Insert(materia);
-            }
-            else if (materia.State == BusinessEntity.States.Modified)
-            {
-                this.Update(materia);
-            }
-            materia.State = BusinessEntity.States.Unmodified;
-        }
-
-        protected void Update(Materia materia)
+        protected void Update(Materia mat)
         {
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdSave = new SqlCommand("UPDATE materias SET desc_materia = @desc_materia, hs_semanales = @hs_semanales , hs_totales = @hs_totales, id_plan = @id_plan WHERE id_materia=@id", sqlConn);
+                SqlCommand cmdUpdate = new SqlCommand("UPDATE materias SET desc_materia=@desc, hs_semanales=@hsSem, hs_totales=@hsTot WHERE "
+                    + "id_materia=@id and id_plan=@idPlan", sqlConn);
 
-                cmdSave.Parameters.Add("@id", SqlDbType.Int).Value = materia.ID;
-                cmdSave.Parameters.Add("@desc_materia", SqlDbType.VarChar, 50).Value = materia.Descripcion;
-                cmdSave.Parameters.Add("@hs_semanales", SqlDbType.Int, 50).Value = materia.HsSemanales;
-                cmdSave.Parameters.Add("@hs_totales", SqlDbType.Int).Value = materia.HsTotales;
-                cmdSave.Parameters.Add("@id_plan", SqlDbType.Int).Value = materia.IdPlan;
-
-                cmdSave.ExecuteNonQuery();
+                cmdUpdate.Parameters.Add("@id", SqlDbType.Int).Value = mat.ID;
+                cmdUpdate.Parameters.Add("@desc", SqlDbType.VarChar).Value = mat.Descripcion;
+                cmdUpdate.Parameters.Add("@hsSem", SqlDbType.Int).Value = mat.HSSemanales;
+                cmdUpdate.Parameters.Add("@hsTot", SqlDbType.Int).Value = mat.HSTotales;
+                cmdUpdate.Parameters.Add("@idPlan", SqlDbType.Int).Value = mat.Plan.ID;
+                cmdUpdate.ExecuteNonQuery();
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al modificar datos de la materia", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al modificar datos de la materia", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
         }
 
-        protected void Insert(Materia materia)
+        protected void Insert(Materia mat)
         {
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdSave = new SqlCommand("insert into materias (desc_materia, hs_semanales, hs_totales, id_plan) values (@desc_materia, @hs_semanales, @hs_totales, @id_plan) select @@identity", sqlConn);
+                SqlCommand cmdInsert = new SqlCommand(
+                "insert into materias(desc_materia,hs_semanales,hs_totales,id_plan) " +
+                "values(@desc,@hsSem,@hsTot,@idPlan) " +
+                "select @@identity", sqlConn);
 
-                cmdSave.Parameters.Add("@id", SqlDbType.Int).Value = materia.ID;
-                cmdSave.Parameters.Add("@desc_materia", SqlDbType.VarChar, 50).Value = materia.Descripcion;
-                cmdSave.Parameters.Add("@hs_semanales", SqlDbType.Int, 50).Value = materia.HsSemanales;
-                cmdSave.Parameters.Add("@hs_totales", SqlDbType.Int).Value = materia.HsTotales;
-                cmdSave.Parameters.Add("@id_plan", SqlDbType.Int).Value = materia.IdPlan;
-                materia.ID = Decimal.ToInt32((decimal)cmdSave.ExecuteScalar());
+                cmdInsert.Parameters.Add("@desc", SqlDbType.VarChar).Value = mat.Descripcion;
+                cmdInsert.Parameters.Add("@hsSem", SqlDbType.Int).Value = mat.HSSemanales;
+                cmdInsert.Parameters.Add("@hsTot", SqlDbType.Int).Value = mat.HSTotales;
+                cmdInsert.Parameters.Add("@idPlan", SqlDbType.Int).Value = mat.Plan.ID;
+                mat.ID = Decimal.ToInt32((decimal)cmdInsert.ExecuteScalar());
             }
-
             catch (Exception Ex)
             {
-                Exception ExcepcionManejada = new Exception("Error al crear materia", Ex);
+                Exception ExcepcionManejada =
+                    new Exception("Error al crear una nueva materia", Ex);
                 throw ExcepcionManejada;
             }
-
             finally
             {
                 this.CloseConnection();
             }
+        }
+
+        public void Save(Materia mat)
+        {
+            if (mat.State == BusinessEntity.States.Deleted)
+            {
+                this.Delete(mat.ID);
+            }
+            else if (mat.State == BusinessEntity.States.New)
+            {
+                this.Insert(mat);
+            }
+            else if (mat.State == BusinessEntity.States.Modified)
+            {
+                this.Update(mat);
+            }
+            mat.State = BusinessEntity.States.Unmodified;
+        }
+
+        public List<Materia> GetMateriasParaInscripcion(int IDPlan, int IDAlumno)
+        {
+            List<Materia> materias = new List<Materia>();
+            try
+            {
+                this.OpenConnection();
+                SqlCommand cmdGetMateriasParaInscripcion = new SqlCommand("select * from materias m INNER JOIN planes p on m.id_plan = p.id_plan "
+                    + "INNER JOIN personas pe on pe.id_plan=p.id_plan WHERE id_persona=@idAlumno and pe.id_plan=@idPlan", sqlConn);
+                cmdGetMateriasParaInscripcion.Parameters.Add("@idPlan", SqlDbType.Int).Value = IDPlan;
+                cmdGetMateriasParaInscripcion.Parameters.Add("@idAlumno", SqlDbType.Int).Value = IDAlumno;
+                SqlDataReader drMaterias = cmdGetMateriasParaInscripcion.ExecuteReader();
+
+                while (drMaterias.Read())
+                {
+                    Materia mat = new Materia();
+                    mat.ID = (int)drMaterias["id_materia"];
+                    mat.Descripcion = (string)drMaterias["desc_materia"];
+                    mat.HSSemanales = (int)drMaterias["hs_semanales"];
+                    mat.HSTotales = (int)drMaterias["hs_totales"];
+
+                    Plan pla = new Plan();
+                    pla.ID = (int)drMaterias["id_plan"];
+                    mat.Plan = pla;
+                    materias.Add(mat);
+                }
+            }
+            catch (Exception Ex)
+            {
+                Exception ExcepcionManejada =
+                    new Exception("Error al recuperar las materias disponibles para el alumno.", Ex);
+                throw ExcepcionManejada;
+            }
+            finally
+            {
+                this.CloseConnection();
+            }
+            return materias;
         }
     }
 }

@@ -10,35 +10,42 @@ namespace Business.Logic
 {
     public class PlanLogic:BusinessLogic
     {
+        private PlanAdapter planData;
+
         public PlanLogic()
         {
-            this.PlanData = new Data.Database.PlanAdapter();
+            PlanData = new PlanAdapter();
         }
 
-        public Data.Database.PlanAdapter PlanData
+        public PlanAdapter PlanData
         {
-            get;
-            set;
+            get { return planData; }
+            set { planData = value; }
+        }
+
+        public Plan GetOne(int ID)
+        {
+            return PlanData.GetOne(ID);
         }
 
         public List<Plan> GetAll()
         {
-            return (PlanData.GetAll());
+            return PlanData.GetAll();
         }
 
-        public Business.Entities.Plan GetOne(int id)
+        public bool ExistePlan(string desc, int idEsp)
         {
-            return (PlanData.GetOne(id));
+            return PlanData.ExistePlan(desc, idEsp);
         }
 
-        public void Delete(int id)
+        public void Save(Plan plan)
         {
-            PlanData.Delete(id);
+            PlanData.Save(plan);
         }
 
-        public void Save(Business.Entities.Plan u)
+        public void Delete(int ID)
         {
-            PlanData.Save(u);
+            PlanData.Delete(ID);
         }
     }
 }

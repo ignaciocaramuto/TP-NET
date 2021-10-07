@@ -1,5 +1,4 @@
-﻿
-namespace UI.Desktop
+﻿namespace UI.Desktop
 {
     partial class Cursos
     {
@@ -29,53 +28,48 @@ namespace UI.Desktop
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cursos));
-            this.tscCursos = new System.Windows.Forms.ToolStripContainer();
+            this.tcCursos = new System.Windows.Forms.ToolStripContainer();
             this.tlCursos = new System.Windows.Forms.TableLayoutPanel();
             this.dgvCursos = new System.Windows.Forms.DataGridView();
-            this.id_curso = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_materia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_comision = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.anio_calendario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idMateria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idComision = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.anioCalendario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cupo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.academiaDataSetBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.academiaDataSet = new UI.Desktop.AcademiaDataSet();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
             this.tsCursos = new System.Windows.Forms.ToolStrip();
             this.tsbNuevo = new System.Windows.Forms.ToolStripButton();
             this.tsbEditar = new System.Windows.Forms.ToolStripButton();
-            this.tsbBorrar = new System.Windows.Forms.ToolStripButton();
-            this.academiaDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tscCursos.ContentPanel.SuspendLayout();
-            this.tscCursos.TopToolStripPanel.SuspendLayout();
-            this.tscCursos.SuspendLayout();
+            this.tsbEliminar = new System.Windows.Forms.ToolStripButton();
+            this.tsbDocentes = new System.Windows.Forms.ToolStripButton();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.tcCursos.ContentPanel.SuspendLayout();
+            this.tcCursos.TopToolStripPanel.SuspendLayout();
+            this.tcCursos.SuspendLayout();
             this.tlCursos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCursos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).BeginInit();
             this.tsCursos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // tscCursos
+            // tcCursos
             // 
             // 
-            // tscCursos.ContentPanel
+            // tcCursos.ContentPanel
             // 
-            this.tscCursos.ContentPanel.Controls.Add(this.tlCursos);
-            this.tscCursos.ContentPanel.Size = new System.Drawing.Size(800, 425);
-            this.tscCursos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tscCursos.Location = new System.Drawing.Point(0, 0);
-            this.tscCursos.Name = "tscCursos";
-            this.tscCursos.Size = new System.Drawing.Size(800, 450);
-            this.tscCursos.TabIndex = 0;
-            this.tscCursos.Text = "toolStripContainer1";
+            this.tcCursos.ContentPanel.Controls.Add(this.tlCursos);
+            this.tcCursos.ContentPanel.Size = new System.Drawing.Size(575, 435);
+            this.tcCursos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcCursos.Location = new System.Drawing.Point(0, 0);
+            this.tcCursos.Name = "tcCursos";
+            this.tcCursos.Size = new System.Drawing.Size(575, 460);
+            this.tcCursos.TabIndex = 0;
+            this.tcCursos.Text = "toolStripContainer1";
             // 
-            // tscCursos.TopToolStripPanel
+            // tcCursos.TopToolStripPanel
             // 
-            this.tscCursos.TopToolStripPanel.Controls.Add(this.tsCursos);
+            this.tcCursos.TopToolStripPanel.Controls.Add(this.tsCursos);
             // 
             // tlCursos
             // 
@@ -91,60 +85,58 @@ namespace UI.Desktop
             this.tlCursos.RowCount = 2;
             this.tlCursos.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlCursos.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlCursos.Size = new System.Drawing.Size(800, 425);
+            this.tlCursos.Size = new System.Drawing.Size(575, 435);
             this.tlCursos.TabIndex = 0;
             // 
             // dgvCursos
             // 
             this.dgvCursos.AllowUserToAddRows = false;
             this.dgvCursos.AllowUserToDeleteRows = false;
-            this.dgvCursos.AutoGenerateColumns = false;
+            this.dgvCursos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCursos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCursos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id_curso,
-            this.id_materia,
-            this.id_comision,
-            this.anio_calendario,
+            this.id,
+            this.idMateria,
+            this.idComision,
+            this.anioCalendario,
             this.cupo});
             this.tlCursos.SetColumnSpan(this.dgvCursos, 2);
-            this.dgvCursos.DataSource = this.academiaDataSetBindingSource1;
             this.dgvCursos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCursos.Location = new System.Drawing.Point(3, 3);
-            this.dgvCursos.MultiSelect = false;
             this.dgvCursos.Name = "dgvCursos";
             this.dgvCursos.ReadOnly = true;
+            this.dgvCursos.RowHeadersVisible = false;
             this.dgvCursos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCursos.Size = new System.Drawing.Size(794, 390);
+            this.dgvCursos.Size = new System.Drawing.Size(569, 400);
             this.dgvCursos.TabIndex = 0;
-            this.dgvCursos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dvgCursos_CellContentClick);
             // 
-            // id_curso
+            // id
             // 
-            this.id_curso.DataPropertyName = "ID";
-            this.id_curso.HeaderText = "ID";
-            this.id_curso.Name = "id_curso";
-            this.id_curso.ReadOnly = true;
+            this.id.DataPropertyName = "ID";
+            this.id.HeaderText = "ID";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
             // 
-            // id_materia
+            // idMateria
             // 
-            this.id_materia.DataPropertyName = "IdMateria";
-            this.id_materia.HeaderText = "ID Materia";
-            this.id_materia.Name = "id_materia";
-            this.id_materia.ReadOnly = true;
+            this.idMateria.DataPropertyName = "DescMateria";
+            this.idMateria.HeaderText = "Materia";
+            this.idMateria.Name = "idMateria";
+            this.idMateria.ReadOnly = true;
             // 
-            // id_comision
+            // idComision
             // 
-            this.id_comision.DataPropertyName = "IdComision";
-            this.id_comision.HeaderText = "ID Comisión";
-            this.id_comision.Name = "id_comision";
-            this.id_comision.ReadOnly = true;
+            this.idComision.DataPropertyName = "DescComision";
+            this.idComision.HeaderText = "Comision";
+            this.idComision.Name = "idComision";
+            this.idComision.ReadOnly = true;
             // 
-            // anio_calendario
+            // anioCalendario
             // 
-            this.anio_calendario.DataPropertyName = "AnioCalendario";
-            this.anio_calendario.HeaderText = "Año calendario";
-            this.anio_calendario.Name = "anio_calendario";
-            this.anio_calendario.ReadOnly = true;
+            this.anioCalendario.DataPropertyName = "AnioCalendario";
+            this.anioCalendario.HeaderText = "Año";
+            this.anioCalendario.Name = "anioCalendario";
+            this.anioCalendario.ReadOnly = true;
             // 
             // cupo
             // 
@@ -153,20 +145,10 @@ namespace UI.Desktop
             this.cupo.Name = "cupo";
             this.cupo.ReadOnly = true;
             // 
-            // academiaDataSetBindingSource1
-            // 
-            this.academiaDataSetBindingSource1.DataSource = this.academiaDataSet;
-            this.academiaDataSetBindingSource1.Position = 0;
-            // 
-            // academiaDataSet
-            // 
-            this.academiaDataSet.DataSetName = "AcademiaDataSet";
-            this.academiaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // btnActualizar
             // 
             this.btnActualizar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnActualizar.Location = new System.Drawing.Point(641, 399);
+            this.btnActualizar.Location = new System.Drawing.Point(416, 409);
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(75, 23);
             this.btnActualizar.TabIndex = 1;
@@ -176,7 +158,7 @@ namespace UI.Desktop
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(722, 399);
+            this.btnSalir.Location = new System.Drawing.Point(497, 409);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(75, 23);
             this.btnSalir.TabIndex = 2;
@@ -190,10 +172,11 @@ namespace UI.Desktop
             this.tsCursos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbNuevo,
             this.tsbEditar,
-            this.tsbBorrar});
+            this.tsbEliminar,
+            this.tsbDocentes});
             this.tsCursos.Location = new System.Drawing.Point(3, 0);
             this.tsCursos.Name = "tsCursos";
-            this.tsCursos.Size = new System.Drawing.Size(81, 25);
+            this.tsCursos.Size = new System.Drawing.Size(135, 25);
             this.tsCursos.TabIndex = 0;
             // 
             // tsbNuevo
@@ -213,69 +196,66 @@ namespace UI.Desktop
             this.tsbEditar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbEditar.Name = "tsbEditar";
             this.tsbEditar.Size = new System.Drawing.Size(23, 22);
-            this.tsbEditar.Text = "toolStripButton1";
-            this.tsbEditar.ToolTipText = "Editar";
+            this.tsbEditar.Text = "Editar";
             this.tsbEditar.Click += new System.EventHandler(this.tsbEditar_Click);
             // 
-            // tsbBorrar
+            // tsbEliminar
             // 
-            this.tsbBorrar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbBorrar.Image = ((System.Drawing.Image)(resources.GetObject("tsbBorrar.Image")));
-            this.tsbBorrar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbBorrar.Name = "tsbBorrar";
-            this.tsbBorrar.Size = new System.Drawing.Size(23, 22);
-            this.tsbBorrar.Text = "toolStripButton1";
-            this.tsbBorrar.ToolTipText = "Eliminar";
-            this.tsbBorrar.Click += new System.EventHandler(this.tsbBorrar_Click);
+            this.tsbEliminar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbEliminar.Image = ((System.Drawing.Image)(resources.GetObject("tsbEliminar.Image")));
+            this.tsbEliminar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbEliminar.Name = "tsbEliminar";
+            this.tsbEliminar.Size = new System.Drawing.Size(23, 22);
+            this.tsbEliminar.Text = "Eliminar";
+            this.tsbEliminar.Click += new System.EventHandler(this.tsbEliminar_Click);
             // 
-            // academiaDataSetBindingSource
+            // tsbDocentes
             // 
-            this.academiaDataSetBindingSource.DataSource = this.academiaDataSet;
-            this.academiaDataSetBindingSource.Position = 0;
+            this.tsbDocentes.Image = global::UI.Desktop.Properties.Resources.Teachers;
+            this.tsbDocentes.Name = "tsbDocentes";
+            this.tsbDocentes.Size = new System.Drawing.Size(23, 22);
+            this.tsbDocentes.Click += new System.EventHandler(this.tsbDocentes_Click);
             // 
             // Cursos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.tscCursos);
+            this.ClientSize = new System.Drawing.Size(575, 460);
+            this.Controls.Add(this.tcCursos);
             this.Name = "Cursos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cursos";
             this.Load += new System.EventHandler(this.Cursos_Load);
-            this.tscCursos.ContentPanel.ResumeLayout(false);
-            this.tscCursos.TopToolStripPanel.ResumeLayout(false);
-            this.tscCursos.TopToolStripPanel.PerformLayout();
-            this.tscCursos.ResumeLayout(false);
-            this.tscCursos.PerformLayout();
+            this.tcCursos.ContentPanel.ResumeLayout(false);
+            this.tcCursos.TopToolStripPanel.ResumeLayout(false);
+            this.tcCursos.TopToolStripPanel.PerformLayout();
+            this.tcCursos.ResumeLayout(false);
+            this.tcCursos.PerformLayout();
             this.tlCursos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCursos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSet)).EndInit();
             this.tsCursos.ResumeLayout(false);
             this.tsCursos.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.academiaDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ToolStripContainer tscCursos;
-        private System.Windows.Forms.ToolStrip tsCursos;
+        private System.Windows.Forms.ToolStripContainer tcCursos;
         private System.Windows.Forms.TableLayoutPanel tlCursos;
         private System.Windows.Forms.DataGridView dgvCursos;
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.ToolStrip tsCursos;
         private System.Windows.Forms.ToolStripButton tsbNuevo;
         private System.Windows.Forms.ToolStripButton tsbEditar;
-        private System.Windows.Forms.ToolStripButton tsbBorrar;
-        private System.Windows.Forms.BindingSource academiaDataSetBindingSource;
-        private AcademiaDataSet academiaDataSet;
-        private System.Windows.Forms.BindingSource academiaDataSetBindingSource1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_curso;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_materia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_comision;
-        private System.Windows.Forms.DataGridViewTextBoxColumn anio_calendario;
+        private System.Windows.Forms.ToolStripButton tsbEliminar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idMateria;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idComision;
+        private System.Windows.Forms.DataGridViewTextBoxColumn anioCalendario;
         private System.Windows.Forms.DataGridViewTextBoxColumn cupo;
+        private System.Windows.Forms.ToolStripButton tsbDocentes;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
