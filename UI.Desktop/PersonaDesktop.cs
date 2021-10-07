@@ -104,7 +104,7 @@ namespace UI.Desktop
             this.txtDireccion.Text = PersonaActual.Direccion;
             this.txtTelefono.Text = PersonaActual.Telefono;
             this.txtEmail.Text = PersonaActual.Email;
-            this.cbxTipoPersona.SelectedItem = PersonaActual.TipoPersona;
+            this.cbxTipoPersona.SelectedItem = PersonaActual.DescTipoPersona;
             this.cbxEspecialidades.SelectedValue = PersonaActual.Plan.Especialidad.ID;
             this.LlenarComboPlanes();
             this.cbxPlanes.SelectedValue = PersonaActual.Plan.ID;
@@ -183,6 +183,11 @@ namespace UI.Desktop
             {
                 EsValido = false;
                 this.Notificar("Falta completar algunos campos obligatorios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (!Validaciones.EsEmailValido(this.txtEmail.Text) && this.txtEmail.Text != String.Empty) 
+            { 
+                this.Notificar("Formato de email invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EsValido = false;
             }
             return EsValido;
         }
