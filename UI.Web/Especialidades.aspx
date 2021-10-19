@@ -1,38 +1,45 @@
-﻿<%@ Page Title="Especialidades" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Especialidades.aspx.cs" Inherits="UI.Web.Especialidades" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Especialidades.aspx.cs" Inherits="UI.Web.Especialidades" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
     <asp:Panel ID="gridPanel" runat="server">
-    <asp:GridView ID="gridView" runat="server" AutoGenerateColumns="False"
-        SelectedRowStyle-BackColor="Blue"
-        SelectedRowStyle-ForeColor="White"
-        DataKeyNames="ID" OnSelectedIndexChanged="gridView_SelectedIndexChanged" >
-        <Columns>
-            <asp:BoundField HeaderText="Descripcion" DataField="Descripcion" />
-            <asp:CommandField SelectText="Seleccionar" ShowSelectButton="True" />
-        </Columns>
-    </asp:GridView>
+        <h2>Especialidades:</h2><br />
+        <asp:GridView ID="GridView" runat="server" AutoGenerateColumns="False" 
+            onselectedindexchanged="gridView_SelectedIndexChanged" DataKeyNames="ID">
+            <Columns>
+                <asp:BoundField DataField="ID" HeaderText="ID" />
+                <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
+                <asp:CommandField SelectText="Seleccionar" ShowSelectButton="true" />
+            </Columns>
+            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
+            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
+            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+        </asp:GridView>
+    </asp:Panel>
+    <asp:Panel ID="gridActionsPanel" runat="server" Height="20px" >
+    <asp:LinkButton ID="lbEditar" runat="server" 
+        onclick="editarLinkButton_Click" CausesValidation="False">Editar</asp:LinkButton>
+    <asp:LinkButton ID="lbEliminar" runat="server" 
+        onclick="eliminarLinkButton_Click" CausesValidation="False">Eliminar</asp:LinkButton>
+    <asp:LinkButton ID="lbNuevo" runat="server" 
+        onclick="nuevoLinkButton_Click" CausesValidation="False">Nuevo</asp:LinkButton>
     </asp:Panel>
     <asp:Panel ID="formPanel" Visible="false" runat="server">
-        <asp:Label ID ="especialidadLabel" runat="server" Text="Especialidad: "></asp:Label>
-        <asp:TextBox ID="especialidadTextBox" runat="server"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="RequiredFieldValidatorEspecialidad" runat="server" 
-            ControlToValidate="especialidadTextBox" 
-            ErrorMessage="Especialidad es obligatorio" 
-            ForeColor="Red">
-            *
-        </asp:RequiredFieldValidator>
-        <br />
-         <asp:Panel ID="formActionsPanel" runat="server">
-        <asp:LinkButton ID="aceptarLinkButton" runat="server" OnClick="aceptarLinkButton_Click">Aceptar</asp:LinkButton>
-        <asp:LinkButton ID="cancelarLinkButton" runat="server" OnClick="cancelarLinkButton_Click" ValidateRequestMode="Disabled" CausesValidation="False">Cancelar</asp:LinkButton>
-        </asp:Panel>
-        <br />
+    <br />
+        <asp:Label ID="lblDescripcion" runat="server" 
+            Text="Descripción de la Especialidad: "></asp:Label>
+        <asp:TextBox ID="txtDescEspecialidad" runat="server" Width="200px"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="rfvDescEspecialidad" runat="server" 
+            ControlToValidate="txtDescEspecialidad" 
+            ErrorMessage="El campo Descripción es obligatorio" ForeColor="#FF3300">*</asp:RequiredFieldValidator>
+    <br />
 
-    </asp:Panel>
-    <asp:Panel ID="gridActionsPanel" runat="server">
-        <asp:LinkButton ID="editarLinkButton" runat="server" OnClick="editarLinkButton_Click">Editar</asp:LinkButton>
-        <asp:LinkButton ID="eliminarLinkButton" runat="server" OnClick="eliminarLinkButton_Click">Eliminar</asp:LinkButton>
-        <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click">Nuevo</asp:LinkButton>
+    <asp:Panel ID="formActionsPanel" runat="server">
+    <br />
+        <asp:LinkButton ID="aceptarLinkButton" runat="server" 
+            onclick="aceptarLinkButton_Click">Aceptar</asp:LinkButton>
+        <asp:LinkButton ID="cancelarLinkButton" runat="server" 
+            onclick="cancelarLinkButton_Click" CausesValidation="False">Cancelar</asp:LinkButton>
+            <br />
+        <asp:ValidationSummary ID="vsValidaciones" runat="server" ForeColor="#FF3300" />
+        </asp:Panel>
     </asp:Panel>
 </asp:Content>

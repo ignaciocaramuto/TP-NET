@@ -396,14 +396,14 @@
             this.cursosToolStripMenuItem.Name = "cursosToolStripMenuItem";
             this.cursosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cursosToolStripMenuItem.Text = "Cursos";
-            // this.cursosToolStripMenuItem.Click += new System.EventHandler(this.btnReportesCursos_Click); <---------------------------------------------------
+            // this.cursosToolStripMenuItem.Click += new System.EventHandler(this.btnReportesCursos_Click);
             // 
             // planesToolStripMenuItem
             // 
             this.planesToolStripMenuItem.Name = "planesToolStripMenuItem";
             this.planesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.planesToolStripMenuItem.Text = "Planes";
-            // this.planesToolStripMenuItem.Click += new System.EventHandler(this.btnReportesPlanes_Click); <---------------------------------------------------
+            // this.planesToolStripMenuItem.Click += new System.EventHandler(this.btnReportesPlanes_Click);
             // 
             // btnInscripciones
             // 
@@ -463,7 +463,7 @@
             this.btnReportesPlanes.TabIndex = 38;
             this.btnReportesPlanes.Text = "Ingresar";
             this.btnReportesPlanes.UseVisualStyleBackColor = false;
-            //this.btnReportesPlanes.Click += new System.EventHandler(this.btnReportesPlanes_Click); <---------------------------------------------------
+            // this.btnReportesPlanes.Click += new System.EventHandler(this.btnReportesPlanes_Click);
             // 
             // btnReportesCursos
             // 
@@ -475,7 +475,7 @@
             this.btnReportesCursos.TabIndex = 39;
             this.btnReportesCursos.Text = "Ingresar";
             this.btnReportesCursos.UseVisualStyleBackColor = false;
-            //this.btnReportesCursos.Click += new System.EventHandler(this.btnReportesCursos_Click); <---------------------------------------------------
+            // this.btnReportesCursos.Click += new System.EventHandler(this.btnReportesCursos_Click);
             // 
             // lblReportesPlanes
             // 

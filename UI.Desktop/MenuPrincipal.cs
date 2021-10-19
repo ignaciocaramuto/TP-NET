@@ -13,7 +13,7 @@ namespace UI.Desktop
 {
     public partial class MenuPrincipal : ApplicationForm
     {
-        
+
         public MenuPrincipal(Usuario u)
         {
             InitializeComponent();
@@ -86,11 +86,11 @@ namespace UI.Desktop
                 btnPersonas.Visible =
                 btnPlanes.Visible =
                 btnRegistrarNotas.Visible =
-                btnReportesPlanes.Visible = 
-                btnReportesCursos.Visible = 
+                btnReportesPlanes.Visible =
+                btnReportesCursos.Visible =
                 lblReportesCursos.Visible =
                 lblReportesPlanes.Visible =
-                reportesToolStripMenuItem.Visible = 
+                reportesToolStripMenuItem.Visible =
                 btnUsuarios.Visible = false;
 
                 ModuloUsuarioLogic mul = new ModuloUsuarioLogic();
@@ -253,20 +253,6 @@ namespace UI.Desktop
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // MenuPrincipal
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "MenuPrincipal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.ResumeLayout(false);
-
         }
     }
 }

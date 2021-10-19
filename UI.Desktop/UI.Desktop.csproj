@@ -138,7 +138,9 @@
     <Compile Include="MenuPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MenuPrincipal.Designer.cs" />
+    <Compile Include="MenuPrincipal.Designer.cs">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </Compile>
     <Compile Include="PersonaDesktop.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,7 +180,9 @@
     <Compile Include="SeleccionarPersona.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SeleccionarPersona.Designer.cs" />
+    <Compile Include="SeleccionarPersona.Designer.cs">
+      <DependentUpon>SeleccionarPersona.cs</DependentUpon>
+    </Compile>
     <Compile Include="UsuarioDesktop.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,7 +239,9 @@
     <EmbeddedResource Include="Materias.resx">
       <DependentUpon>Materias.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MenuPrincipal.resx" />
+    <EmbeddedResource Include="MenuPrincipal.resx">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PersonaDesktop.resx">
       <DependentUpon>PersonaDesktop.cs</DependentUpon>
     </EmbeddedResource>
@@ -254,7 +260,9 @@
     <EmbeddedResource Include="SeleccionarDocentes.resx">
       <DependentUpon>SeleccionarDocentes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SeleccionarPersona.resx" />
+    <EmbeddedResource Include="SeleccionarPersona.resx">
+      <DependentUpon>SeleccionarPersona.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UsuarioDesktop.resx">
       <DependentUpon>UsuarioDesktop.cs</DependentUpon>
     </EmbeddedResource>

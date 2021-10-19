@@ -4,189 +4,291 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Business.Logic;
 using Business.Entities;
+using Business.Logic;
 
 namespace UI.Web
 {
-    public partial class Inscripciones : System.Web.UI.Page
+    public partial class Inscripciones : Modes
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            this.LoadGridInscripciones();
+            if (this.GridViewInscripciones.SelectedIndex == -1)
             {
-                LoadGrid();
+                this.lbEliminar.Visible = false;
+                gridActionsPanel.Visible = true;
             }
         }
 
         AlumnoInscripcionLogic _logic;
+
         private AlumnoInscripcionLogic Logic
         {
             get
             {
                 if (_logic == null)
-                {
                     _logic = new AlumnoInscripcionLogic();
-                }
                 return _logic;
             }
         }
-        private void LoadGrid()
-        {
-            this.gridView.DataSource = this.Logic.GetAll();
-            this.gridView.DataBind();
-        }
 
-        public enum FormModes
-        {
-            Alta,
-            Baja,
-            Modificacion
-        }
+        AlumnoInscripcion _Entity;
 
-        public FormModes FormMode
-        {
-            get { return (FormModes)this.ViewState["FormMode"]; }
-            set { this.ViewState["FormMode"] = value; }
-        }
         private AlumnoInscripcion Entity
-        {
-            get;
-            set;
-        }
-
-        private int SelectedID
         {
             get
             {
-                if (this.ViewState["SelectedID"] != null)
-                {
-                    return (int)this.ViewState["SelectedID"];
-                }
+                if (_Entity != null)
+                    return _Entity;
                 else
-                {
-                    return 0;
-                }
+                    return null;
             }
             set
             {
-                this.ViewState["SelectedID"] = value;
+                _Entity = value;
             }
         }
+
+        public Usuario UsuarioActual
+        {
+            get { return (Usuario)Session["UsuarioActual"]; }
+        }
+
+        private int SelectedIDInscripciones
+        {
+            get
+            {
+                if (this.ViewState["SelectedIDInscripciones"] != null)
+                    return (int)this.ViewState["SelectedIDInscripciones"];
+                else
+                    return 0;
+            }
+            set
+            {
+                this.ViewState["SelectedIDInscripciones"] = value;
+            }
+        }
+
+        private int SelectedIDMaterias
+        {
+            get
+            {
+                if (this.ViewState["SelectedIDMaterias"] != null)
+                    return (int)this.ViewState["SelectedIDMaterias"];
+                else
+                    return 0;
+            }
+            set
+            {
+                this.ViewState["SelectedIDMaterias"] = value;
+            }
+        }
+
+        private int SelectedIDComisiones
+        {
+            get
+            {
+                if (this.ViewState["SelectedIDComisiones"] != null)
+                    return (int)this.ViewState["SelectedIDComisiones"];
+                else
+                    return 0;
+            }
+            set
+            {
+                this.ViewState["SelectedIDComisiones"] = value;
+            }
+        }
+
         private bool IsEntitySelected
         {
             get
             {
-                return (this.SelectedID != 0);
+                return (this.SelectedIDInscripciones != 0);
             }
         }
 
-        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoadGridInscripciones()
         {
-            this.SelectedID = (int)this.gridView.SelectedValue;
+            try
+            {
+                this.GridViewInscripciones.DataSource = Logic.GetAll(UsuarioActual.Persona.ID);
+                this.GridViewInscripciones.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
-        private void LoadForm(int id)
+        private void LoadGridMaterias()
         {
-            this.Entity = this.Logic.GetOne(id);
-            this.idAlumnoTextBox.Text = this.Entity.IdAlumno.ToString();
-            this.idCursoTextBox.Text = this.Entity.IdCurso.ToString();
-            this.condicionTextBox.Text = this.Entity.Condicion;
-            this.notaTextBox.Text = this.Entity.Nota.ToString();
+            try
+            {
+                MateriaLogic matlog = new MateriaLogic();
+                this.GridViewMaterias.DataSource = matlog.GetMateriasParaInscripcion(UsuarioActual.Persona.Plan.ID, UsuarioActual.Persona.ID);
+                this.GridViewMaterias.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
+
+        private void LoadGridComisiones()
+        {
+            try
+            {
+                ComisionLogic comlog = new ComisionLogic();
+                this.GridViewComisiones.DataSource = comlog.GetComisionesDisponibles(SelectedIDMaterias);
+                this.GridViewComisiones.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
         private void EnableForm(bool enable)
         {
-            this.idAlumnoTextBox.Enabled = enable;
-            this.idCursoTextBox.Enabled = enable;
-            this.condicionTextBox.Enabled = enable;
-            this.notaTextBox.Enabled = enable;
+            this.GridViewMaterias.Visible = enable;
+            this.GridViewComisiones.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.idAlumnoTextBox.Text = string.Empty;
-            this.idCursoTextBox.Text = string.Empty;
-            this.condicionTextBox.Text = string.Empty;
-            this.notaTextBox.Text = string.Empty;
+            this.GridViewInscripciones.SelectedIndex = -1;
+            this.GridViewMaterias.SelectedIndex = -1;
+            this.GridViewComisiones.DataSource = null;
+            this.GridViewComisiones.DataBind();
+            this.lblComisiones.Visible = false;
         }
 
-        private void LoadEntity(AlumnoInscripcion inscripcion)
-        {
-            inscripcion.IdAlumno = Int32.Parse(this.idAlumnoTextBox.Text);
-            inscripcion.IdCurso = Int32.Parse(this.idCursoTextBox.Text);
-            inscripcion.Condicion = this.condicionTextBox.Text;
-            inscripcion.Nota = Int32.Parse(this.notaTextBox.Text);
-        }
-        private void SaveEntity(AlumnoInscripcion inscripcion)
-        {
-            this.Logic.Save(inscripcion);
-        }
         private void DeleteEntity(int id)
         {
-            this.Logic.Delete(id);
-        }
-
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
-        {
-            switch (this.FormMode)
+            try
             {
-                case FormModes.Baja:
-                    this.DeleteEntity(this.SelectedID);
-                    this.LoadGrid();
-                    break;
-                case FormModes.Modificacion:
-                    this.Entity = new AlumnoInscripcion();
-                    this.Entity.ID = this.SelectedID;
-                    this.Entity.State = BusinessEntity.States.Modified;
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
-                    break;
-                case FormModes.Alta:
-                    this.Entity = new AlumnoInscripcion();
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
-                    break;
-                default:
-                    break;
+                this.Logic.Delete(id);
             }
-            this.formPanel.Visible = false;
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        private void LoadEntity(AlumnoInscripcion ins)
         {
-            this.formPanel.Visible = false;
+            try
+            {
+                ins.Alumno = UsuarioActual.Persona;
+                ins.Condicion = "Inscripto";
+                CursoLogic curlog = new CursoLogic();
+                foreach (Curso c in curlog.GetAll())
+                {
+                    if (c.Comision.ID == SelectedIDComisiones && c.Materia.ID == SelectedIDMaterias)
+                    {
+                        c.Cupo--;
+                        ins.Curso = c;
+                        ins.Curso.State = BusinessEntity.States.Modified;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
-        protected void editarLinkButton_Click(object sender, EventArgs e)
+        private void SaveEntity(AlumnoInscripcion ins)
+        {
+            try
+            {
+                this.Logic.Save(ins);
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        private void ClearSession()
+        {
+            Session["SelectedID"] = null;
+        }
+
+        protected void GridViewInscripciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.SelectedIDInscripciones = (int)this.GridViewInscripciones.SelectedValue;
+            this.lbEliminar.Visible = true;
+        }
+
+        protected void GridViewMaterias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.SelectedIDMaterias = (int)this.GridViewMaterias.SelectedValue;
+            this.LoadGridComisiones();
+            this.lblComisiones.Visible = true;
+        }
+
+        protected void GridViewComisiones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.SelectedIDComisiones = (int)this.GridViewComisiones.SelectedValue;
+        }
+
+        protected void lbEliminar_Click(object sender, EventArgs e)
         {
             if (this.IsEntitySelected)
             {
-                this.EnableForm(true);
-                this.formPanel.Visible = true;
-                this.FormMode = FormModes.Modificacion;
-                this.LoadForm(this.SelectedID);
+                this.DeleteEntity(this.SelectedIDInscripciones);
+                this.LoadGridInscripciones();
+                this.lbEliminar.Visible = false;
             }
         }
 
-        protected void eliminarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.formPanel.Visible = true;
-                this.FormMode = FormModes.Baja;
-                this.EnableForm(false);
-                this.LoadForm(this.SelectedID);
-            }
-        }
-
-        protected void nuevoLinkButton_Click(object sender, EventArgs e)
+        protected void lbNuevo_Click(object sender, EventArgs e)
         {
             this.formPanel.Visible = true;
-            this.FormMode = FormModes.Alta;
+            this.gridActionsPanel.Visible = false;
+            this.GridViewMaterias.Visible = true;
+            this.LoadGridMaterias();
             this.ClearForm();
             this.EnableForm(true);
+        }
+
+        private bool Validar()
+        {
+            if (this.SelectedIDComisiones == 0 || this.SelectedIDMaterias == 0)
+                return false;
+            else return true;
+        }
+
+
+        protected void lbAceptar_Click(object sender, EventArgs e)
+        {
+            if (this.Validar())
+            {
+                this.Entity = new AlumnoInscripcion();
+                this.LoadEntity(this.Entity);
+                if (!Logic.ExisteInscripcion(Entity.Alumno.ID, Entity.Curso.ID))
+                {
+                    this.SaveEntity(Entity);
+                }
+                else
+                    Response.Write("<script>window.alert('Ya se encuentra inscripto a ese cursado.');</script>");
+            }
+            this.ClearSession();
+            this.ClearForm();
+            this.formPanel.Visible = false;
+            this.gridActionsPanel.Visible = true;
+            this.lbEliminar.Visible = false;
+            this.LoadGridInscripciones();
+        }
+
+        protected void lbCancelar_Click(object sender, EventArgs e)
+        {
+            this.ClearForm();
+            this.formPanel.Visible = false;
+            this.gridActionsPanel.Visible = true;
+            this.lbEliminar.Visible = false;
         }
     }
 }

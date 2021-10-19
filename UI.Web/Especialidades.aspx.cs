@@ -4,55 +4,50 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Business.Logic;
 using Business.Entities;
+using Business.Logic;
 
 namespace UI.Web
 {
-    public partial class Especialidades : System.Web.UI.Page
+    public partial class Especialidades : Modes
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            if (!IsPostBack)
+       protected void Page_Load(object sender, EventArgs e)
             {
-                LoadGrid();
+                this.LoadGrid();
+                if (this.GridView.SelectedIndex == -1)
+                {
+                    ShowButtons(false);
+                    gridActionsPanel.Visible = true;
+                }
             }
-        }
 
         EspecialidadLogic _logic;
+
         private EspecialidadLogic Logic
         {
             get
             {
                 if (_logic == null)
-                {
                     _logic = new EspecialidadLogic();
-                }
                 return _logic;
             }
         }
-        private void LoadGrid()
-        {
-            this.gridView.DataSource = this.Logic.GetAll();
-            this.gridView.DataBind();
-        }
 
-        public enum FormModes
-        {
-            Alta,
-            Baja,
-            Modificacion
-        }
+        Especialidad _Entity;
 
-        public FormModes FormMode
-        {
-            get { return (FormModes)this.ViewState["FormMode"]; }
-            set { this.ViewState["FormMode"] = value; }
-        }
         private Especialidad Entity
         {
-            get;
-            set;
+            get
+            {
+                if (_Entity != null)
+                    return _Entity;
+                else
+                    return null;
+            }
+            set
+            {
+                _Entity = value;
+            }
         }
 
         private int SelectedID
@@ -60,19 +55,16 @@ namespace UI.Web
             get
             {
                 if (this.ViewState["SelectedID"] != null)
-                {
                     return (int)this.ViewState["SelectedID"];
-                }
                 else
-                {
                     return 0;
-                }
             }
             set
             {
                 this.ViewState["SelectedID"] = value;
             }
         }
+
         private bool IsEntitySelected
         {
             get
@@ -80,79 +72,99 @@ namespace UI.Web
                 return (this.SelectedID != 0);
             }
         }
-        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void LoadGrid()
         {
-            this.SelectedID = (int)this.gridView.SelectedValue;
+            try
+            {
+                this.GridView.DataSource = this.Logic.GetAll();
+                this.GridView.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
-        private void LoadForm(int id)
+        private void ShowButtons(bool enable)
         {
-            this.Entity = this.Logic.GetOne(id);
-            this.especialidadTextBox.Text = this.Entity.Descripcion;
+            this.lbEliminar.Visible = enable;
+            this.lbEditar.Visible = enable;
         }
+
         private void EnableForm(bool enable)
         {
-            this.especialidadTextBox.Enabled = enable;
+            this.lblDescripcion.Visible = enable;
+            this.txtDescEspecialidad.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.especialidadTextBox.Text = string.Empty;
+            this.txtDescEspecialidad.Text = string.Empty;
+            this.GridView.SelectedIndex = -1;
         }
 
-        private void LoadEntity(Especialidad especialidad)
-        {
-            especialidad.Descripcion = this.especialidadTextBox.Text;
-        }
-        private void SaveEntity(Especialidad especialidad)
-        {
-            this.Logic.Save(especialidad);
-        }
         private void DeleteEntity(int id)
         {
-            this.Logic.Delete(id);
-        }
-
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
-        {
-            switch (this.FormMode)
+            try
             {
-                case FormModes.Baja:
-                    this.DeleteEntity(this.SelectedID);
-                    this.LoadGrid();
-                    break;
-                case FormModes.Modificacion:
-                    this.Entity = new Especialidad();
-                    this.Entity.ID = this.SelectedID;
-                    this.Entity.State = BusinessEntity.States.Modified;
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
-                    break;
-                case FormModes.Alta:
-                    this.Entity = new Especialidad();
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
-                    break;
-                default:
-                    break;
+                this.Logic.Delete(id);
             }
-            this.formPanel.Visible = false;
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.formPanel.Visible = false;
+            this.SelectedID = (int)this.GridView.SelectedValue;
+            this.ShowButtons(true);
+        }
+
+        private void LoadForm(int id)
+        {
+            try
+            {
+                this.Entity = this.Logic.GetOne(id);
+                this.txtDescEspecialidad.Text = this.Entity.Descripcion;
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        private void LoadEntity(Especialidad espec)
+        {
+            espec.Descripcion = this.txtDescEspecialidad.Text;
+        }
+
+        private void SaveEntity(Especialidad espec)
+        {
+            try
+            {
+                this.Logic.Save(espec);
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        private void ClearSession()
+        {
+            Session["SelectedID"] = null;
         }
 
         protected void editarLinkButton_Click(object sender, EventArgs e)
         {
             if (this.IsEntitySelected)
             {
-                this.EnableForm(true);
                 this.formPanel.Visible = true;
+                this.gridActionsPanel.Visible = false;
                 this.FormMode = FormModes.Modificacion;
+                this.EnableForm(true);
                 this.LoadForm(this.SelectedID);
             }
         }
@@ -161,19 +173,57 @@ namespace UI.Web
         {
             if (this.IsEntitySelected)
             {
-                this.formPanel.Visible = true;
-                this.FormMode = FormModes.Baja;
-                this.EnableForm(false);
-                this.LoadForm(this.SelectedID);
+                this.DeleteEntity(this.SelectedID);
+                this.LoadGrid();
+                this.ShowButtons(false);
             }
         }
 
         protected void nuevoLinkButton_Click(object sender, EventArgs e)
         {
             this.formPanel.Visible = true;
+            this.gridActionsPanel.Visible = false;
             this.FormMode = FormModes.Alta;
             this.ClearForm();
             this.EnableForm(true);
         }
+
+        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        {
+            switch (this.FormMode)
+            {
+                case FormModes.Modificacion:
+                    if (Page.IsValid)
+                    {
+                        this.Entity = this.Logic.GetOne(this.SelectedID);
+                        this.Entity.State = BusinessEntity.States.Modified;
+                        this.LoadEntity(this.Entity);
+                        this.SaveEntity(this.Entity);
+                        this.LoadGrid();
+                        this.ClearSession();
+                    }
+                    break;
+                case FormModes.Alta:
+                    this.Entity = new Especialidad();
+                    this.LoadEntity(this.Entity);
+                    this.SaveEntity(Entity);
+                    this.LoadGrid();
+                    this.ClearSession();
+                    break;
+            }
+            this.ClearForm();
+            this.formPanel.Visible = false;
+            this.gridActionsPanel.Visible = true;
+            this.ShowButtons(false);
+        }
+
+        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        {
+            this.ClearForm();
+            this.formPanel.Visible = false;
+            this.gridActionsPanel.Visible = true;
+            this.ShowButtons(false);
+        }
     }
+    
 }

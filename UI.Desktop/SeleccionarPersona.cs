@@ -58,14 +58,14 @@ namespace UI.Desktop
             this.Listar(cbxTipoPersona.SelectedItem.ToString());
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            usuarioActual.Persona = ((Persona)this.dgvSeleccionarPersona.SelectedRows[0].DataBoundItem);
             this.Close();
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)
         {
+            usuarioActual.Persona = ((Persona)this.dgvSeleccionarPersona.SelectedRows[0].DataBoundItem);
             this.Close();
         }
     }

@@ -1,62 +1,65 @@
-﻿<%@ Page Title="Inscripciones" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Inscripciones.aspx.cs" Inherits="UI.Web.Inscripciones" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
-    <asp:Panel ID="gridPanel" runat="server">
-    <asp:GridView ID="gridView" runat="server" AutoGenerateColumns="False"
-        SelectedRowStyle-BackColor="Blue"
-        SelectedRowStyle-ForeColor="White"
-        DataKeyNames="ID" OnSelectedIndexChanged="gridView_SelectedIndexChanged" >
-        <Columns>
-            <asp:BoundField HeaderText="ID Alumno" DataField="IdAlumno" />
-            <asp:BoundField HeaderText="ID Curso" DataField="IdCurso" />
-            <asp:BoundField HeaderText="Condicion" DataField="Condicion" />
-            <asp:BoundField HeaderText="Nota" DataField="Nota" />
-            <asp:CommandField SelectText="Seleccionar" ShowSelectButton="True" />
-        </Columns>
-    </asp:GridView>
-    </asp:Panel>
-    <asp:Panel ID="formPanel" Visible="false" runat="server">
-        <asp:Label ID ="idAlumnoLabel" runat="server" Text="ID Alumno: "></asp:Label>
-        <asp:TextBox ID="idAlumnoTextBox" runat="server"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="RequiredFieldValidatorIdAlumno" runat="server" 
-            ControlToValidate="idAlumnoTextBox" 
-            ErrorMessage="ID de alumno es obligatorio" 
-            ForeColor="Red">
-            *
-        </asp:RequiredFieldValidator>
-        <br />
-        <asp:Label ID="idCursoLabel" runat="server" Text="ID Curso: "></asp:Label>
-        <asp:TextBox ID="idCursoTextBox" runat="server"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="RequiredFieldValidatorIdCurso" runat="server" 
-            ControlToValidate="idCursoTextBox" 
-            ErrorMessage="ID de curso es obligatorio" 
-            ForeColor="Red">
-            *
-        </asp:RequiredFieldValidator>
-        <br />
-        <asp:Label ID="condicionLabel" runat="server" Text="Condicion: "></asp:Label>
-        <asp:TextBox ID="condicionTextBox" runat="server"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="RequiredFieldValidatorCondicion" runat="server" 
-            ControlToValidate="condicionTextBox" 
-            ErrorMessage="Condición es obligatorio" 
-            ForeColor="Red">
-            *
-        </asp:RequiredFieldValidator>
-        <br />
-        <asp:Label ID="notaLabel" runat="server" Text="Nota: "></asp:Label>
-        <asp:TextBox ID="notaTextBox" runat="server"></asp:TextBox>
-        <br />
-        <asp:Panel ID="formActionsPanel" runat="server">
-        <asp:LinkButton ID="aceptarLinkButton" runat="server" OnClick="aceptarLinkButton_Click">Aceptar</asp:LinkButton>
-        <asp:LinkButton ID="cancelarLinkButton" runat="server" OnClick="cancelarLinkButton_Click" ValidateRequestMode="Disabled" CausesValidation="False">Cancelar</asp:LinkButton>
-        </asp:Panel>
-        <br />
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Inscripciones.aspx.cs" Inherits="UI.Web.Inscripciones" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
 
+    <asp:Panel ID="gridPanel" runat="server">
+        <h2>Inscripciones a Cursos:</h2>
+        <asp:GridView ID="GridViewInscripciones" runat="server" 
+            AutoGenerateColumns="False" DataKeyNames="ID" 
+            onselectedindexchanged="GridViewInscripciones_SelectedIndexChanged">
+            <Columns>
+                <asp:BoundField DataField="DescMateria" HeaderText="Materia" />
+                <asp:BoundField DataField="DescComision" HeaderText="Comision" />
+                <asp:BoundField DataField="AnioCurso" HeaderText="Año de Cursado" />
+                <asp:BoundField DataField="Condicion" HeaderText="Condición" />
+                <asp:BoundField DataField="Nota" HeaderText="Nota" />
+                <asp:CommandField ShowSelectButton="True" />
+            </Columns>
+            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
+            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
+            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+        </asp:GridView>
     </asp:Panel>
     <asp:Panel ID="gridActionsPanel" runat="server">
-        <asp:LinkButton ID="editarLinkButton" runat="server" OnClick="editarLinkButton_Click">Editar</asp:LinkButton>
-        <asp:LinkButton ID="eliminarLinkButton" runat="server" OnClick="eliminarLinkButton_Click">Eliminar</asp:LinkButton>
-        <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click">Nuevo</asp:LinkButton>
+        <asp:LinkButton ID="lbNuevo" runat="server" onclick="lbNuevo_Click">Nuevo</asp:LinkButton>
+        <asp:LinkButton ID="lbEliminar" runat="server" onclick="lbEliminar_Click">Eliminar</asp:LinkButton>
     </asp:Panel>
+    <br />
+    <asp:Panel ID="formPanel" runat="server" Visible="False">
+        <asp:Label ID="lblMaterias" Font-Size="Medium" Font-Bold="true" runat="server">Materias:</asp:Label>
+        <br runat="server" />
+        <asp:GridView ID="GridViewMaterias" runat="server" AutoGenerateColumns="False" 
+            DataKeyNames="ID" 
+            onselectedindexchanged="GridViewMaterias_SelectedIndexChanged">
+            <Columns>
+                <asp:BoundField DataField="Descripcion" HeaderText="Materia" />
+                <asp:BoundField DataField="HsSemanales" HeaderText="Hs Semanales" />
+                <asp:BoundField DataField="HsTotales" HeaderText="Hs Totales" />
+                <asp:CommandField ShowSelectButton="True" />
+            </Columns>
+            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
+            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
+            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+        </asp:GridView>
+        <br />
+        <asp:Label ID="lblComisiones" Font-Size="Medium" Font-Bold="true" runat="server" Visible="false">Comisiones:</asp:Label>
+        <br runat="server" />
+        <asp:GridView ID="GridViewComisiones" runat="server" 
+            AutoGenerateColumns="False" DataKeyNames="ID" 
+            onselectedindexchanged="GridViewComisiones_SelectedIndexChanged">
+            <Columns>
+                <asp:BoundField DataField="AnioEspecialidad" HeaderText="Año" />
+                <asp:BoundField DataField="Descripcion" HeaderText="Comision" />
+                <asp:CommandField ShowSelectButton="True" />
+            </Columns>
+            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
+            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
+            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+        </asp:GridView>
+        <br />
+        <asp:Panel ID="formActionsPanel" runat="server">
+            <asp:LinkButton ID="lbAceptar" runat="server" onclick="lbAceptar_Click">Aceptar</asp:LinkButton>
+            <asp:LinkButton ID="lbCancelar" runat="server" onclick="lbCancelar_Click">Cancelar</asp:LinkButton>
+        </asp:Panel>
+    </asp:Panel>
+
 </asp:Content>

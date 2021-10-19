@@ -4,55 +4,50 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Business.Logic;
 using Business.Entities;
+using Business.Logic;
 
 namespace UI.Web
 {
-    public partial class Materias : System.Web.UI.Page
+    public partial class Materias : Modes
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            this.LoadGrid();
+            if (this.GridView.SelectedIndex == -1)
             {
-                LoadGrid();
+                ShowButtons(false);
+                gridActionsPanel.Visible = true;
             }
         }
 
         MateriaLogic _logic;
+
         private MateriaLogic Logic
         {
             get
             {
                 if (_logic == null)
-                {
                     _logic = new MateriaLogic();
-                }
                 return _logic;
             }
         }
-        private void LoadGrid()
-        {
-            this.gridView.DataSource = this.Logic.GetAll();
-            this.gridView.DataBind();
-        }
 
-        public enum FormModes
-        {
-            Alta,
-            Baja,
-            Modificacion
-        }
+        Materia _Entity;
 
-        public FormModes FormMode
-        {
-            get { return (FormModes)this.ViewState["FormMode"]; }
-            set { this.ViewState["FormMode"] = value; }
-        }
         private Materia Entity
         {
-            get;
-            set;
+            get
+            {
+                if (_Entity != null)
+                    return _Entity;
+                else
+                    return null;
+            }
+            set
+            {
+                _Entity = value;
+            }
         }
 
         private int SelectedID
@@ -60,19 +55,16 @@ namespace UI.Web
             get
             {
                 if (this.ViewState["SelectedID"] != null)
-                {
                     return (int)this.ViewState["SelectedID"];
-                }
                 else
-                {
                     return 0;
-                }
             }
             set
             {
                 this.ViewState["SelectedID"] = value;
             }
         }
+
         private bool IsEntitySelected
         {
             get
@@ -81,91 +73,155 @@ namespace UI.Web
             }
         }
 
-        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoadGrid()
         {
-            this.SelectedID = (int)this.gridView.SelectedValue;
+            try
+            {
+                this.GridView.DataSource = this.Logic.GetAll();
+                this.GridView.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
-        private void LoadForm(int id)
+        private void ShowButtons(bool enable)
         {
-            this.Entity = this.Logic.GetOne(id);
-            this.descripcionTextBox.Text = this.Entity.Descripcion;
-            this.hsSemanalesTextBox.Text = this.Entity.HsSemanales.ToString();
-            this.hsTotalesTextBox.Text = this.Entity.HsTotales.ToString();
-            this.idPlanTextBox.Text = this.Entity.IdPlan.ToString();
+            this.lbEliminar.Visible = enable;
+            this.lbEditar.Visible = enable;
         }
+
+        private void LoadDdlEspecialidades()
+        {
+            EspecialidadLogic el = new EspecialidadLogic();
+            this.ddlEspecialidades.DataSource = el.GetAll();
+            this.ddlEspecialidades.DataTextField = "Descripcion";
+            this.ddlEspecialidades.DataValueField = "ID";
+            this.ddlEspecialidades.DataBind();
+            ListItem init = new ListItem();
+            init.Text = "--Seleccionar Especialidad--";
+            init.Value = "-1";
+            this.ddlEspecialidades.Items.Add(init);
+            this.ddlEspecialidades.SelectedValue = "-1";
+        }
+
+        private void LoadDdlPlanes()
+        {
+            PlanLogic pl = new PlanLogic();
+            List<Plan> planes = new List<Plan>();
+            foreach (Plan p in pl.GetAll())
+            {
+                if (p.Especialidad.ID == Convert.ToInt32(this.ddlEspecialidades.SelectedValue))
+                {
+                    planes.Add(p);
+                }
+            }
+            this.ddlPlanes.DataSource = planes;
+            this.ddlPlanes.DataTextField = "Descripcion";
+            this.ddlPlanes.DataValueField = "ID";
+            this.ddlPlanes.DataBind();
+            ListItem init = new ListItem();
+            init.Text = "--Seleccionar Plan--";
+            init.Value = "-1";
+            this.ddlPlanes.Items.Add(init);
+            this.ddlPlanes.SelectedValue = "-1";
+        }
+
         private void EnableForm(bool enable)
         {
-            this.descripcionTextBox.Enabled = enable;
-            this.hsSemanalesTextBox.Enabled = enable;
-            this.hsTotalesTextBox.Enabled = enable;
-            this.idPlanTextBox.Enabled = enable;
+            this.lblDescripcion.Visible = enable;
+            this.txtDescripcion.Visible = enable;
+            this.lblHsSemanales.Visible = enable;
+            this.txtHsSemanales.Visible = enable;
+            this.lblHsTotales.Visible = enable;
+            this.txtHsTotales.Visible = enable;
+            this.lblEspecialidad.Visible = enable;
+            this.ddlEspecialidades.Visible = enable;
+            this.lblPlan.Visible = enable;
+            this.ddlPlanes.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.descripcionTextBox.Text = string.Empty;
-            this.hsSemanalesTextBox.Text = string.Empty;
-            this.hsTotalesTextBox.Text = string.Empty;
-            this.idPlanTextBox.Text = string.Empty;
+            this.txtDescripcion.Text = string.Empty;
+            this.txtHsSemanales.Text = string.Empty;
+            this.txtHsTotales.Text = string.Empty;
+            this.ddlPlanes.Items.Clear();
+            this.GridView.SelectedIndex = -1;
         }
 
-        private void LoadEntity(Materia materia)
-        {
-            materia.Descripcion = this.descripcionTextBox.Text;
-            materia.HsSemanales = Int32.Parse(this.hsSemanalesTextBox.Text);
-            materia.HsTotales = Int32.Parse(this.hsTotalesTextBox.Text);
-            materia.IdPlan = Int32.Parse(this.idPlanTextBox.Text);
-        }
-        private void SaveEntity(Materia materia)
-        {
-            this.Logic.Save(materia);
-        }
         private void DeleteEntity(int id)
         {
-            this.Logic.Delete(id);
-        }
-
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
-        {
-            switch (this.FormMode)
+            try
             {
-                case FormModes.Baja:
-                    this.DeleteEntity(this.SelectedID);
-                    this.LoadGrid();
-                    break;
-                case FormModes.Modificacion:
-                    this.Entity = new Materia();
-                    this.Entity.ID = this.SelectedID;
-                    this.Entity.State = BusinessEntity.States.Modified;
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
-                    break;
-                case FormModes.Alta:
-                    this.Entity = new Materia();
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
-                    break;
-                default:
-                    break;
+                this.Logic.Delete(id);
             }
-            this.formPanel.Visible = false;
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        private void LoadForm(int id)
         {
-            this.formPanel.Visible = false;
+            try
+            {
+                this.Entity = this.Logic.GetOne(id);
+                this.txtDescripcion.Text = this.Entity.Descripcion;
+                this.txtHsSemanales.Text = this.Entity.HSSemanales.ToString();
+                this.txtHsTotales.Text = this.Entity.HSTotales.ToString();
+                this.ddlEspecialidades.SelectedValue = this.Entity.Plan.Especialidad.ID.ToString();
+                this.LoadDdlPlanes();
+                this.ddlPlanes.SelectedValue = this.Entity.Plan.ID.ToString();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        private void LoadEntity(Materia mat)
+        {
+            mat.Descripcion = this.txtDescripcion.Text;
+            mat.HSSemanales = Convert.ToInt32(this.txtHsSemanales.Text);
+            mat.HSTotales = Convert.ToInt32(this.txtHsTotales.Text);
+            mat.Plan.Especialidad.ID = Convert.ToInt32(this.ddlEspecialidades.SelectedValue);
+            mat.Plan.ID = Convert.ToInt32(this.ddlPlanes.SelectedValue);
+        }
+
+        private void SaveEntity(Materia mat)
+        {
+            try
+            {
+                this.Logic.Save(mat);
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        private void ClearSession()
+        {
+            Session["SelectedID"] = null;
+        }
+
+        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.SelectedID = (int)this.GridView.SelectedValue;
+            this.ShowButtons(true);
         }
 
         protected void editarLinkButton_Click(object sender, EventArgs e)
         {
             if (this.IsEntitySelected)
             {
-                this.EnableForm(true);
+                this.LoadDdlEspecialidades();
                 this.formPanel.Visible = true;
+                this.gridActionsPanel.Visible = false;
                 this.FormMode = FormModes.Modificacion;
+                this.EnableForm(true);
                 this.LoadForm(this.SelectedID);
             }
         }
@@ -174,19 +230,69 @@ namespace UI.Web
         {
             if (this.IsEntitySelected)
             {
-                this.formPanel.Visible = true;
-                this.FormMode = FormModes.Baja;
-                this.EnableForm(false);
-                this.LoadForm(this.SelectedID);
+                this.DeleteEntity(this.SelectedID);
+                this.LoadGrid();
+                this.ShowButtons(false);
             }
         }
 
         protected void nuevoLinkButton_Click(object sender, EventArgs e)
         {
+            this.LoadDdlEspecialidades();
             this.formPanel.Visible = true;
+            this.gridActionsPanel.Visible = false;
             this.FormMode = FormModes.Alta;
             this.ClearForm();
             this.EnableForm(true);
+        }
+
+        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        {
+            switch (this.FormMode)
+            {
+                case FormModes.Modificacion:
+                    if (Page.IsValid)
+                    {
+                        this.Entity = this.Logic.GetOne(this.SelectedID);
+                        this.Entity.State = BusinessEntity.States.Modified;
+                        this.LoadEntity(this.Entity);
+                        this.SaveEntity(this.Entity);
+                        this.LoadGrid();
+                        this.ClearSession();
+                    }
+                    break;
+                case FormModes.Alta:
+                    this.Entity = new Materia();
+                    this.LoadEntity(this.Entity);
+                    if (!Logic.Existe(Entity.Plan.ID, Entity.Descripcion))
+                    {
+                        this.SaveEntity(Entity);
+                    }
+                    else
+                        Response.Write("<script>window.alert('La Materia ya existe.');</script>");
+                    this.LoadGrid();
+                    this.ClearSession();
+                    break;
+            }
+            this.ClearForm();
+            this.formPanel.Visible = false;
+            this.gridActionsPanel.Visible = true;
+            this.ShowButtons(false);
+        }
+
+        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        {
+            this.ClearForm();
+            this.formPanel.Visible = false;
+            this.gridActionsPanel.Visible = true;
+            this.ShowButtons(false);
+        }
+
+        protected void ddlEspecialidades_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.LoadDdlPlanes();
+            this.formPanel.Visible = true;
+            this.gridActionsPanel.Visible = false;
         }
     }
 }
