@@ -188,6 +188,7 @@
             this.ClientSize = new System.Drawing.Size(720, 455);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "InscripcionDesktop";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inscripcion a Cursado";
             this.Load += new System.EventHandler(this.InscripcionCurso_Load);
             this.tableLayoutPanel1.ResumeLayout(false);

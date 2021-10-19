@@ -102,6 +102,7 @@
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnAceptar);
             this.Name = "EspecialidadDesktop";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Especialidad";
             this.ResumeLayout(false);
             this.PerformLayout();

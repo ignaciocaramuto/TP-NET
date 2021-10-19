@@ -123,6 +123,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "PlanDesktop";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Planes";
             this.Load += new System.EventHandler(this.PlanDesktop_Load);
             this.ResumeLayout(false);

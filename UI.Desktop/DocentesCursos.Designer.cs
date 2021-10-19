@@ -202,6 +202,7 @@
             this.ClientSize = new System.Drawing.Size(484, 362);
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "DocentesCursos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Asignación de Docentes";
             this.Load += new System.EventHandler(this.DocentesCursos_Load);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);

@@ -281,6 +281,7 @@
             this.ClientSize = new System.Drawing.Size(648, 391);
             this.Controls.Add(this.tlUsuarioDesktop);
             this.Name = "UsuarioDesktop";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Usuario";
             this.Load += new System.EventHandler(this.UsuarioDesktop_Load);
             this.tlUsuarioDesktop.ResumeLayout(false);

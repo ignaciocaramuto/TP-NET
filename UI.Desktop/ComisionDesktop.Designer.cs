@@ -166,6 +166,7 @@
             this.Controls.Add(this.lblID);
             this.Name = "ComisionDesktop";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Comisiones";
             this.Load += new System.EventHandler(this.ComisionDesktop_Load);
             this.ResumeLayout(false);

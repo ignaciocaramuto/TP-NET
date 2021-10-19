@@ -30,12 +30,12 @@
         {
             this.btnCancelar = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnSelecDocente = new System.Windows.Forms.Button();
             this.cbxCargo = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.txtDocente = new System.Windows.Forms.TextBox();
             this.txtID = new System.Windows.Forms.TextBox();
+            this.btnSelecDocente = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,19 +74,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(345, 188);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // btnSelecDocente
-            // 
-            this.btnSelecDocente.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSelecDocente.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.btnSelecDocente, 2);
-            this.btnSelecDocente.Location = new System.Drawing.Point(27, 72);
-            this.btnSelecDocente.Name = "btnSelecDocente";
-            this.btnSelecDocente.Size = new System.Drawing.Size(117, 23);
-            this.btnSelecDocente.TabIndex = 1;
-            this.btnSelecDocente.Text = "Seleccionar Docente";
-            this.btnSelecDocente.UseVisualStyleBackColor = true;
-            this.btnSelecDocente.Click += new System.EventHandler(this.btnSelecDocente_Click);
-            // 
             // cbxCargo
             // 
             this.cbxCargo.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -96,7 +83,7 @@
             "Titular",
             "Auxiliar",
             "Ayudante"});
-            this.cbxCargo.Location = new System.Drawing.Point(198, 73);
+            this.cbxCargo.Location = new System.Drawing.Point(25, 128);
             this.cbxCargo.Name = "cbxCargo";
             this.cbxCargo.Size = new System.Drawing.Size(121, 21);
             this.cbxCargo.TabIndex = 2;
@@ -128,7 +115,7 @@
             this.txtDocente.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.tableLayoutPanel1.SetColumnSpan(this.txtDocente, 2);
             this.txtDocente.Enabled = false;
-            this.txtDocente.Location = new System.Drawing.Point(10, 128);
+            this.txtDocente.Location = new System.Drawing.Point(182, 128);
             this.txtDocente.Name = "txtDocente";
             this.txtDocente.ReadOnly = true;
             this.txtDocente.Size = new System.Drawing.Size(152, 20);
@@ -145,6 +132,19 @@
             this.txtID.Size = new System.Drawing.Size(75, 20);
             this.txtID.TabIndex = 4;
             // 
+            // btnSelecDocente
+            // 
+            this.btnSelecDocente.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSelecDocente.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.btnSelecDocente, 2);
+            this.btnSelecDocente.Location = new System.Drawing.Point(87, 72);
+            this.btnSelecDocente.Name = "btnSelecDocente";
+            this.btnSelecDocente.Size = new System.Drawing.Size(117, 23);
+            this.btnSelecDocente.TabIndex = 1;
+            this.btnSelecDocente.Text = "Seleccionar Docente";
+            this.btnSelecDocente.UseVisualStyleBackColor = true;
+            this.btnSelecDocente.Click += new System.EventHandler(this.btnSelecDocente_Click);
+            // 
             // DocenteCursoDesktop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,6 +152,7 @@
             this.ClientSize = new System.Drawing.Size(345, 188);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DocenteCursoDesktop";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Asignación de Docentes";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

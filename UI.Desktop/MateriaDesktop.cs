@@ -187,6 +187,7 @@
             this.Controls.Add(this.btnAceptar);
             this.Name = "MateriaDesktop";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Materias";
             this.Load += new System.EventHandler(this.MateriaDesktop_Load);
             this.ResumeLayout(false);

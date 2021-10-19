@@ -66,6 +66,7 @@ namespace UI.Desktop
             // 
             this.txtClave.Location = new System.Drawing.Point(139, 58);
             this.txtClave.Name = "txtClave";
+            this.txtClave.PasswordChar = '*';
             this.txtClave.Size = new System.Drawing.Size(156, 20);
             this.txtClave.TabIndex = 3;
             // 

@@ -327,6 +327,7 @@
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "PersonaDesktop";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Personas";
             this.Load += new System.EventHandler(this.PersonaDesktop_Load);
             this.ResumeLayout(false);
