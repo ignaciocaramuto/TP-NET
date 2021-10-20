@@ -316,7 +316,7 @@
             this.cursosToolStripMenuItem1,
             this.comisionesToolStripMenuItem});
             this.aBMToolStripMenuItem.Name = "aBMToolStripMenuItem";
-            this.aBMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aBMToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.aBMToolStripMenuItem.Text = "ABM";
             // 
             // usuariosToolStripMenuItem
@@ -371,14 +371,14 @@
             // inscripcionACursoToolStripMenuItem
             // 
             this.inscripcionACursoToolStripMenuItem.Name = "inscripcionACursoToolStripMenuItem";
-            this.inscripcionACursoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.inscripcionACursoToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.inscripcionACursoToolStripMenuItem.Text = "Inscripcion a Curso";
             this.inscripcionACursoToolStripMenuItem.Click += new System.EventHandler(this.btnInscripciones_Click);
             // 
             // registrarNotasToolStripMenuItem
             // 
             this.registrarNotasToolStripMenuItem.Name = "registrarNotasToolStripMenuItem";
-            this.registrarNotasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.registrarNotasToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.registrarNotasToolStripMenuItem.Text = "Registrar Notas";
             this.registrarNotasToolStripMenuItem.Click += new System.EventHandler(this.btnRegistrarNotas_Click);
             // 
@@ -388,22 +388,20 @@
             this.cursosToolStripMenuItem,
             this.planesToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
-            this.reportesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reportesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.reportesToolStripMenuItem.Text = "Reportes";
             // 
             // cursosToolStripMenuItem
             // 
             this.cursosToolStripMenuItem.Name = "cursosToolStripMenuItem";
-            this.cursosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cursosToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.cursosToolStripMenuItem.Text = "Cursos";
-            // this.cursosToolStripMenuItem.Click += new System.EventHandler(this.btnReportesCursos_Click);
             // 
             // planesToolStripMenuItem
             // 
             this.planesToolStripMenuItem.Name = "planesToolStripMenuItem";
-            this.planesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.planesToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.planesToolStripMenuItem.Text = "Planes";
-            // this.planesToolStripMenuItem.Click += new System.EventHandler(this.btnReportesPlanes_Click);
             // 
             // btnInscripciones
             // 
@@ -463,7 +461,7 @@
             this.btnReportesPlanes.TabIndex = 38;
             this.btnReportesPlanes.Text = "Ingresar";
             this.btnReportesPlanes.UseVisualStyleBackColor = false;
-            // this.btnReportesPlanes.Click += new System.EventHandler(this.btnReportesPlanes_Click);
+            this.btnReportesPlanes.Click += new System.EventHandler(this.btnReportesPlanes_Click);
             // 
             // btnReportesCursos
             // 
@@ -475,7 +473,7 @@
             this.btnReportesCursos.TabIndex = 39;
             this.btnReportesCursos.Text = "Ingresar";
             this.btnReportesCursos.UseVisualStyleBackColor = false;
-            // this.btnReportesCursos.Click += new System.EventHandler(this.btnReportesCursos_Click);
+            this.btnReportesCursos.Click += new System.EventHandler(this.btnReportesCursos_Click);
             // 
             // lblReportesPlanes
             // 
@@ -535,7 +533,6 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "MenuPrincipal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu Principal";
             this.Load += new System.EventHandler(this.MenuPrincipal_Load);
             this.menuStrip.ResumeLayout(false);

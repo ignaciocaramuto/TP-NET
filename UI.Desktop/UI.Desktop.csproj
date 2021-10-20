@@ -33,8 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -171,6 +178,18 @@
     <Compile Include="RegistroNotas.Designer.cs">
       <DependentUpon>RegistroNotas.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReporteCursosViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReporteCursosViewer.Designer.cs">
+      <DependentUpon>ReporteCursosViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportePlanesViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportePlanesViewer.Designer.cs">
+      <DependentUpon>ReportePlanesViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="SeleccionarDocentes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,6 +275,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroNotas.resx">
       <DependentUpon>RegistroNotas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteCursosViewer.resx">
+      <DependentUpon>ReporteCursosViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportePlanesViewer.resx">
+      <DependentUpon>ReportePlanesViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionarDocentes.resx">
       <DependentUpon>SeleccionarDocentes.cs</DependentUpon>

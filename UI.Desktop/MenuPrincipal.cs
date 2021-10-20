@@ -254,5 +254,17 @@ namespace UI.Desktop
         {
             this.Close();
         }
+
+        private void btnReportesCursos_Click(object sender, EventArgs e)
+        {
+            ReporteCursosViewer repCursos = new ReporteCursosViewer();
+            repCursos.ShowDialog();
+        }
+
+        private void btnReportesPlanes_Click(object sender, EventArgs e)
+        {
+            ReportePlanesViewer repPlanes = new ReportePlanesViewer();
+            repPlanes.ShowDialog();
+        }
     }
 }
