@@ -13,7 +13,7 @@
                 <asp:BoundField DataField="Telefono" HeaderText="Teléfono" />
                 <asp:BoundField DataField="FechaNacimiento" HeaderText="Fecha de Nacimiento" />
                 <asp:BoundField DataField="Legajo" HeaderText="Legajo" />
-                <asp:BoundField DataField="TipoPersona" HeaderText="Tipo" />
+                <asp:BoundField DataField="DescTipoPersona" HeaderText="Tipo" />
                 <asp:BoundField DataField="DescPlan" HeaderText="Plan" />
                 <asp:BoundField DataField="DescEspecialidad" HeaderText="Especialidad" />
                 <asp:CommandField ShowSelectButton="True" />
