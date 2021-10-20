@@ -34,7 +34,7 @@ namespace UI.Desktop
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TipoPersona = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tipo_persona = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSeleccionarPersona)).BeginInit();
@@ -53,6 +53,7 @@ namespace UI.Desktop
             this.cbxTipoPersona.Size = new System.Drawing.Size(121, 21);
             this.cbxTipoPersona.TabIndex = 0;
             this.cbxTipoPersona.Text = "Mostrar:";
+            this.cbxTipoPersona.SelectedIndexChanged += new System.EventHandler(this.cbxTipoPersona_SelectedIndexChanged);
             // 
             // dgvSeleccionarPersona
             // 
@@ -64,7 +65,7 @@ namespace UI.Desktop
             this.id,
             this.apellido,
             this.nombre,
-            this.TipoPersona});
+            this.tipo_persona});
             this.dgvSeleccionarPersona.Location = new System.Drawing.Point(3, 32);
             this.dgvSeleccionarPersona.MultiSelect = false;
             this.dgvSeleccionarPersona.Name = "dgvSeleccionarPersona";
@@ -94,12 +95,12 @@ namespace UI.Desktop
             this.nombre.Name = "nombre";
             this.nombre.ReadOnly = true;
             // 
-            // TipoPersona
+            // tipo_persona
             // 
-            this.TipoPersona.DataPropertyName = "DescTipoPersona";
-            this.TipoPersona.HeaderText = "TipoPersona";
-            this.TipoPersona.Name = "TipoPersona";
-            this.TipoPersona.ReadOnly = true;
+            this.tipo_persona.DataPropertyName = "DescTipoPersona";
+            this.tipo_persona.HeaderText = "TipoPersona";
+            this.tipo_persona.Name = "tipo_persona";
+            this.tipo_persona.ReadOnly = true;
             // 
             // btnAgregar
             // 
@@ -131,8 +132,8 @@ namespace UI.Desktop
             this.Controls.Add(this.dgvSeleccionarPersona);
             this.Controls.Add(this.cbxTipoPersona);
             this.Name = "SeleccionarPersona";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Personas";
+            this.Load += new System.EventHandler(this.SeleccionarPersona_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSeleccionarPersona)).EndInit();
             this.ResumeLayout(false);
 
@@ -142,11 +143,11 @@ namespace UI.Desktop
 
         private System.Windows.Forms.ComboBox cbxTipoPersona;
         private System.Windows.Forms.DataGridView dgvSeleccionarPersona;
+        private System.Windows.Forms.Button btnAgregar;
+        private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn apellido;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TipoPersona;
-        private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tipo_persona;
     }
 }

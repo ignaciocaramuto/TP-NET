@@ -28,11 +28,6 @@ namespace UI.Desktop
             set { usuarioActual = value; }
         }
 
-        private void SeleccionarPersona_Load(object sender, EventArgs e)
-        {
-            this.Listar("Todos");
-        }
-
         public void Listar(string tipo)
         {
             try
@@ -53,10 +48,7 @@ namespace UI.Desktop
             }
         }
 
-        private void cbxTipoPersona_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.Listar(cbxTipoPersona.SelectedItem.ToString());
-        }
+        
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -67,6 +59,16 @@ namespace UI.Desktop
         {
             usuarioActual.Persona = ((Persona)this.dgvSeleccionarPersona.SelectedRows[0].DataBoundItem);
             this.Close();
+        }
+
+        private void cbxTipoPersona_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.Listar(cbxTipoPersona.SelectedItem.ToString());
+        }
+
+        private void SeleccionarPersona_Load(object sender, EventArgs e)
+        {
+            this.Listar("Todos");
         }
     }
 }

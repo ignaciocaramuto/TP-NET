@@ -211,7 +211,7 @@
             // 
             // tsbDocentes
             // 
-            this.tsbDocentes.Image = global::UI.Desktop.Properties.Resources.Teachers;
+            this.tsbDocentes.Image = ((System.Drawing.Image)(resources.GetObject("tsbDocentes.Image")));
             this.tsbDocentes.Name = "tsbDocentes";
             this.tsbDocentes.Size = new System.Drawing.Size(23, 22);
             this.tsbDocentes.Click += new System.EventHandler(this.tsbDocentes_Click);
@@ -223,7 +223,6 @@
             this.ClientSize = new System.Drawing.Size(575, 460);
             this.Controls.Add(this.tcCursos);
             this.Name = "Cursos";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cursos";
             this.Load += new System.EventHandler(this.Cursos_Load);
             this.tcCursos.ContentPanel.ResumeLayout(false);

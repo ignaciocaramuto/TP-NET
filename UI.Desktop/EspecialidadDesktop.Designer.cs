@@ -48,6 +48,7 @@
             // 
             // btnSalir
             // 
+            this.btnSalir.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSalir.Location = new System.Drawing.Point(231, 68);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(75, 23);
@@ -91,9 +92,11 @@
             // 
             // EspecialidadDesktop
             // 
+            this.AcceptButton = this.btnAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.CancelButton = this.btnSalir;
             this.ClientSize = new System.Drawing.Size(318, 98);
             this.Controls.Add(this.labelDesc);
             this.Controls.Add(this.txtDescripcion);
@@ -102,7 +105,6 @@
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnAceptar);
             this.Name = "EspecialidadDesktop";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Especialidad";
             this.ResumeLayout(false);
             this.PerformLayout();

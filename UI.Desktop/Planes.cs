@@ -95,7 +95,7 @@ namespace UI.Desktop
                     if (this.dgvPlanes.SelectedRows.Count > 0)
                     {
 
-                        int ID = ((Comision)this.dgvPlanes.SelectedRows[0].DataBoundItem).ID;
+                        int ID = ((Plan)this.dgvPlanes.SelectedRows[0].DataBoundItem).ID;
                         PlanLogic planLogic = new PlanLogic();
                         planLogic.Delete(ID);
                         this.Listar();

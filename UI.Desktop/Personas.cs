@@ -103,6 +103,10 @@ namespace UI.Desktop
                 {
                     this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                finally
+                {
+                    this.Listar("Todos");
+                }
             }
         }
 

@@ -121,6 +121,7 @@
             // 
             // btnCancelar
             // 
+            this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancelar.Location = new System.Drawing.Point(119, 186);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
@@ -149,8 +150,10 @@
             // 
             // ComisionDesktop
             // 
+            this.AcceptButton = this.btnAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(287, 221);
             this.Controls.Add(this.cbxEspecialidades);
             this.Controls.Add(this.lblEsp);
@@ -166,7 +169,6 @@
             this.Controls.Add(this.lblID);
             this.Name = "ComisionDesktop";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Comisiones";
             this.Load += new System.EventHandler(this.ComisionDesktop_Load);
             this.ResumeLayout(false);

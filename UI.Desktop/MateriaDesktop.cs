@@ -56,6 +56,7 @@
             // 
             // btnCancelar
             // 
+            this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancelar.Location = new System.Drawing.Point(177, 189);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
@@ -115,7 +116,7 @@
             this.cbxPlanes.Location = new System.Drawing.Point(113, 151);
             this.cbxPlanes.Name = "cbxPlanes";
             this.cbxPlanes.Size = new System.Drawing.Size(139, 21);
-            this.cbxPlanes.TabIndex = 2;
+            this.cbxPlanes.TabIndex = 5;
             // 
             // txtID
             // 
@@ -124,7 +125,7 @@
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
             this.txtID.Size = new System.Drawing.Size(65, 20);
-            this.txtID.TabIndex = 8;
+            this.txtID.TabIndex = 0;
             this.txtID.TabStop = false;
             // 
             // txtDescripcion
@@ -132,21 +133,21 @@
             this.txtDescripcion.Location = new System.Drawing.Point(113, 32);
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(139, 20);
-            this.txtDescripcion.TabIndex = 3;
+            this.txtDescripcion.TabIndex = 1;
             // 
             // txtHsSemanales
             // 
             this.txtHsSemanales.Location = new System.Drawing.Point(113, 90);
             this.txtHsSemanales.Name = "txtHsSemanales";
             this.txtHsSemanales.Size = new System.Drawing.Size(65, 20);
-            this.txtHsSemanales.TabIndex = 5;
+            this.txtHsSemanales.TabIndex = 3;
             // 
             // txtHsTotales
             // 
             this.txtHsTotales.Location = new System.Drawing.Point(113, 59);
             this.txtHsTotales.Name = "txtHsTotales";
             this.txtHsTotales.Size = new System.Drawing.Size(65, 20);
-            this.txtHsTotales.TabIndex = 4;
+            this.txtHsTotales.TabIndex = 2;
             // 
             // cbxEspecialidades
             // 
@@ -154,7 +155,7 @@
             this.cbxEspecialidades.Location = new System.Drawing.Point(113, 124);
             this.cbxEspecialidades.Name = "cbxEspecialidades";
             this.cbxEspecialidades.Size = new System.Drawing.Size(139, 21);
-            this.cbxEspecialidades.TabIndex = 1;
+            this.cbxEspecialidades.TabIndex = 4;
             this.cbxEspecialidades.SelectionChangeCommitted += new System.EventHandler(this.cbxEspecialidades_SelectionChangeCommitted);
             // 
             // label1
@@ -168,8 +169,10 @@
             // 
             // MateriaDesktop
             // 
+            this.AcceptButton = this.btnAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(264, 215);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbxEspecialidades);
@@ -187,7 +190,6 @@
             this.Controls.Add(this.btnAceptar);
             this.Name = "MateriaDesktop";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Materias";
             this.Load += new System.EventHandler(this.MateriaDesktop_Load);
             this.ResumeLayout(false);

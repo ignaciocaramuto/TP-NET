@@ -151,8 +151,11 @@ namespace Data.Database
             try
             {
                 this.OpenConnection();
+                SqlCommand cmdDeleteDocentes = new SqlCommand("delete docentes_cursos where id_curso=@id", sqlConn);
                 SqlCommand cmdDelete = new SqlCommand("delete cursos where id_curso=@id", sqlConn);
+                cmdDeleteDocentes.Parameters.Add("@id", SqlDbType.Int).Value = ID;
                 cmdDelete.Parameters.Add("@id", SqlDbType.Int).Value = ID;
+                cmdDeleteDocentes.ExecuteNonQuery();
                 cmdDelete.ExecuteNonQuery();
             }
             catch (Exception Ex)

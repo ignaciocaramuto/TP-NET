@@ -107,7 +107,7 @@
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
             this.txtID.Size = new System.Drawing.Size(190, 20);
-            this.txtID.TabIndex = 17;
+            this.txtID.TabIndex = 0;
             // 
             // label6
             // 
@@ -253,6 +253,7 @@
             // 
             // btnCancelar
             // 
+            this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancelar.Location = new System.Drawing.Point(570, 365);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(73, 23);
@@ -274,14 +275,15 @@
             // 
             // UsuarioDesktop
             // 
+            this.AcceptButton = this.btnAceptar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(648, 391);
             this.Controls.Add(this.tlUsuarioDesktop);
             this.Name = "UsuarioDesktop";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Usuario";
             this.Load += new System.EventHandler(this.UsuarioDesktop_Load);
             this.tlUsuarioDesktop.ResumeLayout(false);
