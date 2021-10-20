@@ -25,7 +25,6 @@
             <asp:LinkButton ID="editarLinkButton" runat="server" OnClick="editarLinkButton_Click">Editar   |    </asp:LinkButton>
             <asp:LinkButton ID="eliminarLinkButton" runat="server" OnClick="eliminarLinkButton_Click">Eliminar      | </asp:LinkButton>
             <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click">Nuevo     |   </asp:LinkButton>
-            <asp:LinkButton ID="asignarPermisosLinkButton" runat="server">     Asignar Permisos</asp:LinkButton>
         </asp:Panel>
     <br />
         <asp:Panel ID="formPanel" Visible="false" runat="server">

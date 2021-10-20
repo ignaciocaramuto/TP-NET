@@ -20,10 +20,7 @@ namespace UI.Desktop
 
         private void UsuarioDesktop_Load(object sender, EventArgs e)
         {
-            if (usuarioActual.Persona.DescTipoPersona == "No docente")
-                this.dgvPermisos.Visible = true;
-            else
-                this.dgvPermisos.Visible = false;
+            
         }
 
         Usuario usuarioActual;
@@ -42,12 +39,6 @@ namespace UI.Desktop
             try
             {
                 usuarioActual = UsuarioNegocio.GetOne(ID);
-                if (usuarioActual.Persona.DescTipoPersona == "No docente")
-                {
-                    this.dgvPermisos.AutoGenerateColumns = false;
-                    ModuloUsuarioLogic logic = new ModuloUsuarioLogic();
-                    dgvPermisos.DataSource = logic.GetAll(ID);
-                }
                 this.MapearDeDatos();
             }
             catch (Exception ex)
@@ -109,10 +100,6 @@ namespace UI.Desktop
                 usuarioActual.NombreUsuario = this.txtUsuario.Text;
                 usuarioActual.Clave = this.txtClave.Text;
                 usuarioActual.Habilitado = this.chkHabilitado.Checked;
-                foreach (DataGridViewRow row in this.dgvPermisos.Rows)
-                {
-                    usuarioActual.ModulosUsuarios.Add((ModuloUsuario)row.DataBoundItem);
-                }
                 
             }
 
@@ -185,22 +172,6 @@ namespace UI.Desktop
             select.ShowDialog();
             this.usuarioActual = select.UsuarioActual;
             this.txtPersona.Text = usuarioActual.Apellido + " " + usuarioActual.Nombre;
-            if (usuarioActual.Persona.DescTipoPersona == "No docente")
-            {
-                try
-                {
-                    this.dgvPermisos.AutoGenerateColumns = false;
-                    ModuloUsuarioLogic logic = new ModuloUsuarioLogic();
-                    dgvPermisos.DataSource = logic.GetAll(UsuarioActual.ID);
-                    dgvPermisos.Visible = true;
-                }
-                catch (Exception ex)
-                {
-                    this.Notificar("Error", ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-                this.dgvPermisos.Visible = false;
         }
     }
 }
