@@ -85,8 +85,10 @@
     <Content Include="DocentesCursos.aspx" />
     <Content Include="Especialidades.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="Imagenes\utn_logo.jpg" />
     <Content Include="Inscripciones.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="LoginStyle.css" />
     <Content Include="Materias.aspx" />
     <Content Include="Personas.aspx" />
     <Content Include="Planes.aspx" />

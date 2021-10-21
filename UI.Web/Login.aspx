@@ -1,36 +1,30 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="UI.Web.Login" %>
-<asp:Content ID="Home" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
-    <asp:Panel ID="loginPanel" runat="server" HorizontalAlign="Center" 
-        Width="850px">
-    <h2>Inicio de Sesión</h2>
-    <br />
-        <asp:Label ID="lblUsuario" runat="server" Text="Usuario: "></asp:Label>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:TextBox ID="txtUsuario" runat="server"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-            ControlToValidate="txtUsuario" ErrorMessage="Ingrese un Usuario por favor" 
-            ForeColor="#FF3300">*</asp:RequiredFieldValidator>
-        <br />
-        <br />
-        <asp:Label ID="lblContraseña" runat="server" Text="Contraseña: "></asp:Label>
-        <asp:TextBox ID="txtContraseña" runat="server" TextMode="Password"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-            ControlToValidate="txtContraseña" 
-            ErrorMessage="Ingrese una Contraseña por favor" ForeColor="#FF3300">*</asp:RequiredFieldValidator>
-        <br />
-        <br />
-        <asp:LinkButton ID="lbIngresar" runat="server" onclick="lbIngresar_Click">Ingresar</asp:LinkButton>
-        <br />
-        <br />
-        <br />
-        <br />
-        <asp:Label ID="lblMensage" runat="server" 
-            Text="Usuario o Contraseña incorrectas!" ForeColor="#FF3300" Visible="False"></asp:Label>
-            <br />
-        <asp:Label ID="lblMensage2" runat="server" 
-            Text="Usuario inhabilitado!" ForeColor="#FF3300" Visible="False"></asp:Label>
-        <asp:ValidationSummary ID="ValidationSummary" runat="server" 
-            ForeColor="#FF3300" />
-    </asp:Panel>
-<br />
-</asp:Content>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="UI.Web.Login" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link href="LoginStyle.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>LogIn</title>
+</head>
+<body>
+    
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <div class="fadeIn first">
+                <asp:Image ID="icon" runat="server" imageUrl="~/Imagenes/utn_logo.jpg"/>
+            </div>
+            <form id="form1" runat="server">
+                <asp:TextBox ID="txtUsuario" class="fadeIn second" placeholder="Nombre de usuario" runat="server"></asp:TextBox>
+                <asp:TextBox ID="txtContraseña" class="fadeIn third" placeholder="Contraseña" runat="server"></asp:TextBox>
+                <asp:Label ID="lblError" class="label-error" runat="server" Text="Usuario y/o contraseña incorrecto/s" Visible="false"></asp:Label>
+                <asp:Button ID="btnIngresar" class="fadeIn fourth" runat="server" OnClick="btnIngresar_Click" Text="Ingresar" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>

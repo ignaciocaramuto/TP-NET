@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Business.Entities;
 using Business.Logic;
 
@@ -28,7 +24,7 @@ namespace UI.Web
             }
         }
 
-        protected void lbIngresar_Click(object sender, EventArgs e)
+        protected void btnIngresar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -44,12 +40,12 @@ namespace UI.Web
                     }
                     else
                     {
-                        this.lblMensage2.Visible = true;
+                        lblError.Visible = true;
                     }
                 }
                 else
                 {
-                    this.lblMensage.Visible = true;
+                    lblError.Visible = true;
                 }
             }
             catch (Exception ex)
