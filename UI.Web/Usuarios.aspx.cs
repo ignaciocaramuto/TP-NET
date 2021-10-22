@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using Business.Entities;
 using Business.Logic;
 
@@ -79,24 +74,16 @@ namespace UI.Web
         private void LoadForm (int id)
         {
             this.Entity = this.Logic.GetOne(id);
-            this.habilitadoCheckBox.Checked = this.Entity.Habilitado;
-            this.nombreUsuarioTextBox.Text = this.Entity.NombreUsuario;
-            this.personaTextBox.Text = this.Entity.Persona.Apellido + " " + this.Entity.Persona.Nombre;
-        }
-
-        private void LoadPersonaForm(int id)
-        {
-            this.Entity = this.Logic.GetOne(id);
-            this.personaTextBox.Text = this.Entity.Persona.Apellido + " " + this.Entity.Persona.Nombre;
+            this.checkBoxHabilitado.Checked = this.Entity.Habilitado;
+            this.txtNombreUsuario.Text = this.Entity.NombreUsuario;
+            //this.personaTextBox.Text = this.Entity.Persona.Apellido + " " + this.Entity.Persona.Nombre;
         }
 
         private void LoadEntity(Usuario usuario)
         {
-            usuario.NombreUsuario = this.nombreUsuarioTextBox.Text;
-            usuario.Clave = this.claveTextBox.Text;
-            usuario.Habilitado = this.habilitadoCheckBox.Checked;
-
-
+            usuario.NombreUsuario = this.txtNombreUsuario.Text;
+            usuario.Clave = this.txtClave.Text;
+            usuario.Habilitado = this.checkBoxHabilitado.Checked;
         }
 
         private void SaveEntity(Usuario usuario)
@@ -111,11 +98,7 @@ namespace UI.Web
 
         private void EnableForm(bool enable)
         {
-            this.nombreUsuarioTextBox.Enabled = enable;
-            this.claveTextBox.Visible = enable;
-            this.claveLabel.Visible = enable;
-            this.repetirClaveLabel.Visible = enable;
-            this.repetirClaveTextBox.Visible = enable;
+            this.formPanel.Visible = true;
         }
 
         private void LoadGrid()
@@ -137,7 +120,7 @@ namespace UI.Web
             }
         }
 
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        protected void aceptarButton_Click(object sender, EventArgs e)
         {
             switch (this.FormMode)
             {
@@ -164,13 +147,6 @@ namespace UI.Web
             this.formPanel.Visible = false;
         }
 
-        protected void seleccionarPersonaLabel_Click(object sender, EventArgs e)
-        {
-            LoadGridPersonas();
-            personasPanel.Visible = true;
-            personasSelecPanel.Visible = true;
-        }
-
         protected void eliminarLinkButton_Click(object sender, EventArgs e)
         {
             if (this.IsEntitySelected)
@@ -184,9 +160,10 @@ namespace UI.Web
 
         protected void nuevoLinkButton_Click(object sender, EventArgs e)
         {
+            this.gridPanel.Visible = false;
+            this.gridActionsPanel.Visible = false;
             this.formPanel.Visible = true;
-            seleccionarPersonaLabel.Visible = true;
-            personaTextBox.Text = " Persona no Seleccionada ";
+            this.formPanelActions.Visible = true;
             this.FormMode = FormModes.Alta;
             this.ClearForm();
             this.EnableForm(true);
@@ -194,37 +171,18 @@ namespace UI.Web
 
         private void ClearForm()
         {
-            this.nombreUsuarioTextBox.Text = string.Empty;
-            this.habilitadoCheckBox.Checked = false;
+            this.txtNombreUsuario.Text = string.Empty;
+            this.txtClave.Text = string.Empty;
+            this.checkBoxHabilitado.Checked = false;
         }
 
-        protected void cancelarLinkbutton_Click(object sender, EventArgs e)
+        protected void cancelarButton_Click(object sender, EventArgs e)
         {
             this.ClearForm();
             this.formPanel.Visible = false;
-
-        }
-
-        private void LoadGridPersonas()
-        {
-            this.dgvPersonas.DataSource = this.Logic.GetAll();
-            this.dgvPersonas.DataBind();
-        }
-
-        protected void dgvPersonas_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedID = (int)this.dgvPersonas.SelectedValue;
-        }
-
-        protected void lbSeleccionar_Click(object sender, EventArgs e)
-        {
-            LoadPersonaForm(SelectedID);
-            personasSelecPanel.Visible = personasPanel.Visible = false;
-        }
-
-        protected void lbCancelar_Click(object sender, EventArgs e)
-        {
-            personasSelecPanel.Visible = personasPanel.Visible = false;
+            this.formPanelActions.Visible = false;
+            this.gridPanel.Visible = true;
+            this.gridActionsPanel.Visible = true;
         }
     }
 }

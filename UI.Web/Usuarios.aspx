@@ -1,6 +1,59 @@
 ﻿<%@ Page Title="Usuarios" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Usuarios.aspx.cs" Inherits="UI.Web.Usuarios" %>
 
 <asp:Content ID="ContentUsuarios" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
+    <section>
+        <h1 style="text-align: center">ABMC de Usuarios</h1>
+    </section>
+    <section class="content">
+        <asp:Panel ID="formPanel" Visible="false" runat="server">
+            <div class="row">
+                <div visible="False">
+                    <div class="box box-primary" style="margin-left: auto; margin-right: auto; width: 50%; display: block;">
+                        <div class="box box-body">
+                            <div class="form-group">
+                                <asp:Label ID="lblNombreUsuario" runat="server" Text="Nombre de Usuario"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control"></asp:TextBox>
+                            </div>
+                            <div class="form-group">
+                                <asp:Label ID="lblClave" runat="server" Text="Clave"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:TextBox ID="txtClave" runat="server" CssClass="form-control"></asp:TextBox>
+                            </div>
+                            <div class="form-group">
+                                <asp:Label ID="seleccionarPersonaLabel" runat="server" Text="Seleccionar persona"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:DropDownList ID="DropDownListPersonas" runat="server"></asp:DropDownList>
+                            </div>
+                            <div class="form-group">
+                                <asp:Label ID="lblHabilitado" runat="server" Text="Habilitado"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:CheckBox ID="checkBoxHabilitado" runat="server" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <asp:Panel ID="formPanelActions" runat="server" Visible="False">
+                <div class="row">
+                    <div align="center">
+                        <table>
+                            <tr>
+                                <td>
+                                    <asp:LinkButton ID="btnCancelar" runat="server" OnClick="cancelarButton_Click" CssClass="btn btn-danger" Width="100px">Cancelar</asp:LinkButton>&nbsp;
+                                    <asp:LinkButton ID="btnAceptar" runat="server" OnClick="aceptarButton_Click" CssClass="btn btn-primary" Width="100px">Aceptar</asp:LinkButton>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </asp:Panel>
+        </asp:Panel>
+    </section>
     <asp:Panel ID="gridPanel" runat="server">
         <h2>Usuarios:</h2><br />
         <asp:GridView ID="gridView" runat="server" AutoGenerateColumns="false"
@@ -26,56 +79,5 @@
             <asp:LinkButton ID="eliminarLinkButton" runat="server" OnClick="eliminarLinkButton_Click">Eliminar      | </asp:LinkButton>
             <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click">Nuevo     |   </asp:LinkButton>
         </asp:Panel>
-    <br />
-        <asp:Panel ID="formPanel" Visible="false" runat="server">
-            <asp:Label ID="habilitadoLabel" runat="server" Text="Habilitado: "></asp:Label>
-            <asp:CheckBox ID="habilitadoCheckBox" runat="server" />
-            <br />
-            <asp:Label ID="nombreUsuarioLabel" runat="server" Text="Nombre de Usuario: "></asp:Label>
-            <asp:TextBox ID="nombreUsuarioTextBox" runat="server" Height="15px" Width="200px"></asp:TextBox>
-            <%--<asp:RequiredFieldValidator ID="rfvNombreUsuario" runat="server" ControlToValidate="nombreUsuarioTextBox" 
-                ErrorMessage="El campo Nombre de Usuario es obligatorio" ForeColor="Red">*</asp:RequiredFieldValidator>--%>
-            <br />
-            <asp:LinkButton ID="seleccionarPersonaLabel" runat="server" onclick="seleccionarPersonaLabel_Click" 
-                 CausesValidation="False">Seleccionar Persona  </asp:LinkButton>
-            <asp:TextBox ID="personaTextBox" runat="server" Enabled="False" Width="173px">--Persona no seleccionada--</asp:TextBox>
-            <br />
-            <asp:Label ID="claveLabel" runat="server" Text="Clave: "></asp:Label>
-            <asp:TextBox ID="claveTextBox" runat="server" Height="15px" Width="200px"></asp:TextBox>
-            <%--<asp:RequiredFieldValidator ID="rfvClave" runat="server" ControlToValidate="claveTextBox" Display="Dynamic" 
-                ErrorMessage="El campo Clave es obligatorio" ForeColor="Red">*</asp:RequiredFieldValidator>--%>
-            <br />
-            <asp:Label ID="repetirClaveLabel" runat="server" Text="Repetir Clave: "></asp:Label>
-            <asp:TextBox ID="repetirClaveTextBox" TextMode="Password" runat="server" Height="15px" Width="200px"></asp:TextBox>
-            <%--<asp:CompareValidator ID="cvRepetirClave" runat="server" ControlToCompare="claveTextBox" ControlToValidate="repetirClaveTextBox" 
-                Display="Dynamic" ErrorMessage="Las claves deben coincidir" ForeColor="Red">*</asp:CompareValidator>
-            <asp:RequiredFieldValidator ID="rfvRepetirClave" runat="server" ControlToValidate="repetirClaveTextBox" Display="Dynamic" 
-                ErrorMessage="El campo Repetir Clave es obligatorio" ForeColor="Red">*</asp:RequiredFieldValidator>--%>
-            <asp:Panel ID="personasPanel" runat="server" Visible="False">
-                <asp:GridView ID="dgvPersonas" runat="server" 
-            AutoGenerateColumns="False" DataKeyNames="ID" 
-            onselectedindexchanged="dgvPersonas_SelectedIndexChanged">
-                <Columns>
-                    <asp:BoundField DataField="ID" HeaderText="ID" />
-                    <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
-                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                    <asp:BoundField DataField="TipoPersona" HeaderText="Tipo Persona" />
-                    <asp:CommandField ShowSelectButton="True" />
-                </Columns>
-                <RowStyle HorizontalAlign="Center" />
-                <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-                <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
-                <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
-            </asp:GridView>
-            </asp:Panel>
-            <asp:Panel ID="personasSelecPanel" runat="server" Visible="False">
-        <asp:LinkButton ID="lbSeleccionar" runat="server" onclick="lbSeleccionar_Click">Seleccionar</asp:LinkButton>
-        <asp:LinkButton ID="lbCancelar" runat="server" onclick="lbCancelar_Click">Cancelar</asp:LinkButton>
-            </asp:Panel>
-        </asp:Panel>
-    <asp:Panel ID="formActionsPanel" runat="server">
-        <asp:LinkButton ID="aceptarLinkButton" runat="server" OnClick="aceptarLinkButton_Click">Aceptar       </asp:LinkButton>
-        <asp:LinkButton ID="cancelarLinkbutton" runat="server" OnClick="cancelarLinkbutton_Click">Cancelar       </asp:LinkButton>
-        <asp:ValidationSummary ID="vsValidaciones" runat="server" ForeColor="Red" />
-    </asp:Panel>
+    
 </asp:Content>
