@@ -54,12 +54,11 @@
             </asp:Panel>
         </asp:Panel>
     </section>
-    <asp:Panel ID="gridPanel" runat="server">
-        <h2>Usuarios:</h2><br />
-        <asp:GridView ID="gridView" runat="server" AutoGenerateColumns="false"
-            SelectedRowStyle-BackColor="Black" 
-            SelectedRowStyle-ForeColor="White"
-            DataKeyNames="ID" OnSelectedIndexChanged="gridView_SelectedIndexChanged" >
+    <section>
+        <asp:Panel ID="gridPanel" runat="server">
+        <div class="container">
+            <asp:GridView ID="gridView" CssClass="table table-bordered table-hover table-responsive" runat="server" AutoGenerateColumns="false"
+            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridView_RowCommand" >
             <Columns>
                 <asp:BoundField HeaderText="ID" DataField="ID" />
                 <asp:BoundField HeaderText="Nombre" DataField="Nombre" />
@@ -67,17 +66,25 @@
                 <asp:BoundField HeaderText="Email" DataField="Email" />
                 <asp:BoundField HeaderText="Usuario" DataField="NombreUsuario" />
                 <asp:BoundField HeaderText="Habilitado" DataField="Habilitado" />
-                <asp:CommandField SelectText="Seleccionar" ShowSelectButton="True" />
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <div align="center">
+                            <asp:LinkButton ID="editarLinkButton" runat="server" CommandName="Editar" CommandArgument="<%# Container.DataItemIndex %>" CssClass="fa fa-pencil fa-lg"></asp:LinkButton>&nbsp;&nbsp;
+                            <asp:LinkButton ID="eliminarLinkButton" runat="server" CommandName="Borrar" CommandArgument="<%# Container.DataItemIndex %>" CssClass="fa fa-trash-o fa-lg" style="color: red"></asp:LinkButton>
+                        </div>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
-            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
-            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+            <HeaderStyle HorizontalAlign="Center" CssClass="table-primary"/>
+            <RowStyle  />
         </asp:GridView>
-    </asp:Panel>
-        <asp:Panel ID="gridActionsPanel" runat="server">
-            <asp:LinkButton ID="editarLinkButton" runat="server" OnClick="editarLinkButton_Click">Editar   |    </asp:LinkButton>
-            <asp:LinkButton ID="eliminarLinkButton" runat="server" OnClick="eliminarLinkButton_Click">Eliminar      | </asp:LinkButton>
-            <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click">Nuevo     |   </asp:LinkButton>
+            <asp:Panel ID="gridActionsPanel" runat="server">
+            <div class="d-flex justify-content-end" style="margin-right: 30px">
+                <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click" CssClass="btn btn-success" Width="100px">Nuevo</asp:LinkButton>
+            </div>
         </asp:Panel>
-    
+        </div> 
+        </asp:Panel>
+        
+    </section>
 </asp:Content>

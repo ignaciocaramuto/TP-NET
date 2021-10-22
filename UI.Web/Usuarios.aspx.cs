@@ -47,142 +47,132 @@ namespace UI.Web
         {
             get
             {
-                if (this.ViewState["SelectedID"] != null)
-                    return (int)this.ViewState["SelectedID"];
+                if (ViewState["SelectedID"] != null)
+                    return (int)ViewState["SelectedID"];
                 else
                     return 0;
             }
             set
             {
-                this.ViewState["SelectedID"] = value;
+                ViewState["SelectedID"] = value;
             }
-        }
-
-        private bool IsEntitySelected
-        {
-            get
-            {
-                return (this.SelectedID != 0);
-            }
-        }
-
-        protected void gridView_SelectedIndexChanged (object sender, EventArgs e)
-        {
-            this.SelectedID = (int)this.gridView.SelectedValue;
         }
 
         private void LoadForm (int id)
         {
-            this.Entity = this.Logic.GetOne(id);
-            this.checkBoxHabilitado.Checked = this.Entity.Habilitado;
-            this.txtNombreUsuario.Text = this.Entity.NombreUsuario;
+            Entity = Logic.GetOne(id);
+            checkBoxHabilitado.Checked = Entity.Habilitado;
+            txtNombreUsuario.Text = Entity.NombreUsuario;
             //this.personaTextBox.Text = this.Entity.Persona.Apellido + " " + this.Entity.Persona.Nombre;
         }
 
         private void LoadEntity(Usuario usuario)
         {
-            usuario.NombreUsuario = this.txtNombreUsuario.Text;
-            usuario.Clave = this.txtClave.Text;
-            usuario.Habilitado = this.checkBoxHabilitado.Checked;
+            usuario.NombreUsuario = txtNombreUsuario.Text;
+            usuario.Clave = txtClave.Text;
+            usuario.Habilitado = checkBoxHabilitado.Checked;
         }
 
         private void SaveEntity(Usuario usuario)
         {
-            this.Logic.Save(usuario);
+            Logic.Save(usuario);
         }
 
         private void DeleteEntity (int id)
         {
-            this.Logic.Delete(id);
+            Logic.Delete(id);
         }
 
         private void EnableForm(bool enable)
         {
-            this.formPanel.Visible = true;
+            formPanel.Visible = true;
         }
 
         private void LoadGrid()
         {
-            this.gridView.DataSource = this.Logic.GetAll();
-            this.gridView.DataBind();
-        }
-
-       
-
-        protected void editarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.formPanel.Visible = true;
-                seleccionarPersonaLabel.Visible = false;
-                this.FormMode = FormModes.Modificacion;
-                this.LoadForm(this.SelectedID);
-            }
+            gridView.DataSource = Logic.GetAll();
+            gridView.DataBind();
         }
 
         protected void aceptarButton_Click(object sender, EventArgs e)
         {
-            switch (this.FormMode)
+            switch (FormMode)
             {
                 case FormModes.Baja:
-                    this.DeleteEntity(this.SelectedID);
-                    this.LoadGrid();
+                    DeleteEntity(SelectedID);
+                    LoadGrid();
                     break;
                 case FormModes.Modificacion:
-                    this.Entity = Logic.GetOne(SelectedID);
-                    this.Entity.State = BusinessEntity.States.Modified;
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
+                    Entity = Logic.GetOne(SelectedID);
+                    Entity.State = BusinessEntity.States.Modified;
+                    LoadEntity(Entity);
+                    SaveEntity(Entity);
+                    LoadGrid();
                     break;
                 case FormModes.Alta:
-                    this.Entity = new Usuario();
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(this.Entity);
-                    this.LoadGrid();
+                    Entity = new Usuario();
+                    LoadEntity(Entity);
+                    SaveEntity(Entity);
+                    LoadGrid();
                     break;
                 default:
                     break;
             }
-            this.formPanel.Visible = false;
-        }
-
-        protected void eliminarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.formPanel.Visible = true;
-                this.FormMode = FormModes.Baja;
-                this.EnableForm(false);
-                this.LoadForm(this.SelectedID);
-            }
+            formPanel.Visible = false;
         }
 
         protected void nuevoLinkButton_Click(object sender, EventArgs e)
         {
-            this.gridPanel.Visible = false;
-            this.gridActionsPanel.Visible = false;
-            this.formPanel.Visible = true;
-            this.formPanelActions.Visible = true;
-            this.FormMode = FormModes.Alta;
-            this.ClearForm();
-            this.EnableForm(true);
+            gridPanel.Visible = false;
+            gridActionsPanel.Visible = false;
+            formPanel.Visible = true;
+            formPanelActions.Visible = true;
+            FormMode = FormModes.Alta;
+            ClearForm();
+            EnableForm(true);
         }
 
         private void ClearForm()
         {
-            this.txtNombreUsuario.Text = string.Empty;
-            this.txtClave.Text = string.Empty;
-            this.checkBoxHabilitado.Checked = false;
+            txtNombreUsuario.Text = string.Empty;
+            txtClave.Text = string.Empty;
+            checkBoxHabilitado.Checked = false;
         }
 
         protected void cancelarButton_Click(object sender, EventArgs e)
         {
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.formPanelActions.Visible = false;
-            this.gridPanel.Visible = true;
-            this.gridActionsPanel.Visible = true;
+            ClearForm();
+            formPanel.Visible = false;
+            formPanelActions.Visible = false;
+            gridPanel.Visible = true;
+            gridActionsPanel.Visible = true;
+        }
+
+        protected void gridView_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        {
+            //Valida si el nombre del comando de boton es editar o borrar
+            if (e.CommandName == "Editar")
+            {
+                //Determina el index de la fila de donde el boton fue clickeado
+                SelectedID = Convert.ToInt32(e.CommandArgument) + 1;
+
+                formPanel.Visible = true;
+                formPanelActions.Visible = true;
+                seleccionarPersonaLabel.Visible = false;
+                FormMode = FormModes.Modificacion;
+                LoadForm(SelectedID);
+            }
+            
+            if (e.CommandName == "Borrar")
+            {
+                SelectedID = Convert.ToInt32(e.CommandArgument) + 1;
+
+                formPanel.Visible = true;
+                formPanelActions.Visible = true;
+                FormMode = FormModes.Baja;
+                EnableForm(false);
+                LoadForm(SelectedID);
+            }
         }
     }
 }
