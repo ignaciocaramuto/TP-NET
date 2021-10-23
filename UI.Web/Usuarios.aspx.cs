@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Business.Entities;
 using Business.Logic;
+using System.Linq;
+using System.Web.UI;
 
 namespace UI.Web
 {
@@ -61,15 +64,18 @@ namespace UI.Web
         private void LoadForm (int id)
         {
             Entity = Logic.GetOne(id);
+            dropDownListGetPersona(SelectedID);
             checkBoxHabilitado.Checked = Entity.Habilitado;
             txtNombreUsuario.Text = Entity.NombreUsuario;
-            //this.personaTextBox.Text = this.Entity.Persona.Apellido + " " + this.Entity.Persona.Nombre;
         }
 
         private void LoadEntity(Usuario usuario)
         {
+            Persona per = LogicPersona.GetOne(DropDownListPersonas.SelectedIndex);
+
             usuario.NombreUsuario = txtNombreUsuario.Text;
             usuario.Clave = txtClave.Text;
+            usuario.Persona = per;
             usuario.Habilitado = checkBoxHabilitado.Checked;
         }
 
@@ -113,6 +119,7 @@ namespace UI.Web
                     Entity = new Usuario();
                     LoadEntity(Entity);
                     SaveEntity(Entity);
+                    gridPanel.Visible = true;
                     LoadGrid();
                     break;
                 default:
@@ -127,7 +134,10 @@ namespace UI.Web
             gridActionsPanel.Visible = false;
             formPanel.Visible = true;
             formPanelActions.Visible = true;
-            FormMode = FormModes.Alta;
+            txtNombreUsuario.ReadOnly = false;
+            txtClave.ReadOnly = false;
+            dropDownListPersonasLoad();
+            FormMode = FormModes.Alta;      
             ClearForm();
             EnableForm(true);
         }
@@ -154,25 +164,63 @@ namespace UI.Web
             if (e.CommandName == "Editar")
             {
                 //Determina el index de la fila de donde el boton fue clickeado
-                SelectedID = Convert.ToInt32(e.CommandArgument) + 1;
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+
+                //Obtiene el valor de la primary key de la fila que fue seleccionada
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
 
                 formPanel.Visible = true;
+                txtNombreUsuario.ReadOnly = false;
+                txtClave.ReadOnly = false;
                 formPanelActions.Visible = true;
                 seleccionarPersonaLabel.Visible = false;
-                FormMode = FormModes.Modificacion;
                 LoadForm(SelectedID);
+                FormMode = FormModes.Modificacion;
             }
             
             if (e.CommandName == "Borrar")
             {
-                SelectedID = Convert.ToInt32(e.CommandArgument) + 1;
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
 
                 formPanel.Visible = true;
+                txtNombreUsuario.ReadOnly = true;
+                txtClave.ReadOnly = true;
                 formPanelActions.Visible = true;
                 FormMode = FormModes.Baja;
                 EnableForm(false);
                 LoadForm(SelectedID);
             }
+        }
+
+        private void dropDownListPersonasLoad()
+        {
+            List<Persona> personas = LogicPersona.GetAll();
+            var datasource = from p in personas
+                             select new
+                             {
+                                 p.ID,
+                                 p.Apellido,
+                                 p.Nombre,
+                                 DisplayField = String.Format("{0} {1}", p.Apellido, p.Nombre)
+                             };
+
+            DropDownListPersonas.DataSource = datasource;
+            DropDownListPersonas.DataValueField = "ID";
+            DropDownListPersonas.DataTextField = "DisplayField";
+            DropDownListPersonas.DataBind();
+        }
+
+        private void dropDownListGetPersona(int id)
+        {
+            List<Persona> personaList = new List<Persona>();
+            Persona per = LogicPersona.GetOne(id);
+            personaList.Add(per);
+            DropDownListPersonas.DataSource = personaList;
+            DropDownListPersonas.DataTextField = "Nombre";
+            DropDownListPersonas.DataTextField = "Apellido";
+            DropDownListPersonas.DataValueField = "ID";
+            DropDownListPersonas.DataBind();
         }
     }
 }

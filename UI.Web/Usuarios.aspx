@@ -26,7 +26,7 @@
                                 <asp:Label ID="seleccionarPersonaLabel" runat="server" Text="Seleccionar persona"></asp:Label>
                             </div>
                             <div class="form-group">
-                                <asp:DropDownList ID="DropDownListPersonas" runat="server"></asp:DropDownList>
+                                <asp:DropDownList ID="DropDownListPersonas" runat="server" CssClass="form-control"></asp:DropDownList>
                             </div>
                             <div class="form-group">
                                 <asp:Label ID="lblHabilitado" runat="server" Text="Habilitado"></asp:Label>
@@ -58,7 +58,7 @@
         <asp:Panel ID="gridPanel" runat="server">
         <div class="container">
             <asp:GridView ID="gridView" CssClass="table table-bordered table-hover table-responsive" runat="server" AutoGenerateColumns="false"
-            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridView_RowCommand" >
+            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridView_RowCommand">
             <Columns>
                 <asp:BoundField HeaderText="ID" DataField="ID" />
                 <asp:BoundField HeaderText="Nombre" DataField="Nombre" />
@@ -69,8 +69,8 @@
                 <asp:TemplateField HeaderText="Acciones">
                     <ItemTemplate>
                         <div align="center">
-                            <asp:LinkButton ID="editarLinkButton" runat="server" CommandName="Editar" CommandArgument="<%# Container.DataItemIndex %>" CssClass="fa fa-pencil fa-lg"></asp:LinkButton>&nbsp;&nbsp;
-                            <asp:LinkButton ID="eliminarLinkButton" runat="server" CommandName="Borrar" CommandArgument="<%# Container.DataItemIndex %>" CssClass="fa fa-trash-o fa-lg" style="color: red"></asp:LinkButton>
+                            <asp:LinkButton ID="editarLinkButton" runat="server" CommandName="Editar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-pencil fa-lg"></asp:LinkButton>&nbsp;&nbsp;
+                            <asp:LinkButton ID="eliminarLinkButton" runat="server" CommandName="Borrar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-trash-o fa-lg" style="color: red"></asp:LinkButton>
                         </div>
                     </ItemTemplate>
                 </asp:TemplateField>
