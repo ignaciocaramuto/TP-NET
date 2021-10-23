@@ -60,15 +60,20 @@ namespace UI.Web
         {
             get
             {
-                if (this.ViewState["SelectedID"] != null)
-                    return (int)this.ViewState["SelectedID"];
+                if (ViewState["SelectedID"] != null)
+                    return (int)ViewState["SelectedID"];
                 else
                     return 0;
             }
             set
             {
-                this.ViewState["SelectedID"] = value;
+                ViewState["SelectedID"] = value;
             }
+        }
+
+        private void ClearSession()
+        {
+            Session["SelectedID"] = null;
         }
 
         private void LoadGrid()
@@ -184,6 +189,7 @@ namespace UI.Web
                     break;
             }
             ClearForm();
+            ClearSession();
             LoadGrid();
             formPanel.Visible = false;
             gridActionsPanel.Visible = true;
