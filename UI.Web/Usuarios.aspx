@@ -16,18 +16,28 @@
                             <div class="form-group">
                                 <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control"></asp:TextBox>
                             </div>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorNombreUsuario" runat="server" ControlToValidate="txtNombreUsuario" 
+                                ErrorMessage="El campo Nombre de usuario es obligatorio" ForeColor="#FF3300"></asp:RequiredFieldValidator>
+                            <br />
                             <div class="form-group">
                                 <asp:Label ID="lblClave" runat="server" Text="Clave"></asp:Label>
                             </div>
                             <div class="form-group">
                                 <asp:TextBox ID="txtClave" runat="server" CssClass="form-control"></asp:TextBox>
                             </div>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorClave" runat="server" ControlToValidate="txtClave" 
+                                ErrorMessage="El campo Clave es obligatorio" ForeColor="#FF3300"></asp:RequiredFieldValidator>
+                            <br />
                             <div class="form-group">
                                 <asp:Label ID="seleccionarPersonaLabel" runat="server" Text="Seleccionar persona"></asp:Label>
                             </div>
                             <div class="form-group">
-                                <asp:DropDownList ID="DropDownListPersonas" runat="server" CssClass="form-control"></asp:DropDownList>
+                                <asp:DropDownList ID="DropDownListPersonas" runat="server" CssClass="form-control" OnDataBound="DropDownListPersonas_DataBound" CausesValidation="true">
+                                </asp:DropDownList>
                             </div>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorPersona" runat="server" ControlToValidate="DropDownListPersonas" 
+                                Display="Dynamic" ErrorMessage="Por favor selecciona una persona" />
+                            <br />
                             <div class="form-group">
                                 <asp:Label ID="lblHabilitado" runat="server" Text="Habilitado"></asp:Label>
                             </div>
@@ -44,7 +54,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <asp:LinkButton ID="btnCancelar" runat="server" OnClick="cancelarButton_Click" CssClass="btn btn-danger" Width="100px">Cancelar</asp:LinkButton>&nbsp;
+                                    <asp:LinkButton ID="btnCancelar" runat="server" OnClick="cancelarButton_Click" CausesValidation="false" CssClass="btn btn-danger" Width="100px">Cancelar</asp:LinkButton>&nbsp;
                                     <asp:LinkButton ID="btnAceptar" runat="server" OnClick="aceptarButton_Click" CssClass="btn btn-primary" Width="100px">Aceptar</asp:LinkButton>
                                 </td>
                             </tr>

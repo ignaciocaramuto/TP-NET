@@ -42,6 +42,15 @@ namespace UI.Web
         protected global::System.Web.UI.WebControls.TextBox txtNombreUsuario;
 
         /// <summary>
+        /// Control RequiredFieldValidatorNombreUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorNombreUsuario;
+
+        /// <summary>
         /// Control lblClave.
         /// </summary>
         /// <remarks>
@@ -60,6 +69,15 @@ namespace UI.Web
         protected global::System.Web.UI.WebControls.TextBox txtClave;
 
         /// <summary>
+        /// Control RequiredFieldValidatorClave.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorClave;
+
+        /// <summary>
         /// Control seleccionarPersonaLabel.
         /// </summary>
         /// <remarks>
@@ -76,6 +94,15 @@ namespace UI.Web
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DropDownListPersonas;
+
+        /// <summary>
+        /// Control RequiredFieldValidatorPersona.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorPersona;
 
         /// <summary>
         /// Control lblHabilitado.

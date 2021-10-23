@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Business.Entities;
 using Business.Logic;
 using System.Linq;
-using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace UI.Web
 {
@@ -61,32 +61,66 @@ namespace UI.Web
             }
         }
 
-        private void LoadForm (int id)
+        private void ClearSession()
         {
-            Entity = Logic.GetOne(id);
-            dropDownListGetPersona(SelectedID);
-            checkBoxHabilitado.Checked = Entity.Habilitado;
-            txtNombreUsuario.Text = Entity.NombreUsuario;
+            Session["SelectedID"] = null;
+        }
+
+        private void LoadForm ()
+        {
+            try
+            {
+                Entity = Logic.GetOne(SelectedID);
+                dropDownListGetPersona();
+                checkBoxHabilitado.Checked = Entity.Habilitado;
+                txtNombreUsuario.Text = Entity.NombreUsuario;
+                txtClave.Text = Entity.Clave;
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+            
         }
 
         private void LoadEntity(Usuario usuario)
         {
-            Persona per = LogicPersona.GetOne(DropDownListPersonas.SelectedIndex);
-
-            usuario.NombreUsuario = txtNombreUsuario.Text;
-            usuario.Clave = txtClave.Text;
-            usuario.Persona = per;
-            usuario.Habilitado = checkBoxHabilitado.Checked;
+            try
+            {
+                Persona per = LogicPersona.GetOne(DropDownListPersonas.SelectedIndex);
+                usuario.NombreUsuario = txtNombreUsuario.Text;
+                usuario.Clave = txtClave.Text;
+                usuario.Persona = per;
+                usuario.Habilitado = checkBoxHabilitado.Checked;
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }  
         }
 
         private void SaveEntity(Usuario usuario)
         {
-            Logic.Save(usuario);
+            try
+            {
+                Logic.Save(usuario);
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
         private void DeleteEntity (int id)
         {
-            Logic.Delete(id);
+            try
+            {
+                Logic.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
         private void EnableForm(bool enable)
@@ -96,8 +130,15 @@ namespace UI.Web
 
         private void LoadGrid()
         {
-            gridView.DataSource = Logic.GetAll();
-            gridView.DataBind();
+            try
+            {
+                gridView.DataSource = Logic.GetAll();
+                gridView.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
         }
 
         protected void aceptarButton_Click(object sender, EventArgs e)
@@ -106,25 +147,24 @@ namespace UI.Web
             {
                 case FormModes.Baja:
                     DeleteEntity(SelectedID);
-                    LoadGrid();
                     break;
                 case FormModes.Modificacion:
                     Entity = Logic.GetOne(SelectedID);
                     Entity.State = BusinessEntity.States.Modified;
                     LoadEntity(Entity);
                     SaveEntity(Entity);
-                    LoadGrid();
                     break;
                 case FormModes.Alta:
                     Entity = new Usuario();
                     LoadEntity(Entity);
                     SaveEntity(Entity);
                     gridPanel.Visible = true;
-                    LoadGrid();
                     break;
                 default:
                     break;
             }
+            ClearSession();
+            LoadGrid();
             formPanel.Visible = false;
         }
 
@@ -173,8 +213,7 @@ namespace UI.Web
                 txtNombreUsuario.ReadOnly = false;
                 txtClave.ReadOnly = false;
                 formPanelActions.Visible = true;
-                seleccionarPersonaLabel.Visible = false;
-                LoadForm(SelectedID);
+                LoadForm();
                 FormMode = FormModes.Modificacion;
             }
             
@@ -189,38 +228,52 @@ namespace UI.Web
                 formPanelActions.Visible = true;
                 FormMode = FormModes.Baja;
                 EnableForm(false);
-                LoadForm(SelectedID);
+                LoadForm();
             }
         }
 
         private void dropDownListPersonasLoad()
         {
-            List<Persona> personas = LogicPersona.GetAll();
-            var datasource = from p in personas
-                             select new
-                             {
-                                 p.ID,
-                                 p.Apellido,
-                                 p.Nombre,
-                                 DisplayField = String.Format("{0} {1}", p.Apellido, p.Nombre)
-                             };
+            try
+            {
+                List<Persona> personas = LogicPersona.GetAll();
 
-            DropDownListPersonas.DataSource = datasource;
+                //usamos linq para establecer los items del dropdown como nombre + apellido
+                var datasource = from p in personas 
+                                 select new
+                                 {
+                                     p.ID,
+                                     p.Apellido,
+                                     p.Nombre,
+                                     DisplayField = String.Format("{0} {1}", p.Apellido, p.Nombre)
+                                 };
+
+                DropDownListPersonas.DataSource = datasource;
+                DropDownListPersonas.DataValueField = "ID";
+                DropDownListPersonas.DataTextField = "DisplayField";
+                DropDownListPersonas.DataBind();
+            } 
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+
+        }
+
+        private void dropDownListGetPersona()
+        {
+            List<Persona> personaList = new List<Persona>();
+            Persona per = LogicPersona.GetOne(SelectedID);
+            personaList.Add(per);
+            DropDownListPersonas.DataSource = personaList;
             DropDownListPersonas.DataValueField = "ID";
-            DropDownListPersonas.DataTextField = "DisplayField";
+            DropDownListPersonas.DataTextField = "Apellido";
             DropDownListPersonas.DataBind();
         }
 
-        private void dropDownListGetPersona(int id)
+        protected void DropDownListPersonas_DataBound(object sender, EventArgs e)
         {
-            List<Persona> personaList = new List<Persona>();
-            Persona per = LogicPersona.GetOne(id);
-            personaList.Add(per);
-            DropDownListPersonas.DataSource = personaList;
-            DropDownListPersonas.DataTextField = "Nombre";
-            DropDownListPersonas.DataTextField = "Apellido";
-            DropDownListPersonas.DataValueField = "ID";
-            DropDownListPersonas.DataBind();
+            DropDownListPersonas.Items.Insert(0, new ListItem("--- Selecciona una persona ---", String.Empty));
         }
     }
 }
