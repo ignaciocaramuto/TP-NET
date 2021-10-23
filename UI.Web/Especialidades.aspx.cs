@@ -12,14 +12,9 @@ namespace UI.Web
     public partial class Especialidades : Modes
     {
        protected void Page_Load(object sender, EventArgs e)
-            {
-                this.LoadGrid();
-                if (this.GridView.SelectedIndex == -1)
-                {
-                    ShowButtons(false);
-                    gridActionsPanel.Visible = true;
-                }
-            }
+       {
+            if (!IsPostBack) LoadGrid();
+       }
 
         EspecialidadLogic _logic;
 
@@ -54,22 +49,14 @@ namespace UI.Web
         {
             get
             {
-                if (this.ViewState["SelectedID"] != null)
-                    return (int)this.ViewState["SelectedID"];
+                if (ViewState["SelectedID"] != null)
+                    return (int)ViewState["SelectedID"];
                 else
                     return 0;
             }
             set
             {
-                this.ViewState["SelectedID"] = value;
-            }
-        }
-
-        private bool IsEntitySelected
-        {
-            get
-            {
-                return (this.SelectedID != 0);
+                ViewState["SelectedID"] = value;
             }
         }
 
@@ -77,8 +64,8 @@ namespace UI.Web
         {
             try
             {
-                this.GridView.DataSource = this.Logic.GetAll();
-                this.GridView.DataBind();
+                gridView.DataSource = Logic.GetAll();
+                gridView.DataBind();
             }
             catch (Exception ex)
             {
@@ -86,29 +73,21 @@ namespace UI.Web
             }
         }
 
-        private void ShowButtons(bool enable)
-        {
-            this.lbEliminar.Visible = enable;
-            this.lbEditar.Visible = enable;
-        }
-
         private void EnableForm(bool enable)
         {
-            this.lblDescripcion.Visible = enable;
-            this.txtDescEspecialidad.Visible = enable;
+            lblDescripcion.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.txtDescEspecialidad.Text = string.Empty;
-            this.GridView.SelectedIndex = -1;
+            txtDescripcion.Text = string.Empty;
         }
 
         private void DeleteEntity(int id)
         {
             try
             {
-                this.Logic.Delete(id);
+                Logic.Delete(id);
             }
             catch (Exception ex)
             {
@@ -116,18 +95,12 @@ namespace UI.Web
             }
         }
 
-        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedID = (int)this.GridView.SelectedValue;
-            this.ShowButtons(true);
-        }
-
         private void LoadForm(int id)
         {
             try
             {
-                this.Entity = this.Logic.GetOne(id);
-                this.txtDescEspecialidad.Text = this.Entity.Descripcion;
+                Entity = Logic.GetOne(id);
+                txtDescripcion.Text = Entity.Descripcion;
             }
             catch (Exception ex)
             {
@@ -137,14 +110,14 @@ namespace UI.Web
 
         private void LoadEntity(Especialidad espec)
         {
-            espec.Descripcion = this.txtDescEspecialidad.Text;
+            espec.Descripcion = txtDescripcion.Text;
         }
 
         private void SaveEntity(Especialidad espec)
         {
             try
             {
-                this.Logic.Save(espec);
+                Logic.Save(espec);
             }
             catch (Exception ex)
             {
@@ -157,73 +130,90 @@ namespace UI.Web
             Session["SelectedID"] = null;
         }
 
-        protected void editarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.formPanel.Visible = true;
-                this.gridActionsPanel.Visible = false;
-                this.FormMode = FormModes.Modificacion;
-                this.EnableForm(true);
-                this.LoadForm(this.SelectedID);
-            }
-        }
-
-        protected void eliminarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.DeleteEntity(this.SelectedID);
-                this.LoadGrid();
-                this.ShowButtons(false);
-            }
-        }
-
         protected void nuevoLinkButton_Click(object sender, EventArgs e)
         {
-            this.formPanel.Visible = true;
-            this.gridActionsPanel.Visible = false;
-            this.FormMode = FormModes.Alta;
-            this.ClearForm();
-            this.EnableForm(true);
+            gridPanel.Visible = false;
+            gridActionsPanel.Visible = false;
+            formPanel.Visible = true;
+            formPanelActions.Visible = true;
+            txtDescripcion.ReadOnly = false;
+            FormMode = FormModes.Alta;
+            ClearForm();
+            EnableForm(true);
         }
 
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        protected void aceptarButton_Click(object sender, EventArgs e)
         {
             switch (this.FormMode)
             {
                 case FormModes.Modificacion:
                     if (Page.IsValid)
                     {
-                        this.Entity = this.Logic.GetOne(this.SelectedID);
-                        this.Entity.State = BusinessEntity.States.Modified;
-                        this.LoadEntity(this.Entity);
-                        this.SaveEntity(this.Entity);
-                        this.LoadGrid();
-                        this.ClearSession();
+                        Entity = Logic.GetOne(this.SelectedID);
+                        Entity.State = BusinessEntity.States.Modified;
+                        LoadEntity(Entity);
+                        SaveEntity(Entity);
                     }
                     break;
                 case FormModes.Alta:
-                    this.Entity = new Especialidad();
-                    this.LoadEntity(this.Entity);
-                    this.SaveEntity(Entity);
-                    this.LoadGrid();
-                    this.ClearSession();
+                    Entity = new Especialidad();
+                    LoadEntity(Entity);
+                    SaveEntity(Entity);
+                    gridPanel.Visible = true;
+                    break;
+                case FormModes.Baja:
+                    DeleteEntity(SelectedID);                
                     break;
             }
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            ClearForm();
+            ClearSession();
+            LoadGrid();
+            gridActionsPanel.Visible = true;
+            formPanel.Visible = false;
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        protected void cancelarButton_Click(object sender, EventArgs e)
         {
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            ClearForm();
+            formPanel.Visible = false;
+            formPanelActions.Visible = false;
+            gridPanel.Visible = true;
+            gridActionsPanel.Visible = true;
         }
+
+        protected void gridView_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        {
+            //Valida si el nombre del comando de boton es editar o borrar
+            if (e.CommandName == "Editar")
+            {
+                //Determina el index de la fila de donde el boton fue clickeado
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+
+                //Obtiene el valor de la primary key de la fila que fue seleccionada
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                formPanel.Visible = true;
+                txtDescripcion.ReadOnly = false;
+                formPanelActions.Visible = true;
+                LoadForm(SelectedID);
+                FormMode = FormModes.Modificacion;
+            }
+
+            if (e.CommandName == "Borrar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                formPanel.Visible = true;
+                txtDescripcion.ReadOnly = true;
+                formPanelActions.Visible = true;
+                FormMode = FormModes.Baja;
+                EnableForm(false);
+                LoadForm(SelectedID);
+            }
+        }
+
+        
     }
     
 }
