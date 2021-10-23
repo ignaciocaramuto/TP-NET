@@ -72,6 +72,7 @@ namespace UI.Web
             {
                 Entity = Logic.GetOne(SelectedID);
                 dropDownListPersonasLoad();
+                DropDownListPersonas.SelectedValue = Entity.Persona.ID.ToString();
                 checkBoxHabilitado.Checked = Entity.Habilitado;
                 txtNombreUsuario.Text = Entity.NombreUsuario;
                 txtClave.Text = Entity.Clave;
@@ -85,18 +86,10 @@ namespace UI.Web
 
         private void LoadEntity(Usuario usuario)
         {
-            try
-            {
-                Persona per = LogicPersona.GetOne(DropDownListPersonas.SelectedIndex);
-                usuario.NombreUsuario = txtNombreUsuario.Text;
-                usuario.Clave = txtClave.Text;
-                usuario.Persona = per;
-                usuario.Habilitado = checkBoxHabilitado.Checked;
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
-            }  
+            usuario.NombreUsuario = txtNombreUsuario.Text;
+            usuario.Clave = txtClave.Text;
+            usuario.Persona.ID = Convert.ToInt32(DropDownListPersonas.SelectedValue);
+            usuario.Habilitado = checkBoxHabilitado.Checked;
         }
 
         private void SaveEntity(Usuario usuario)
@@ -125,7 +118,7 @@ namespace UI.Web
 
         private void EnableForm(bool enable)
         {
-            formPanel.Visible = true;
+            formPanel.Visible = enable;
         }
 
         private void LoadGrid()

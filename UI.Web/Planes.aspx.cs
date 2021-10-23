@@ -13,12 +13,7 @@ namespace UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.LoadGrid();
-            if (this.GridView.SelectedIndex == -1)
-            {
-                ShowButtons(false);
-                gridActionsPanel.Visible = true;
-            }
+            if (!IsPostBack) LoadGrid();
         }
 
         PlanLogic _logic;
@@ -30,6 +25,17 @@ namespace UI.Web
                 if (_logic == null)
                     _logic = new PlanLogic();
                 return _logic;
+            }
+        }
+
+        EspecialidadLogic logic;
+        public EspecialidadLogic LogicEspecialidad
+        {
+            get
+            {
+                if (logic == null)
+                    logic = new EspecialidadLogic();
+                return logic;
             }
         }
 
@@ -65,20 +71,12 @@ namespace UI.Web
             }
         }
 
-        private bool IsEntitySelected
-        {
-            get
-            {
-                return (this.SelectedID != 0);
-            }
-        }
-
         private void LoadGrid()
         {
             try
             {
-                this.GridView.DataSource = this.Logic.GetAll();
-                this.GridView.DataBind();
+                gridView.DataSource = Logic.GetAll();
+                gridView.DataBind();
             }
             catch (Exception ex)
             {
@@ -86,45 +84,21 @@ namespace UI.Web
             }
         }
 
-        private void ShowButtons(bool enable)
-        {
-            this.lbEliminar.Visible = enable;
-            this.lbEditar.Visible = enable;
-        }
-
-        private void LoadDDL()
-        {
-            EspecialidadLogic el = new EspecialidadLogic();
-            this.ddlEspecialidades.DataSource = el.GetAll();
-            this.ddlEspecialidades.DataTextField = "Descripcion";
-            this.ddlEspecialidades.DataValueField = "ID";
-            this.ddlEspecialidades.DataBind();
-            ListItem init = new ListItem();
-            init.Text = "--Seleccionar Especialidad--";
-            init.Value = "-1";
-            this.ddlEspecialidades.Items.Add(init);
-            this.ddlEspecialidades.SelectedValue = "-1";
-        }
-
         private void EnableForm(bool enable)
         {
-            this.lblDescripcionPlan.Visible = enable;
-            this.txtDescripcionPlan.Visible = enable;
-            this.lblEspecialidad.Visible = enable;
-            this.ddlEspecialidades.Visible = enable;
+            formPanel.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.txtDescripcionPlan.Text = string.Empty;
-            this.GridView.SelectedIndex = -1;
+            txtDescripcion.Text = string.Empty;
         }
 
         private void DeleteEntity(int id)
         {
             try
             {
-                this.Logic.Delete(id);
+                Logic.Delete(id);
             }
             catch (Exception ex)
             {
@@ -136,9 +110,10 @@ namespace UI.Web
         {
             try
             {
-                this.Entity = this.Logic.GetOne(id);
-                this.txtDescripcionPlan.Text = this.Entity.Descripcion;
-                this.ddlEspecialidades.SelectedValue = this.Entity.Especialidad.ID.ToString();
+                Entity = Logic.GetOne(id);
+                txtDescripcion.Text = Entity.Descripcion;
+                dropDownListEspecialidadesLoad();
+                DropDownListEspecialidades.SelectedValue = Entity.Especialidad.ID.ToString();
             }
             catch (Exception ex)
             {
@@ -148,15 +123,15 @@ namespace UI.Web
 
         private void LoadEntity(Plan plan)
         {
-            plan.Descripcion = this.txtDescripcionPlan.Text;
-            plan.Especialidad.ID = Convert.ToInt32(this.ddlEspecialidades.SelectedValue);
+            plan.Descripcion = txtDescripcion.Text;
+            plan.Especialidad.ID = Convert.ToInt32(DropDownListEspecialidades.SelectedValue);
         }
 
         private void SaveEntity(Plan plan)
         {
             try
             {
-                this.Logic.Save(plan);
+                Logic.Save(plan);
             }
             catch (Exception ex)
             {
@@ -164,83 +139,120 @@ namespace UI.Web
             }
         }
 
-        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedID = (int)this.GridView.SelectedValue;
-            this.ShowButtons(true);
-        }
-
-        protected void editarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.LoadDDL();
-                this.formPanel.Visible = true;
-                this.gridActionsPanel.Visible = false;
-                this.FormMode = FormModes.Modificacion;
-                this.EnableForm(true);
-                this.LoadForm(this.SelectedID);
-            }
-        }
-
-        protected void eliminarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.DeleteEntity(this.SelectedID);
-                this.LoadGrid();
-                this.ShowButtons(false);
-            }
-        }
-
         protected void nuevoLinkButton_Click(object sender, EventArgs e)
         {
-            this.LoadDDL();
-            this.formPanel.Visible = true;
-            this.gridActionsPanel.Visible = false;
-            this.FormMode = FormModes.Alta;
-            this.ClearForm();
-            this.EnableForm(true);
+            gridPanel.Visible = false;
+            gridActionsPanel.Visible = false;
+            formPanel.Visible = true;
+            formPanelActions.Visible = true;
+            txtDescripcion.ReadOnly = false;
+            dropDownListEspecialidadesLoad();
+            FormMode = FormModes.Alta;
+            ClearForm();
+            DropDownListEspecialidades.Enabled = true;
+            EnableForm(true);
         }
 
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        protected void aceptarButton_Click(object sender, EventArgs e)
         {
             switch (this.FormMode)
             {
                 case FormModes.Modificacion:
                     if (Page.IsValid)
                     {
-                        this.Entity = this.Logic.GetOne(this.SelectedID);
-                        this.Entity.State = BusinessEntity.States.Modified;
-                        this.LoadEntity(this.Entity);
-                        this.SaveEntity(this.Entity);
-                        this.LoadGrid();
+                        Entity = Logic.GetOne(this.SelectedID);
+                        Entity.State = BusinessEntity.States.Modified;
+                        LoadEntity(Entity);
+                        SaveEntity(Entity);
+                        
                     }
                     break;
                 case FormModes.Alta:
-                    this.Entity = new Plan();
-                    this.LoadEntity(this.Entity);
+                    Entity = new Plan();
+                    LoadEntity(Entity);
                     if (!Logic.ExistePlan(Entity.Descripcion, Entity.Especialidad.ID))
                     {
-                        this.SaveEntity(Entity);
+                        gridPanel.Visible = true;
+                        SaveEntity(Entity);
                     }
                     else
                         Response.Write("<script>window.alert('El Plan ya existe.');</script>");
-                    this.LoadGrid();
+                    
+                    break;
+                case FormModes.Baja:
+                    DeleteEntity(SelectedID);
                     break;
             }
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            ClearForm();
+            LoadGrid();
+            formPanel.Visible = false;
+            gridActionsPanel.Visible = true;
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        protected void cancelarButton_Click(object sender, EventArgs e)
         {
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            ClearForm();
+            formPanel.Visible = false;
+            formPanelActions.Visible = false;
+            gridPanel.Visible = true;
+            gridActionsPanel.Visible = true;
+        }
+
+        protected void gridView_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        {
+            //Valida si el nombre del comando de boton es editar o borrar
+            if (e.CommandName == "Editar")
+            {
+                //Determina el index de la fila de donde el boton fue clickeado
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+
+                //Obtiene el valor de la primary key de la fila que fue seleccionada
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                formPanel.Visible = true;
+                txtDescripcion.ReadOnly = false;
+                formPanelActions.Visible = true;
+                DropDownListEspecialidades.Enabled = true;
+                LoadForm(SelectedID);
+                FormMode = FormModes.Modificacion;
+            }
+
+            if (e.CommandName == "Borrar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                formPanel.Visible = true;
+                txtDescripcion.ReadOnly = true;
+                formPanelActions.Visible = true;
+                DropDownListEspecialidades.Enabled = false;
+                EnableForm(true);
+                FormMode = FormModes.Baja;
+                LoadForm(SelectedID);
+            }
+        }
+
+        private void dropDownListEspecialidadesLoad()
+        {
+            try
+            {
+                List<Especialidad> especialidades = LogicEspecialidad.GetAll();
+
+                DropDownListEspecialidades.DataSource = especialidades;
+                DropDownListEspecialidades.DataValueField = "ID";
+                DropDownListEspecialidades.DataTextField = "Descripcion";
+                DropDownListEspecialidades.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        protected void DropDownListPersonas_DataBound(object sender, EventArgs e)
+        {
+            //Establece como item por defecto el string "selecciona una persona"
+            DropDownListEspecialidades.Items.Insert(0, new ListItem("--- Selecciona una especialidad ---", String.Empty));
         }
     }
 }
