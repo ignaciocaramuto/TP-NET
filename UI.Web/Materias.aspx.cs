@@ -13,12 +13,7 @@ namespace UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.LoadGrid();
-            if (this.GridView.SelectedIndex == -1)
-            {
-                ShowButtons(false);
-                gridActionsPanel.Visible = true;
-            }
+            if (!IsPostBack) LoadGrid();
         }
 
         MateriaLogic _logic;
@@ -30,6 +25,30 @@ namespace UI.Web
                 if (_logic == null)
                     _logic = new MateriaLogic();
                 return _logic;
+            }
+        }
+
+        PlanLogic logic;
+
+        private PlanLogic PlanLogic
+        {
+            get
+            {
+                if (logic == null)
+                    logic = new PlanLogic();
+                return logic;
+            }
+        }
+
+        EspecialidadLogic logic_esp;
+
+        private EspecialidadLogic EspecialidadLogic
+        {
+            get
+            {
+                if (logic_esp == null)
+                    logic_esp = new EspecialidadLogic();
+                return logic_esp;
             }
         }
 
@@ -54,8 +73,8 @@ namespace UI.Web
         {
             get
             {
-                if (this.ViewState["SelectedID"] != null)
-                    return (int)this.ViewState["SelectedID"];
+                if (ViewState["SelectedID"] != null)
+                    return (int)ViewState["SelectedID"];
                 else
                     return 0;
             }
@@ -65,20 +84,12 @@ namespace UI.Web
             }
         }
 
-        private bool IsEntitySelected
-        {
-            get
-            {
-                return (this.SelectedID != 0);
-            }
-        }
-
         private void LoadGrid()
         {
             try
             {
-                this.GridView.DataSource = this.Logic.GetAll();
-                this.GridView.DataBind();
+                gridView.DataSource = this.Logic.GetAll();
+                gridView.DataBind();
             }
             catch (Exception ex)
             {
@@ -86,76 +97,39 @@ namespace UI.Web
             }
         }
 
-        private void ShowButtons(bool enable)
-        {
-            this.lbEliminar.Visible = enable;
-            this.lbEditar.Visible = enable;
-        }
-
-        private void LoadDdlEspecialidades()
-        {
-            EspecialidadLogic el = new EspecialidadLogic();
-            this.ddlEspecialidades.DataSource = el.GetAll();
-            this.ddlEspecialidades.DataTextField = "Descripcion";
-            this.ddlEspecialidades.DataValueField = "ID";
-            this.ddlEspecialidades.DataBind();
-            ListItem init = new ListItem();
-            init.Text = "--Seleccionar Especialidad--";
-            init.Value = "-1";
-            this.ddlEspecialidades.Items.Add(init);
-            this.ddlEspecialidades.SelectedValue = "-1";
-        }
-
         private void LoadDdlPlanes()
         {
-            PlanLogic pl = new PlanLogic();
             List<Plan> planes = new List<Plan>();
-            foreach (Plan p in pl.GetAll())
+            foreach (Plan p in PlanLogic.GetAll())
             {
-                if (p.Especialidad.ID == Convert.ToInt32(this.ddlEspecialidades.SelectedValue))
+                if (p.Especialidad.ID == Convert.ToInt32(ddlEspecialidades.SelectedValue))
                 {
                     planes.Add(p);
                 }
             }
-            this.ddlPlanes.DataSource = planes;
-            this.ddlPlanes.DataTextField = "Descripcion";
-            this.ddlPlanes.DataValueField = "ID";
-            this.ddlPlanes.DataBind();
-            ListItem init = new ListItem();
-            init.Text = "--Seleccionar Plan--";
-            init.Value = "-1";
-            this.ddlPlanes.Items.Add(init);
-            this.ddlPlanes.SelectedValue = "-1";
+            ddlPlanes.DataSource = planes;
+            ddlPlanes.DataTextField = "Descripcion";
+            ddlPlanes.DataValueField = "ID";
+            ddlPlanes.DataBind();
         }
 
         private void EnableForm(bool enable)
         {
-            this.lblDescripcion.Visible = enable;
-            this.txtDescripcion.Visible = enable;
-            this.lblHsSemanales.Visible = enable;
-            this.txtHsSemanales.Visible = enable;
-            this.lblHsTotales.Visible = enable;
-            this.txtHsTotales.Visible = enable;
-            this.lblEspecialidad.Visible = enable;
-            this.ddlEspecialidades.Visible = enable;
-            this.lblPlan.Visible = enable;
-            this.ddlPlanes.Visible = enable;
+            formPanel.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.txtDescripcion.Text = string.Empty;
-            this.txtHsSemanales.Text = string.Empty;
-            this.txtHsTotales.Text = string.Empty;
-            this.ddlPlanes.Items.Clear();
-            this.GridView.SelectedIndex = -1;
+            txtDescripcion.Text = string.Empty;
+            txtHsSemanales.Text = string.Empty;
+            txtHsTotales.Text = string.Empty;
         }
 
         private void DeleteEntity(int id)
         {
             try
             {
-                this.Logic.Delete(id);
+                Logic.Delete(id);
             }
             catch (Exception ex)
             {
@@ -167,13 +141,13 @@ namespace UI.Web
         {
             try
             {
-                this.Entity = this.Logic.GetOne(id);
-                this.txtDescripcion.Text = this.Entity.Descripcion;
-                this.txtHsSemanales.Text = this.Entity.HSSemanales.ToString();
-                this.txtHsTotales.Text = this.Entity.HSTotales.ToString();
-                this.ddlEspecialidades.SelectedValue = this.Entity.Plan.Especialidad.ID.ToString();
-                this.LoadDdlPlanes();
-                this.ddlPlanes.SelectedValue = this.Entity.Plan.ID.ToString();
+                Entity = Logic.GetOne(id);
+                txtDescripcion.Text = Entity.Descripcion;
+                txtHsSemanales.Text = Entity.HSSemanales.ToString();
+                txtHsTotales.Text = Entity.HSTotales.ToString();
+                ddlEspecialidades.SelectedValue = Entity.Plan.Especialidad.ID.ToString();
+                LoadDdlPlanes();
+                ddlPlanes.SelectedValue = Entity.Plan.ID.ToString();
             }
             catch (Exception ex)
             {
@@ -183,11 +157,11 @@ namespace UI.Web
 
         private void LoadEntity(Materia mat)
         {
-            mat.Descripcion = this.txtDescripcion.Text;
-            mat.HSSemanales = Convert.ToInt32(this.txtHsSemanales.Text);
-            mat.HSTotales = Convert.ToInt32(this.txtHsTotales.Text);
-            mat.Plan.Especialidad.ID = Convert.ToInt32(this.ddlEspecialidades.SelectedValue);
-            mat.Plan.ID = Convert.ToInt32(this.ddlPlanes.SelectedValue);
+            mat.Descripcion = txtDescripcion.Text;
+            mat.HSSemanales = Convert.ToInt32(txtHsSemanales.Text);
+            mat.HSTotales = Convert.ToInt32(txtHsTotales.Text);
+            mat.Plan.Especialidad.ID = Convert.ToInt32(ddlEspecialidades.SelectedValue);
+            mat.Plan.ID = Convert.ToInt32(ddlPlanes.SelectedValue);
         }
 
         private void SaveEntity(Materia mat)
@@ -207,92 +181,130 @@ namespace UI.Web
             Session["SelectedID"] = null;
         }
 
-        protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedID = (int)this.GridView.SelectedValue;
-            this.ShowButtons(true);
-        }
-
-        protected void editarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.LoadDdlEspecialidades();
-                this.formPanel.Visible = true;
-                this.gridActionsPanel.Visible = false;
-                this.FormMode = FormModes.Modificacion;
-                this.EnableForm(true);
-                this.LoadForm(this.SelectedID);
-            }
-        }
-
-        protected void eliminarLinkButton_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.DeleteEntity(this.SelectedID);
-                this.LoadGrid();
-                this.ShowButtons(false);
-            }
-        }
-
         protected void nuevoLinkButton_Click(object sender, EventArgs e)
         {
-            this.LoadDdlEspecialidades();
-            this.formPanel.Visible = true;
-            this.gridActionsPanel.Visible = false;
-            this.FormMode = FormModes.Alta;
-            this.ClearForm();
-            this.EnableForm(true);
+            ddlEspecialidadesLoad();
+            formPanel.Visible = true;
+            gridActionsPanel.Visible = false;
+            formPanelActions.Visible = true;
+            txtDescripcion.ReadOnly = false;
+            txtHsSemanales.ReadOnly = false;
+            txtHsTotales.ReadOnly = false;
+            ddlEspecialidades.Enabled = true;
+            ddlPlanes.Enabled = true;
+            FormMode = FormModes.Alta;
+            ClearForm();
+            EnableForm(true);
         }
 
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        protected void aceptarButton_Click(object sender, EventArgs e)
         {
             switch (this.FormMode)
             {
                 case FormModes.Modificacion:
                     if (Page.IsValid)
                     {
-                        this.Entity = this.Logic.GetOne(this.SelectedID);
-                        this.Entity.State = BusinessEntity.States.Modified;
-                        this.LoadEntity(this.Entity);
-                        this.SaveEntity(this.Entity);
-                        this.LoadGrid();
-                        this.ClearSession();
+                        Entity = Logic.GetOne(SelectedID);
+                        Entity.State = BusinessEntity.States.Modified;
+                        LoadEntity(Entity);
+                        SaveEntity(Entity);
                     }
                     break;
                 case FormModes.Alta:
-                    this.Entity = new Materia();
-                    this.LoadEntity(this.Entity);
+                    Entity = new Materia();
+                    LoadEntity(Entity);
                     if (!Logic.Existe(Entity.Plan.ID, Entity.Descripcion))
                     {
-                        this.SaveEntity(Entity);
+                        SaveEntity(Entity);
                     }
                     else
                         Response.Write("<script>window.alert('La Materia ya existe.');</script>");
-                    this.LoadGrid();
-                    this.ClearSession();
+                    break;
+                case FormModes.Baja:
+                    DeleteEntity(SelectedID);
                     break;
             }
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            ClearForm();
+            ClearSession();
+            LoadGrid();
+            formPanel.Visible = false;
+            gridActionsPanel.Visible = true;
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        protected void cancelarButton_Click(object sender, EventArgs e)
         {
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            ClearForm();
+            EnableForm(false);
+            gridActionsPanel.Visible = true;      
+        }
+
+
+        protected void gridView_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        {
+            //Valida si el nombre del comando de boton es editar o borrar
+            if (e.CommandName == "Editar")
+            {
+                //Determina el index de la fila de donde el boton fue clickeado
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+
+                //Obtiene el valor de la primary key de la fila que fue seleccionada
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                formPanel.Visible = true;
+                txtDescripcion.ReadOnly = false;
+                txtHsSemanales.ReadOnly = false;
+                txtHsTotales.ReadOnly = false;
+                ddlEspecialidades.Enabled = true;
+                ddlPlanes.Enabled = true;
+                formPanelActions.Visible = true;
+                LoadForm(SelectedID);
+                FormMode = FormModes.Modificacion;
+            }
+
+            if (e.CommandName == "Borrar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                formPanel.Visible = true;
+                txtDescripcion.ReadOnly = true;
+                txtHsSemanales.ReadOnly = true;
+                txtHsTotales.ReadOnly = true;
+                ddlEspecialidades.Enabled = false;
+                ddlPlanes.Enabled = false;
+                formPanelActions.Visible = true;
+                EnableForm(true);
+                FormMode = FormModes.Baja;
+                LoadForm(SelectedID);
+            }
+        }
+
+        private void ddlEspecialidadesLoad()
+        {
+            try
+            {
+                List<Especialidad> especialidades = EspecialidadLogic.GetAll();
+
+                ddlEspecialidades.DataSource = especialidades;
+                ddlEspecialidades.DataValueField = "ID";
+                ddlEspecialidades.DataTextField = "Descripcion";
+                ddlEspecialidades.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
+            }
+        }
+
+        protected void ddlEspecialidades_DataBound(object sender, EventArgs e)
+        {
+            //Establece como item por defecto el string "selecciona una persona"
+            ddlEspecialidades.Items.Insert(0, new ListItem("--- Seleccione una especialidad ---", String.Empty));
         }
 
         protected void ddlEspecialidades_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.LoadDdlPlanes();
-            this.formPanel.Visible = true;
-            this.gridActionsPanel.Visible = false;
+            LoadDdlPlanes();
         }
     }
 }
