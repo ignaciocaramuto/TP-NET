@@ -71,7 +71,7 @@ namespace UI.Web
             try
             {
                 Entity = Logic.GetOne(SelectedID);
-                dropDownListGetPersona();
+                dropDownListPersonasLoad();
                 checkBoxHabilitado.Checked = Entity.Habilitado;
                 txtNombreUsuario.Text = Entity.NombreUsuario;
                 txtClave.Text = Entity.Clave;
@@ -260,19 +260,9 @@ namespace UI.Web
 
         }
 
-        private void dropDownListGetPersona()
-        {
-            List<Persona> personaList = new List<Persona>();
-            Persona per = LogicPersona.GetOne(SelectedID);
-            personaList.Add(per);
-            DropDownListPersonas.DataSource = personaList;
-            DropDownListPersonas.DataValueField = "ID";
-            DropDownListPersonas.DataTextField = "Apellido";
-            DropDownListPersonas.DataBind();
-        }
-
         protected void DropDownListPersonas_DataBound(object sender, EventArgs e)
         {
+            //Establece como item por defecto el string "selecciona una persona"
             DropDownListPersonas.Items.Insert(0, new ListItem("--- Selecciona una persona ---", String.Empty));
         }
     }
