@@ -172,7 +172,7 @@ namespace UI.Web
             checkBoxHabilitado.Enabled = true;
             DropDownListPersonas.Enabled = true;
             dropDownListPersonasLoad();
-            FormMode = FormModes.Alta;      
+            FormMode = FormModes.Alta;
             ClearForm();
             EnableForm(true);
         }
