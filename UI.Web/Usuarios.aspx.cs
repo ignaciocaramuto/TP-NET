@@ -169,6 +169,8 @@ namespace UI.Web
             formPanelActions.Visible = true;
             txtNombreUsuario.ReadOnly = false;
             txtClave.ReadOnly = false;
+            checkBoxHabilitado.Enabled = true;
+            DropDownListPersonas.Enabled = true;
             dropDownListPersonasLoad();
             FormMode = FormModes.Alta;      
             ClearForm();
@@ -205,7 +207,9 @@ namespace UI.Web
                 formPanel.Visible = true;
                 txtNombreUsuario.ReadOnly = false;
                 txtClave.ReadOnly = false;
-                formPanelActions.Visible = true;
+                DropDownListPersonas.Enabled = true;
+                checkBoxHabilitado.Enabled = true;
+                formPanelActions.Visible = true;                
                 LoadForm();
                 FormMode = FormModes.Modificacion;
             }
@@ -218,9 +222,11 @@ namespace UI.Web
                 formPanel.Visible = true;
                 txtNombreUsuario.ReadOnly = true;
                 txtClave.ReadOnly = true;
+                DropDownListPersonas.Enabled = false;
+                checkBoxHabilitado.Enabled = false;
                 formPanelActions.Visible = true;
                 FormMode = FormModes.Baja;
-                EnableForm(false);
+                EnableForm(true);
                 LoadForm();
             }
         }
