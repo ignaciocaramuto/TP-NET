@@ -147,13 +147,12 @@ namespace Data.Database
             try
             {
                 this.OpenConnection();
-                SqlCommand cmdUpdate = new SqlCommand("UPDATE comisiones SET desc_comision=@desc, anio_especialidad=@anio WHERE "
-                    + "id_comision=@id and id_plan=@idPlan", sqlConn);
+                SqlCommand cmdUpdate = new SqlCommand("UPDATE comisiones SET desc_comision=@desc, anio_especialidad=@anio, id_plan=@id_plan WHERE id_comision=@id", sqlConn);
 
                 cmdUpdate.Parameters.Add("@id", SqlDbType.Int).Value = comision.ID;
                 cmdUpdate.Parameters.Add("@desc", SqlDbType.VarChar, 50).Value = comision.Descripcion;
                 cmdUpdate.Parameters.Add("@anio", SqlDbType.Int).Value = comision.AnioEspecialidad;
-                cmdUpdate.Parameters.Add("@idPlan", SqlDbType.Int).Value = comision.Plan.ID;
+                cmdUpdate.Parameters.Add("@id_plan", SqlDbType.Int).Value = comision.Plan.ID;
                 cmdUpdate.ExecuteNonQuery();
             }
             catch (Exception Ex)

@@ -1,76 +1,98 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Comisiones.aspx.cs" Inherits="UI.Web.Comisiones" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
-    <asp:Panel ID="gridPanel" runat="server">
-        <h2>Comisiones:</h2><br />
-        <asp:GridView ID="GridView" runat="server" AutoGenerateColumns="False"  
-            onselectedindexchanged="gridView_SelectedIndexChanged" DataKeyNames="ID" CellPadding="4" ForeColor="#333333" GridLines="None">
-            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+    <section>
+        <h1 style="text-align: center">ABMC de Comisiones</h1>
+    </section>
+    <section class="content">
+        <asp:Panel ID="formPanel" Visible="false" runat="server">
+            <div class="row">
+                <div visible="False">
+                    <div class="box box-primary" style="margin-left: auto; margin-right: auto; width: 50%; display: block;">
+                        <div class="box box-body">
+                            <div class="form-group">
+                                <asp:Label ID="lblDescripcion" runat="server" Text="Descripción"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control"></asp:TextBox>
+                            </div>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorDescripcion" runat="server" ControlToValidate="txtDescripcion" 
+                                ErrorMessage="El campo Descripción es obligatorio" ForeColor="#FF3300"></asp:RequiredFieldValidator>
+                            <br />
+                            <div class="form-group">
+                                <asp:Label ID="lblAnioEspecialidad" runat="server" Text="Año Especialidad"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:TextBox ID="txtAnio" runat="server" CssClass="form-control"></asp:TextBox>
+                            </div>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorAnioEspecialidad" runat="server" ControlToValidate="txtAnio" 
+                                ErrorMessage="El campo anio especialidad es obligatorio" ForeColor="#FF3300"></asp:RequiredFieldValidator>
+                            <br />                           
+                            <div class="form-group">
+                                <asp:Label ID="lblEspecialidad" runat="server" Text="Seleccionar especialidad"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:DropDownList ID="ddlEspecialidades" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlEspecialidades_SelectedIndexChanged">
+                                </asp:DropDownList>
+                            </div>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorEspecialidad" runat="server" ControlToValidate="ddlEspecialidades" 
+                                Display="Dynamic" ErrorMessage="Por favor selecciona una especialidad" />
+                            <br />
+                            <div class="form-group">
+                                <asp:Label ID="lblPlan" runat="server" Text="Seleccionar plan"></asp:Label>
+                            </div>
+                            <div class="form-group">
+                                <asp:DropDownList ID="ddlPlanes" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlPlanes_SelectedIndexChanged">
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <asp:Panel ID="formPanelActions" runat="server" Visible="False">
+                <div class="row">
+                    <div align="center">
+                        <table>
+                            <tr>
+                                <td>
+                                    <asp:LinkButton ID="btnCancelar" runat="server" OnClick="cancelarButton_Click" CausesValidation="false" CssClass="btn btn-danger" Width="100px">Cancelar</asp:LinkButton>&nbsp;
+                                    <asp:LinkButton ID="btnAceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary" Width="100px">Aceptar</asp:LinkButton>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </asp:Panel>
+        </asp:Panel>
+    </section>
+    <section>
+        <asp:Panel ID="gridPanel" runat="server">
+        <div class="container">
+            <asp:GridView ID="gridView" CssClass="table table-bordered table-hover table-responsive" runat="server" AutoGenerateColumns="false"
+            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridView_RowCommand">
             <Columns>
-                <asp:BoundField DataField="ID" HeaderText="ID" />
-                <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
-                <asp:BoundField DataField="AnioEspecialidad" HeaderText="Año Especialidad" />
-                <asp:BoundField DataField="DescPlan" HeaderText="Plan" />
-                <asp:BoundField DataField="DescEspecialidad" HeaderText="Especialidad" />
-                <asp:CommandField ShowSelectButton="True" />
+                <asp:BoundField HeaderText="ID" DataField="ID" />
+                <asp:BoundField HeaderText="Descripción" DataField="Descripcion" />
+                <asp:BoundField HeaderText="Año Especialidad" DataField="AnioEspecialidad" />                
+                <asp:BoundField HeaderText="Especialidad" DataField="DescEspecialidad" />
+                <asp:BoundField HeaderText="Plan" DataField="DescPlan" />
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <div align="center">
+                            <asp:LinkButton ID="editarLinkButton" runat ="server" CommandName="Editar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-pencil fa-lg"></asp:LinkButton>&nbsp;&nbsp;
+                            <asp:LinkButton ID="eliminarLinkButton" OnClientClick="return confirm('¿Estás seguro que deseas eliminar esta comision?');" runat="server" CommandName="Borrar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-trash-o fa-lg" style="color: red"></asp:LinkButton>
+                        </div>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
-            <EditRowStyle BackColor="#999999" />
-            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-            <HeaderStyle BackColor="#5D7B9D" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-            <RowStyle BackColor="#F7F6F3" BorderColor="Black" ForeColor="#333333" />
-            <SelectedRowStyle BackColor="#E2DED6" ForeColor="#333333" Font-Bold="True" />
-            <SortedAscendingCellStyle BackColor="#E9E7E2" />
-            <SortedAscendingHeaderStyle BackColor="#506C8C" />
-            <SortedDescendingCellStyle BackColor="#FFFDF8" />
-            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+            <HeaderStyle HorizontalAlign="Center" CssClass="table-primary"/>
+            <RowStyle  />
         </asp:GridView>
-        <asp:Panel ID="gridActionsPanel" runat="server">
-            <asp:LinkButton ID="lbEditar" runat="server" onclick="editarLinkButton_Click" 
-                CausesValidation="False">Editar</asp:LinkButton>
-            <asp:LinkButton ID="lbEliminar" runat="server" 
-                onclick="eliminarLinkButton_Click" CausesValidation="False">Eliminar</asp:LinkButton>
-            <asp:LinkButton ID="lbNuevo" runat="server" onclick="nuevoLinkButton_Click" 
-                CausesValidation="False">Nuevo</asp:LinkButton>
-            <br />
-            </asp:Panel>
-            <asp:Panel ID="formPanel" Visible="false" runat="server">
-                <asp:Label ID="lblDescripcion" runat="server" 
-                    Text="Descripción de la Comision: "></asp:Label>
-                <asp:TextBox ID="txtDescripcion" runat="server" Width="150px"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-                    ControlToValidate="txtDescripcion" 
-                    ErrorMessage="El campo Descripción es obligatorio" ForeColor="#FF3300">*</asp:RequiredFieldValidator>
-                <br />
-                <asp:Label ID="lblAnioEspecialidad" runat="server" 
-                    Text="Año de la Especialidad: "></asp:Label>
-                <asp:TextBox ID="txtAnio" runat="server" Width="100px"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-                    ControlToValidate="txtAnio" ErrorMessage="El campo Año es obligatorio" 
-                    ForeColor="#FF3300">*</asp:RequiredFieldValidator>
-                <br />
-                <asp:Label ID="lblEspecialidad" runat="server" Text="Especialidad: "></asp:Label>
-                <asp:DropDownList ID="ddlEspecialidades" runat="server" Height="16px" 
-                    onselectedindexchanged="ddlEspecialidades_SelectedIndexChanged" 
-                    Width="150px" AutoPostBack="True">
-                </asp:DropDownList>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
-                    ControlToValidate="ddlEspecialidades" 
-                    ErrorMessage="El campo Especialidad es obligatorio" ForeColor="#FF3300">*</asp:RequiredFieldValidator>
-                <asp:Label ID="lblPlan" runat="server" Text="Plan:    "></asp:Label>
-                <asp:DropDownList ID="ddlPlanes" runat="server" Height="16px" Width="150px">
-                </asp:DropDownList>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
-                    ControlToValidate="ddlPlanes" ErrorMessage=" Plan es obligatorio" 
-                    ForeColor="#FF3300">*  </asp:RequiredFieldValidator>
-                    <br />
-                <asp:Panel ID="formActionsPanel" runat="server">
-                    <asp:LinkButton ID="lbAceptar" runat="server" onclick="aceptarLinkButton_Click">Aceptar</asp:LinkButton>
-                    <asp:LinkButton ID="lbCancelar" runat="server" 
-                        onclick="cancelarLinkButton_Click" CausesValidation="False">Cancelar</asp:LinkButton>
-                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" 
-                        ForeColor="#FF3300" />
-                </asp:Panel>
-            </asp:Panel>
-        
-    </asp:Panel>
+            <asp:Panel ID="gridActionsPanel" runat="server">
+            <div class="d-flex justify-content-end" style="margin-right: 30px">
+                <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click" CssClass="btn btn-success" Width="100px">Nuevo</asp:LinkButton>
+            </div>
+        </asp:Panel>
+        </div> 
+        </asp:Panel>
+    </section>
 </asp:Content>
