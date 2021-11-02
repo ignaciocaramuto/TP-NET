@@ -18,7 +18,7 @@
      html, body{
       min-height: 100%;
       padding: 0;
-      magin: 0 ;
+      margin: 0 ;
       font-family: "Source Sans Pro", "Helvetica Neve", Helvetica, Arial;
      }
 
@@ -84,8 +84,8 @@
       position: fixed;
       bottom: 0;
       left: 0;
-      backgroud: #222;
-      backgroud: rgba(0,0,0,0,8);
+      background: #222;
+      background: rgba(0,0,0,0,8);
       width: 100%;
       color: #fff;
       display: none;
