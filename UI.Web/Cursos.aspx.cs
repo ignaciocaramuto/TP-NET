@@ -271,6 +271,12 @@ namespace UI.Web
             this.formPanelActions.Visible = true;
         }
 
+        protected void asignarDocente(int id)
+        {
+            Session["ID_Curso"] = this.SelectedID;
+            Page.Response.Redirect("~/DocentesCursos.aspx");
+        }
+
         protected void eliminarCurso(int id)
         {
             if (this.IsEntitySelected)
@@ -289,12 +295,6 @@ namespace UI.Web
             this.ClearForm();
             this.EnableForm(true);
             this.formPanelActions.Visible = true;
-        }
-
-        protected void lbDocente_Click(object sender, EventArgs e)
-        {
-            Session["ID_Curso"] = this.SelectedID;
-            Page.Response.Redirect("~/DocentesCursos.aspx");
         }
 
         protected void aceptarButton_Click(object sender, EventArgs e)
@@ -354,7 +354,7 @@ namespace UI.Web
 
         protected void gridView_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            //Valida si el nombre del comando de boton es editar o borrar
+            //Valida si el nombre del comando de boton es editar, asignar o borrar
             if (e.CommandName == "Editar")
             {
                 //Determina el index de la fila de donde el boton fue clickeado
@@ -364,6 +364,17 @@ namespace UI.Web
                 SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
 
                 this.editarCurso(SelectedID);
+            }
+
+            if (e.CommandName == "Asignar")
+            {
+                //Determina el index de la fila de donde el boton fue clickeado
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+
+                //Obtiene el valor de la primary key de la fila que fue seleccionada
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                this.asignarDocente(SelectedID);
             }
 
             if (e.CommandName == "Borrar")

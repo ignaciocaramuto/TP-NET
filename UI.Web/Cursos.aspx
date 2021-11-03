@@ -97,6 +97,7 @@
                     <ItemTemplate>
                         <div align="center">
                             <asp:LinkButton ID="editarLinkButton" runat="server" CommandName="Editar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-pencil fa-lg"></asp:LinkButton>&nbsp;&nbsp;
+                            <asp:LinkButton ID="asignarLinkButton" runat="server" CommandName="Asignar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-users fa-lg" style="color: black"></asp:LinkButton>&nbsp;&nbsp;
                             <asp:LinkButton ID="eliminarLinkButton" runat="server" OnClientClick="return confirm('¿Estás seguro que deseas eliminar este curso?');" CommandName="Borrar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-trash-o fa-lg" style="color: red"></asp:LinkButton>
                         </div>
                     </ItemTemplate>

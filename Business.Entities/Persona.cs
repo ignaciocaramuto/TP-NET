@@ -93,5 +93,10 @@ namespace Business.Entities
         {
             get { return _plan.DescEspecialidad; }
         }
+
+        public string NombreApellido
+        {
+            get { return (_nombre + " " + _apellido); }
+        }
     }
 }

@@ -14,17 +14,10 @@ namespace UI.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             this.LoadGrid();
-            if (this.GridView.SelectedIndex == -1)
+            if (this.gridView.SelectedIndex == -1)
             {
-                ShowButtons(false);
                 gridActionsPanel.Visible = true;
             }
-        }
-
-        private void ShowButtons(bool enable)
-        {
-            this.lbEliminar.Visible = enable;
-            this.lbEditar.Visible = enable;
         }
 
         DocenteCursoLogic _logic;
@@ -120,40 +113,19 @@ namespace UI.Web
                     if (dc.Curso.ID == this.SelectedIDCurso)
                         docentes.Add(dc);
                 }
-                GridView.DataSource = docentes;
-                GridView.DataBind();
+                gridView.DataSource = docentes;
+                gridView.DataBind();
             }
             catch (Exception ex)
             {
                 Response.Write("<script>window.alert('" + ex.Message + "');</script>");
             }
-        }
-
-        private void LoadGridDocentes()
-        {
-            try
-            {
-                PersonaLogic pl = new PersonaLogic();
-                this.GridViewDocentes.DataSource = pl.GetDocentes();
-                this.GridViewDocentes.DataBind();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script>window.alert('" + ex.Message + "');</script>");
-            }
-        }
-
-        private void EnableForm(bool enable)
-        {
-            this.lblCargo.Visible = enable;
-            this.ddlCargo.Visible = enable;
         }
 
         private void ClearForm()
         {
             this.ddlCargo.SelectedValue = "Mensaje";
-            this.GridView.SelectedIndex = -1;
-            this.GridViewDocentes.SelectedIndex = -1;
+            this.gridView.SelectedIndex = -1;
         }
 
         private void DeleteEntity(int id)
@@ -172,9 +144,14 @@ namespace UI.Web
         {
             try
             {
+                this.formPanel.Visible = true;
+                ddlDocentes.Visible = false;
                 this.Entity = this.Logic.GetOne(id);
+                lblDocenteSeleccionado.Text = this.Entity.Docente.NombreApellido;
+                lblDocenteSeleccionado.Visible = true;
                 this.ddlCargo.SelectedValue = this.Entity.Cargo;
             }
+
             catch (Exception ex)
             {
                 Response.Write("<script>window.alert('" + ex.Message + "');</script>");
@@ -187,7 +164,7 @@ namespace UI.Web
             if (this.FormMode == FormModes.Alta)
             {
                 docCurso.Curso.ID = this.SelectedIDCurso;
-                docCurso.Docente.ID = this.SelectedIDDocente;
+                docCurso.Docente.ID = Int32.Parse(this.ddlDocentes.SelectedValue);
             }
         }
 
@@ -210,51 +187,30 @@ namespace UI.Web
 
         protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.SelectedIDDocenteCurso = (int)this.GridView.SelectedValue;
-            this.ShowButtons(true);
+            this.SelectedIDDocenteCurso = (int)this.gridView.SelectedValue;
         }
 
-        protected void gridViewDocentes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedIDDocente = (int)this.GridViewDocentes.SelectedValue;
-            this.ShowButtons(true);
-        }
-
-        protected void editarLinkButton_Click(object sender, EventArgs e)
+        protected void editarDocente(int id)
         {
             if (this.IsEntitySelected)
             {
+                this.formPanelActions.Visible = true;
                 this.formPanel.Visible = true;
-                this.gridActionsPanel.Visible = false;
-                this.GridViewDocentes.Visible = false;
                 this.FormMode = FormModes.Modificacion;
-                this.EnableForm(true);
-                this.LoadForm(this.SelectedIDDocenteCurso);
+                this.LoadForm(id);
             }
         }
 
-        protected void eliminarLinkButton_Click(object sender, EventArgs e)
+        protected void eliminarDocente(int id)
         {
             if (this.IsEntitySelected)
             {
-                this.DeleteEntity(this.SelectedIDDocenteCurso);
+                this.DeleteEntity(id);
                 this.LoadGrid();
-                this.ShowButtons(false);
             }
         }
 
-        protected void nuevoLinkButton_Click(object sender, EventArgs e)
-        {
-            this.formPanel.Visible = true;
-            this.gridActionsPanel.Visible = false;
-            this.GridViewDocentes.Visible = true;
-            this.LoadGridDocentes();
-            this.FormMode = FormModes.Alta;
-            this.ClearForm();
-            this.EnableForm(true);
-        }
-
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        protected void btnAceptar_Click(object sender, EventArgs e)
         {
             switch (this.FormMode)
             {
@@ -285,15 +241,75 @@ namespace UI.Web
             this.ClearForm();
             this.formPanel.Visible = false;
             this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        protected void btnCancelar_Click(object sender, EventArgs e)
         {
             this.ClearForm();
             this.formPanel.Visible = false;
             this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            this.formPanelActions.Visible = false;
+        }
+
+        protected void nuevoLinkButton_Click1(object sender, EventArgs e)
+        {
+            this.lblDocenteSeleccionado.Visible = false;
+            this.ddlDocentes.Visible = true;
+            this.formPanel.Visible = true;
+            this.gridActionsPanel.Visible = false;
+            this.FormMode = FormModes.Alta;
+            this.ClearForm();
+            this.formPanelActions.Visible = true;
+            this.LoadDdlDocentes();
+        }
+
+        protected void LoadDdlDocentes()
+        {
+            PersonaLogic pl = new PersonaLogic();
+            List<Persona> docentes = new List<Persona>();
+            foreach (Persona p in pl.GetAll())
+            {
+                if (p.DescTipoPersona == "Docente")
+                {
+                    docentes.Add(p);
+                }
+            }
+            this.ddlDocentes.DataSource = docentes;
+            this.ddlDocentes.DataTextField = "NombreApellido";
+            this.ddlDocentes.DataValueField = "ID";
+            this.ddlDocentes.DataBind();
+            if (this.FormMode == FormModes.Alta)
+            {
+                ListItem init = new ListItem();
+                init.Text = "--Seleccionar Docente--";
+                init.Value = "-1";
+                this.ddlDocentes.Items.Add(init);
+                this.ddlDocentes.SelectedValue = "-1";
+            }
+            
+        }
+
+        protected void gridView_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            //Valida si el nombre del comando de boton es editar o borrar
+            if (e.CommandName == "Editar")
+            {
+                //Determina el index de la fila de donde el boton fue clickeado
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+
+                //Obtiene el valor de la primary key de la fila que fue seleccionada
+                SelectedIDDocenteCurso = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                this.editarDocente(SelectedIDDocenteCurso);
+            }
+
+            if (e.CommandName == "Borrar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedIDDocenteCurso = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                this.eliminarDocente(SelectedIDDocenteCurso);
+            }
         }
     }
 }

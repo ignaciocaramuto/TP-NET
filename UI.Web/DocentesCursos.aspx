@@ -1,63 +1,69 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="DocentesCursos.aspx.cs" Inherits="UI.Web.DocentesCursos" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
-<asp:Panel ID="gridPanel" runat="server">
-        <h2>Docentes:</h2><br />
-        <asp:GridView ID="GridView" runat="server" AutoGenerateColumns="False" 
-            onselectedindexchanged="gridView_SelectedIndexChanged" DataKeyNames="ID">
-            <Columns>
-                <asp:BoundField DataField="ApellidoDocente" HeaderText="Apellido" />
-                <asp:BoundField DataField="NombreDocente" HeaderText="Nombre" />
-                <asp:BoundField DataField="Cargo" HeaderText="Cargo" />
-                <asp:CommandField ShowSelectButton="True" />
-            </Columns>
-            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
-            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
-        </asp:GridView>
-            </asp:Panel>
-        <asp:Panel ID="gridActionsPanel" runat="server">
-            <asp:LinkButton ID="lbEditar" runat="server" CausesValidation="False" 
-                onclick="editarLinkButton_Click">Editar</asp:LinkButton>
-            <asp:LinkButton ID="lbEliminar" runat="server" CausesValidation="False" 
-                onclick="eliminarLinkButton_Click">Eliminar</asp:LinkButton>
-            <asp:LinkButton ID="lbNuevo" runat="server" CausesValidation="False" 
-                onclick="nuevoLinkButton_Click">Nuevo</asp:LinkButton>
-                </asp:Panel>
-            <asp:Panel ID="formPanel" Visible="False" runat="server">
-            <br />
-            <h4>Seleccionar Docente:</h4>
-               <asp:GridView ID="GridViewDocentes" runat="server" AutoGenerateColumns="False" 
-            onselectedindexchanged="gridViewDocentes_SelectedIndexChanged" DataKeyNames="ID">
-            <Columns>
-               
-                <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
-                <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                <asp:BoundField DataField="Legajo" HeaderText="Legajo" />
-               
-                <asp:BoundField DataField="EMail" HeaderText="Email" />
-                <asp:BoundField DataField="Telefono" HeaderText="Telefono" />
-               
-                <asp:CommandField ShowSelectButton="True" />
-               
-            </Columns>
-            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
-            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
-        </asp:GridView>
-        <br />
+<section>
+        <h1 style="text-align: center">ABMC de Docentes a Cursos</h1>
+    </section>
+    <section class="content">
+        <asp:Panel ID="formPanel" Visible="false" runat="server">
+            <div>
+                <asp:Label ID="lblDocente" runat="server" Text="Seleccionar docente:"></asp:Label>
+                <asp:DropDownList ID="ddlDocentes" runat="server" CssClass="form-control">
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidatorDocente" runat="server" ControlToValidate="ddlDocentes" 
+                    Display="Dynamic" ErrorMessage="Por favor seleccione un docente" />
+                <asp:Label ID="lblDocenteSeleccionado" runat="server" Text="" Visible="false" CssClass="form-control" > </asp:Label>
                 <asp:Label ID="lblCargo" runat="server" Text="Seleccionar cargo:"></asp:Label>
-                <asp:DropDownList ID="ddlCargo" runat="server" Height="22px" Width="150px">
+                <asp:DropDownList ID="ddlCargo" runat="server" CssClass="form-control">
                     <asp:ListItem Value="Mensaje">--Seleccione Cargo--</asp:ListItem>
                     <asp:ListItem>Titular</asp:ListItem>
                     <asp:ListItem>Auxiliar</asp:ListItem>
                     <asp:ListItem>Ayudante</asp:ListItem>
                 </asp:DropDownList>
-                <asp:Panel ID="formActionsPanel" runat="server">
-                    <asp:LinkButton ID="lbAceptar" runat="server" onclick="aceptarLinkButton_Click">Aceptar</asp:LinkButton>
-                    <asp:LinkButton ID="lbCancelar" runat="server" CausesValidation="False" 
-                        onclick="cancelarLinkButton_Click">Cancelar</asp:LinkButton>
-                    <asp:ValidationSummary ID="ValidationSummary" runat="server" 
-                        ForeColor="#FF3300" />
-                </asp:Panel>
+              </div>
+            <asp:Panel ID="formPanelActions" runat="server" Visible="False">
+                <div class="row">
+                    <div align="center">
+                        <table>
+                            <tr>
+                                <td>
+                                    <asp:LinkButton ID="btnCancelar" runat="server" OnClick="btnCancelar_Click" CausesValidation="false" CssClass="btn btn-danger" Width="100px">Cancelar</asp:LinkButton>&nbsp;
+                                    <asp:LinkButton ID="btnAceptar" runat="server" OnClick="btnAceptar_Click" CssClass="btn btn-primary" Width="100px">Aceptar</asp:LinkButton>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </asp:Panel>
+        </asp:Panel>
+    </section>
+    <section>
+        <asp:Panel ID="gridPanel" runat="server">
+        <div class="container">
+            <asp:GridView ID="gridView" CssClass="table table-bordered table-hover table-responsive" runat="server" AutoGenerateColumns="false"
+            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridView_RowCommand">
+            <Columns>
+                <asp:BoundField HeaderText="ID" DataField="ID" />
+                <asp:BoundField HeaderText="Apellido" DataField="ApellidoDocente" />
+                <asp:BoundField HeaderText="Nombre" DataField="NombreDocente" />
+                <asp:BoundField HeaderText="Cargo" DataField="Cargo" />
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <div align="center">
+                            <asp:LinkButton ID="editarLinkButton" runat="server" CommandName="Editar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-pencil fa-lg"></asp:LinkButton>&nbsp;&nbsp;
+                            <asp:LinkButton ID="eliminarLinkButton" runat="server" OnClientClick="return confirm('¿Estás seguro que deseas eliminar este curso?');" CommandName="Borrar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-trash-o fa-lg" style="color: red"></asp:LinkButton>
+                        </div>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+            <HeaderStyle HorizontalAlign="Center" CssClass="table-primary"/>
+            <RowStyle  />
+        </asp:GridView>
+            <asp:Panel ID="gridActionsPanel" runat="server">
+            <div class="d-flex justify-content-end" style="margin-right: 30px">
+                <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click1" CssClass="btn btn-success" Width="100px">Nuevo</asp:LinkButton>
+            </div>
+        </asp:Panel>
+        </div> 
+        </asp:Panel>
+    </section>
 </asp:Content>
