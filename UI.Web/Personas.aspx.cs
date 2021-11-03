@@ -14,9 +14,9 @@ namespace UI.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             this.LoadGrid();
-            if (this.GridView.SelectedIndex == -1)
+            if (this.gridView.SelectedIndex == -1)
             {
-                ShowButtons(false);
+              
                 gridActionsPanel.Visible = true;
             }
         }
@@ -77,8 +77,8 @@ namespace UI.Web
         {
             try
             {
-                this.GridView.DataSource = this.Logic.GetAll();
-                this.GridView.DataBind();
+                this.gridView.DataSource = this.Logic.GetAll();
+                this.gridView.DataBind();
             }
             catch (Exception ex)
             {
@@ -86,12 +86,7 @@ namespace UI.Web
             }
         }
 
-        private void ShowButtons(bool enable)
-        {
-            this.lbEliminar.Visible = enable;
-            this.lbEditar.Visible = enable;
-        }
-
+      
         private void LoadDdlEspecialidades()
         {
             EspecialidadLogic el = new EspecialidadLogic();
@@ -142,11 +137,8 @@ namespace UI.Web
             this.txtTelefono.Visible = enable;
             this.lblEmail.Visible = enable;
             this.txtEmail.Visible = enable;
-            this.lblFechaNacimiento.Visible = enable;
-            this.txtDia.Visible = enable;
-            this.txtMes.Visible = enable;
-            this.txtAnio.Visible = enable;
-            this.lblTipoPersona.Visible = enable;
+            this.lblFechaNac.Visible = enable;
+            //this.lblTipoPersona.Visible = enable;
             this.ddlTipoPersona.Visible = enable;
             this.lblEspecialidad.Visible = enable;
             this.ddlEspecialidades.Visible = enable;
@@ -162,11 +154,7 @@ namespace UI.Web
             this.txtDireccion.Text = string.Empty;
             this.txtTelefono.Text = string.Empty;
             this.txtEmail.Text = string.Empty;
-            this.txtDia.Text = "dd";
-            this.txtMes.Text = "mm";
-            this.txtAnio.Text = "aaaa";
-            this.ddlPlanes.Items.Clear();
-            this.GridView.SelectedIndex = -1;
+            this.gridView.SelectedIndex = -1;
         }
 
         private void DeleteEntity(int id)
@@ -192,9 +180,7 @@ namespace UI.Web
                 this.txtDireccion.Text = this.Entity.Direccion;
                 this.txtTelefono.Text = this.Entity.Telefono;
                 this.txtEmail.Text = this.Entity.Email;
-                this.txtDia.Text = this.Entity.FechaNacimiento.Day.ToString();
-                this.txtMes.Text = this.Entity.FechaNacimiento.Month.ToString();
-                this.txtAnio.Text = this.Entity.FechaNacimiento.Year.ToString();
+                this.txtFechaNac.Text = this.Entity.FechaNacimiento.Day.ToString();
                 this.ddlTipoPersona.SelectedValue = this.Entity.DescTipoPersona;
                 this.ddlEspecialidades.SelectedValue = this.Entity.Plan.Especialidad.ID.ToString();
                 this.LoadDdlPlanes();
@@ -214,7 +200,7 @@ namespace UI.Web
             pers.Direccion = this.txtDireccion.Text;
             pers.Telefono = this.txtTelefono.Text;
             pers.Email = this.txtEmail.Text;
-            pers.FechaNacimiento = new DateTime(Convert.ToInt32(txtAnio.Text), Convert.ToInt32(txtMes.Text), Convert.ToInt32(txtDia.Text));
+            pers.FechaNacimiento = (this.calendario.SelectedDate);
             pers.DescTipoPersona = this.ddlTipoPersona.SelectedValue;
             pers.Plan.Especialidad.ID = Convert.ToInt32(this.ddlEspecialidades.SelectedValue);
             pers.Plan.ID = Convert.ToInt32(this.ddlPlanes.SelectedValue);
@@ -239,11 +225,11 @@ namespace UI.Web
 
         protected void gridView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.SelectedID = (int)this.GridView.SelectedValue;
-            this.ShowButtons(true);
+            this.SelectedID = (int)this.gridView.SelectedValue;
+
         }
 
-        protected void editarLinkButton_Click(object sender, EventArgs e)
+        protected void editarPersona(int id)
         {
             if (this.IsEntitySelected)
             {
@@ -256,13 +242,13 @@ namespace UI.Web
             }
         }
 
-        protected void eliminarLinkButton_Click(object sender, EventArgs e)
+        protected void eliminarPersona(int id)
         {
             if (this.IsEntitySelected)
             {
                 this.DeleteEntity(this.SelectedID);
                 this.LoadGrid();
-                this.ShowButtons(false);
+
             }
         }
 
@@ -274,9 +260,37 @@ namespace UI.Web
             this.FormMode = FormModes.Alta;
             this.ClearForm();
             this.EnableForm(true);
+            this.formPanelActions.Visible = true;
+
         }
 
-        protected void aceptarLinkButton_Click(object sender, EventArgs e)
+        protected void ddlEspecialidades_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.LoadDdlPlanes();
+            this.formPanel.Visible = true;
+            this.gridActionsPanel.Visible = false;
+        }
+
+        protected void ddlTipoPersona_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.formPanel.Visible = true;
+            this.gridActionsPanel.Visible = false;
+        }
+
+        protected void ddlPlanes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.formPanel.Visible = true;
+            this.gridActionsPanel.Visible = false;
+        }
+
+        protected void cancelarButton_Click(object sender, EventArgs e)
+        {
+            this.ClearForm();
+            this.formPanel.Visible = false;
+            this.gridActionsPanel.Visible = true;
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
         {
             switch (this.FormMode)
             {
@@ -307,22 +321,47 @@ namespace UI.Web
             this.ClearForm();
             this.formPanel.Visible = false;
             this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
         }
 
-        protected void cancelarLinkButton_Click(object sender, EventArgs e)
+        protected void gridView_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            this.ClearForm();
-            this.formPanel.Visible = false;
-            this.gridActionsPanel.Visible = true;
-            this.ShowButtons(false);
+            //Valida si el nombre del comando de boton es editar o borrar
+            if (e.CommandName == "Editar")
+            {
+                //Determina el index de la fila de donde el boton fue clickeado
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+
+                //Obtiene el valor de la primary key de la fila que fue seleccionada
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                this.editarPersona(SelectedID);
+            }
+
+            if (e.CommandName == "Borrar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedID = (int)gridView.DataKeys[rowIndex]["ID"];
+
+                this.eliminarPersona(SelectedID);
+            }
         }
 
-        protected void ddlEspecialidades_SelectedIndexChanged(object sender, EventArgs e)
+        protected void calendario_SelectionChanged(object sender, EventArgs e)
         {
-            this.LoadDdlPlanes();
-            this.formPanel.Visible = true;
-            this.gridActionsPanel.Visible = false;
+            this.txtFechaNac.Text = this.calendario.SelectedDate.ToString();
+        }
+
+        protected void txtFechaNac_TextChanged(object sender, EventArgs e)
+        {
+            this.calendario.VisibleDate = DateTime.Parse(this.txtFechaNac.Text);
+            this.calendario.SelectedDate = DateTime.Parse(this.txtFechaNac.Text); 
+        }
+
+
+        protected void btnCalendario_Click1(object sender, EventArgs e)
+        {
+            this.calendario.Visible = true;
+            this.txtFechaNac.Visible = true;
         }
     }
 }
