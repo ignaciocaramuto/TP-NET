@@ -34,6 +34,9 @@
                             <div class="form-group">
                                 <asp:DropDownList ID="DropDownListPersonas" runat="server" CssClass="form-control" OnDataBound="DropDownListPersonas_DataBound" CausesValidation="true">
                                 </asp:DropDownList>
+                                <br />
+                                <asp:LinkButton ID="nuevaPersonaLinkButton" runat="server" CssClass="btn btn-success" Width="150px" OnClick="nuevaPersonaLinkButton_Click" CausesValidation="False">Nueva persona</asp:LinkButton>
+                                <br />
                             </div>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidatorPersona" runat="server" ControlToValidate="DropDownListPersonas" 
                                 Display="Dynamic" ErrorMessage="Por favor selecciona una persona" />

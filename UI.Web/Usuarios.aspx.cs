@@ -264,5 +264,10 @@ namespace UI.Web
             //Establece como item por defecto el string "selecciona una persona"
             DropDownListPersonas.Items.Insert(0, new ListItem("--- Selecciona una persona ---", String.Empty));
         }
+
+        protected void nuevaPersonaLinkButton_Click(object sender, EventArgs e)
+        {
+            Page.Response.Redirect("~/Personas.aspx");
+        }
     }
 }
