@@ -1,65 +1,88 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Inscripciones.aspx.cs" Inherits="UI.Web.Inscripciones" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
 
-    <asp:Panel ID="gridPanel" runat="server">
-        <h2>Inscripciones a Cursos:</h2>
-        <asp:GridView ID="GridViewInscripciones" runat="server" 
-            AutoGenerateColumns="False" DataKeyNames="ID" 
-            onselectedindexchanged="GridViewInscripciones_SelectedIndexChanged">
+<section>
+        <h1 style="text-align: center">Inscripciones</h1>
+    </section>
+    <section>
+        <asp:Panel ID="gridPanel" runat="server">
+        <div class="container">
+            <asp:GridView ID="gridViewInscripciones" CssClass="table table-bordered table-hover table-responsive" runat="server" AutoGenerateColumns="false"
+            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridViewInscripciones_RowCommand">
             <Columns>
                 <asp:BoundField DataField="DescMateria" HeaderText="Materia" />
                 <asp:BoundField DataField="DescComision" HeaderText="Comision" />
                 <asp:BoundField DataField="AnioCurso" HeaderText="Año de Cursado" />
                 <asp:BoundField DataField="Condicion" HeaderText="Condición" />
                 <asp:BoundField DataField="Nota" HeaderText="Nota" />
-                <asp:CommandField ShowSelectButton="True" />
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <div align="center">
+                            <asp:LinkButton ID="eliminarLinkButton" runat="server" CommandName="Borrar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="fa fa-trash-o fa-lg" style="color: red"></asp:LinkButton>
+                        </div>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
-            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
-            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+            <HeaderStyle HorizontalAlign="Center" CssClass="table-primary"/>
+            <RowStyle  />
         </asp:GridView>
-    </asp:Panel>
-    <asp:Panel ID="gridActionsPanel" runat="server">
-        <asp:LinkButton ID="lbNuevo" runat="server" onclick="lbNuevo_Click">Nuevo</asp:LinkButton>
-        <asp:LinkButton ID="lbEliminar" runat="server" onclick="lbEliminar_Click">Eliminar</asp:LinkButton>
-    </asp:Panel>
-    <br />
-    <asp:Panel ID="formPanel" runat="server" Visible="False">
-        <asp:Label ID="lblMaterias" Font-Size="Medium" Font-Bold="true" runat="server">Materias:</asp:Label>
-        <br runat="server" />
-        <asp:GridView ID="GridViewMaterias" runat="server" AutoGenerateColumns="False" 
-            DataKeyNames="ID" 
-            onselectedindexchanged="GridViewMaterias_SelectedIndexChanged">
+            <br />
+            <div class="form-group">
+                <asp:Label ID="lblMaterias" runat="server" Text="Seleccionar materia a la que desea inscribirse" CssClass="form-control" Visible="false"></asp:Label>
+            </div>
+            <asp:GridView ID="gridViewMaterias" CssClass="table table-bordered table-hover table-responsive" runat="server" AutoGenerateColumns="false"
+            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridViewMaterias_RowCommand">
             <Columns>
                 <asp:BoundField DataField="Descripcion" HeaderText="Materia" />
                 <asp:BoundField DataField="HsSemanales" HeaderText="Hs Semanales" />
                 <asp:BoundField DataField="HsTotales" HeaderText="Hs Totales" />
-                <asp:CommandField ShowSelectButton="True" />
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <div align="center">
+                            <asp:LinkButton ID="seleccionarLinkButton" runat="server" CommandName="Seleccionar" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="btn btn-primary"> Seleccionar</asp:LinkButton>
+                        </div>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
-            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
-            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+            <HeaderStyle HorizontalAlign="Center" CssClass="table-primary"/>
+            <RowStyle  />
         </asp:GridView>
-        <br />
-        <asp:Label ID="lblComisiones" Font-Size="Medium" Font-Bold="true" runat="server" Visible="false">Comisiones:</asp:Label>
-        <br runat="server" />
-        <asp:GridView ID="GridViewComisiones" runat="server" 
-            AutoGenerateColumns="False" DataKeyNames="ID" 
-            onselectedindexchanged="GridViewComisiones_SelectedIndexChanged">
+            <br />
+            <div class="form-group">
+                <asp:Label ID="lblComisiones" runat="server" Text="Seleccionar comisión a la que desea inscribirse" CssClass="form-control" Visible="false"></asp:Label>
+            </div>
+            <asp:GridView ID="gridViewComisiones" CssClass="table table-bordered table-hover table-responsive" runat="server" AutoGenerateColumns="false"
+            DataKeyNames="ID" AllowSorting="True" HorizontalAlign="Center" OnRowCommand="gridViewComisiones_RowCommand">
             <Columns>
                 <asp:BoundField DataField="AnioEspecialidad" HeaderText="Año" />
                 <asp:BoundField DataField="Descripcion" HeaderText="Comision" />
-                <asp:CommandField ShowSelectButton="True" />
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <div align="center">
+                            <asp:LinkButton ID="inscribirseLinkButton" runat="server" CommandName="Inscribirse" CommandArgument='<%# DataBinder.Eval(Container, "RowIndex") %>' CssClass="btn btn-primary"> Inscribirse</asp:LinkButton>
+                        </div>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
-            <HeaderStyle BackColor="#CF7500" BorderColor="Black" Font-Bold="True" ForeColor="White" />
-            <RowStyle BackColor="#F4F4F4" BorderColor="Black" />
-            <SelectedRowStyle BackColor="#F0A500" ForeColor="White" />
+            <HeaderStyle HorizontalAlign="Center" CssClass="table-primary"/>
+            <RowStyle  />
         </asp:GridView>
-        <br />
-        <asp:Panel ID="formActionsPanel" runat="server">
-            <asp:LinkButton ID="lbAceptar" runat="server" onclick="lbAceptar_Click">Aceptar</asp:LinkButton>
-            <asp:LinkButton ID="lbCancelar" runat="server" onclick="lbCancelar_Click">Cancelar</asp:LinkButton>
+    <section class="content">
+            
+        <asp:Label ID="lblMensaje" runat="server" Align="Center" CssClass="form-control" Visible="false"></asp:Label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:LinkButton ID="btnCancelar" runat="server" Align="Center" CausesValidation="false" CssClass="btn btn-danger" OnClick="btnCancelar_Click" Visible="false" Width="100px">Cancelar</asp:LinkButton>
+        &nbsp;&nbsp;
+        <asp:LinkButton ID="btnAceptar" runat="server" Visible="false" Align="Center" CssClass="btn btn-primary" Width="100px" OnClick="btnAceptar_Click">Aceptar</asp:LinkButton>
+        
+    </section>
+            <asp:Panel ID="gridActionsPanel" runat="server">
+            <div class="d-flex justify-content-end" style="margin-right: 30px">
+                <asp:LinkButton ID="nuevoLinkButton" runat="server" OnClick="nuevoLinkButton_Click" CssClass="btn btn-success" Width="100px">Nuevo</asp:LinkButton>
+            </div>
         </asp:Panel>
-    </asp:Panel>
+        </div> 
+        </asp:Panel>
+    </section>
 
 </asp:Content>

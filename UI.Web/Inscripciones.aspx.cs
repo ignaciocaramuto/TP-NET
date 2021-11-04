@@ -14,9 +14,8 @@ namespace UI.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             this.LoadGridInscripciones();
-            if (this.GridViewInscripciones.SelectedIndex == -1)
+            if (this.gridViewInscripciones.SelectedIndex == -1)
             {
-                this.lbEliminar.Visible = false;
                 gridActionsPanel.Visible = true;
             }
         }
@@ -112,8 +111,8 @@ namespace UI.Web
         {
             try
             {
-                this.GridViewInscripciones.DataSource = Logic.GetAll(UsuarioActual.Persona.ID);
-                this.GridViewInscripciones.DataBind();
+                this.gridViewInscripciones.DataSource = Logic.GetAll(UsuarioActual.Persona.ID);
+                this.gridViewInscripciones.DataBind();
             }
             catch (Exception ex)
             {
@@ -126,8 +125,8 @@ namespace UI.Web
             try
             {
                 MateriaLogic matlog = new MateriaLogic();
-                this.GridViewMaterias.DataSource = matlog.GetMateriasParaInscripcion(UsuarioActual.Persona.Plan.ID, UsuarioActual.Persona.ID);
-                this.GridViewMaterias.DataBind();
+                this.gridViewMaterias.DataSource = matlog.GetMateriasParaInscripcion(UsuarioActual.Persona.Plan.ID, UsuarioActual.Persona.ID);
+                this.gridViewMaterias.DataBind();
             }
             catch (Exception ex)
             {
@@ -140,8 +139,8 @@ namespace UI.Web
             try
             {
                 ComisionLogic comlog = new ComisionLogic();
-                this.GridViewComisiones.DataSource = comlog.GetComisionesDisponibles(SelectedIDMaterias);
-                this.GridViewComisiones.DataBind();
+                this.gridViewComisiones.DataSource = comlog.GetComisionesDisponibles(SelectedIDMaterias);
+                this.gridViewComisiones.DataBind();
             }
             catch (Exception ex)
             {
@@ -151,17 +150,20 @@ namespace UI.Web
 
         private void EnableForm(bool enable)
         {
-            this.GridViewMaterias.Visible = enable;
-            this.GridViewComisiones.Visible = enable;
+            this.gridViewMaterias.Visible = enable;
+            this.gridViewComisiones.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.GridViewInscripciones.SelectedIndex = -1;
-            this.GridViewMaterias.SelectedIndex = -1;
-            this.GridViewComisiones.DataSource = null;
-            this.GridViewComisiones.DataBind();
+            this.gridViewInscripciones.SelectedIndex = -1;
+            this.gridViewMaterias.SelectedIndex = -1;
+            this.gridViewComisiones.DataSource = null;
+            this.gridViewComisiones.DataBind();
             this.lblComisiones.Visible = false;
+            this.lblMensaje.Visible = false;
+            this.btnAceptar.Visible = false;
+            this.btnCancelar.Visible = false;
         }
 
         private void DeleteEntity(int id)
@@ -216,44 +218,6 @@ namespace UI.Web
             Session["SelectedID"] = null;
         }
 
-        protected void GridViewInscripciones_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedIDInscripciones = (int)this.GridViewInscripciones.SelectedValue;
-            this.lbEliminar.Visible = true;
-        }
-
-        protected void GridViewMaterias_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedIDMaterias = (int)this.GridViewMaterias.SelectedValue;
-            this.LoadGridComisiones();
-            this.lblComisiones.Visible = true;
-        }
-
-        protected void GridViewComisiones_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.SelectedIDComisiones = (int)this.GridViewComisiones.SelectedValue;
-        }
-
-        protected void lbEliminar_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.DeleteEntity(this.SelectedIDInscripciones);
-                this.LoadGridInscripciones();
-                this.lbEliminar.Visible = false;
-            }
-        }
-
-        protected void lbNuevo_Click(object sender, EventArgs e)
-        {
-            this.formPanel.Visible = true;
-            this.gridActionsPanel.Visible = false;
-            this.GridViewMaterias.Visible = true;
-            this.LoadGridMaterias();
-            this.ClearForm();
-            this.EnableForm(true);
-        }
-
         private bool Validar()
         {
             if (this.SelectedIDComisiones == 0 || this.SelectedIDMaterias == 0)
@@ -261,9 +225,43 @@ namespace UI.Web
             else return true;
         }
 
-
-        protected void lbAceptar_Click(object sender, EventArgs e)
+        protected void gridViewInscripciones_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName == "Borrar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedIDInscripciones = (int)gridViewInscripciones.DataKeys[rowIndex]["ID"];
+
+                this.eliminarInscripcion();
+            }
+        }
+
+        protected void eliminarInscripcion()
+        {
+            if (this.IsEntitySelected)
+            {
+                this.DeleteEntity(this.SelectedIDInscripciones);
+                this.LoadGridInscripciones();
+            }
+        }
+
+        protected void nuevoLinkButton_Click(object sender, EventArgs e)
+        {
+            this.gridActionsPanel.Visible = false;
+            this.gridViewMaterias.Visible = true;
+            this.LoadGridMaterias();
+            this.ClearForm();
+            this.EnableForm(true);
+            this.lblMaterias.Visible = true;
+            this.nuevoLinkButton.Visible = false;
+            this.btnCancelar.Visible = true;
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            this.gridViewMaterias.Visible = false;
+            this.lblMaterias.Visible = false;
+            this.nuevoLinkButton.Visible = true;
             if (this.Validar())
             {
                 this.Entity = new AlumnoInscripcion();
@@ -277,18 +275,42 @@ namespace UI.Web
             }
             this.ClearSession();
             this.ClearForm();
-            this.formPanel.Visible = false;
             this.gridActionsPanel.Visible = true;
-            this.lbEliminar.Visible = false;
             this.LoadGridInscripciones();
         }
 
-        protected void lbCancelar_Click(object sender, EventArgs e)
+        protected void btnCancelar_Click(object sender, EventArgs e)
         {
             this.ClearForm();
-            this.formPanel.Visible = false;
             this.gridActionsPanel.Visible = true;
-            this.lbEliminar.Visible = false;
+            this.gridViewMaterias.Visible = false;
+            this.gridViewComisiones.Visible = false;
+            this.lblMaterias.Visible = false;
+            this.nuevoLinkButton.Visible = true;
+        }
+
+        protected void gridViewMaterias_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Seleccionar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedIDMaterias = (int)gridViewMaterias.DataKeys[rowIndex]["ID"];
+                this.LoadGridComisiones();
+                this.lblComisiones.Visible = true;
+            }
+        }
+
+        protected void gridViewComisiones_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Inscribirse")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedIDComisiones = (int)gridViewComisiones.DataKeys[rowIndex]["ID"];
+                this.lblMensaje.Text = "¿Seguro que quiere inscribirse a la materia en la comisión seleccionada?";
+                this.lblMensaje.Visible=true;
+                this.btnCancelar.Visible = true;
+                this.btnAceptar.Visible = true;
+            }
         }
     }
 }
