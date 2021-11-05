@@ -143,41 +143,49 @@
                             <span>Registro de notas</span>
                         </asp:HyperLink>
                     </li>
-                    <li runat="server" id="hideUsuarios">
-                        <asp:HyperLink ID="HyperLinkUsuarios" NavigateUrl="~/Usuarios.aspx" runat="server">
+                    <li class="treeview" id="hideABMC" runat="server">
+                        <a href="#">
                             <i class="fa fa-th"></i>
-                            <span>ABMC Usuarios</span>
-                        </asp:HyperLink>
-                    </li>
-                    <li runat="server" id="hideComisiones">
-                        <asp:HyperLink ID="HyperLinkComisiones" NavigateUrl="~/Comisiones.aspx" runat="server">
-                            <i class="fa fa-th"></i>
-                            <span>ABMC Comisiones</span>
-                        </asp:HyperLink>
-                    </li>
-                    <li runat="server" id="hideCursos">
-                        <asp:HyperLink ID="HyperLinkCursos" NavigateUrl="~/Cursos.aspx" runat="server">
-                            <i class="fa fa-th"></i>
-                            <span>ABMC Cursos</span>
-                        </asp:HyperLink>
-                    </li>
-                    <li runat="server" id="hideEspecialidades">
-                        <asp:HyperLink ID="HyperLinkEspecialidades" NavigateUrl="~/Especialidades.aspx" runat="server">
-                            <i class="fa fa-th"></i>
-                            <span>ABMC Especialidades</span>
-                        </asp:HyperLink>
-                    </li>
-                    <li runat="server" id="hideMaterias">
-                        <asp:HyperLink ID="HyperLinkMaterias" NavigateUrl="~/Materias.aspx" runat="server">
-                            <i class="fa fa-th"></i>
-                            <span>ABMC Materias</span>
-                        </asp:HyperLink>
-                    </li>
-                    <li runat="server" id="hidePlanes">
-                        <asp:HyperLink ID="HyperLinkPlanes" NavigateUrl="~/Planes.aspx" runat="server">
-                            <i class="fa fa-th"></i>
-                            <span>ABMC Planes</span>
-                        </asp:HyperLink>
+                            <span>ABMC</span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <asp:HyperLink ID="HyperLinkUsuarios" NavigateUrl="~/Usuarios.aspx" runat="server">
+                                    <i class="fa fa-circle-thin"></i>
+                                    <span>Usuarios</span>
+                                </asp:HyperLink>
+                            </li>
+                            <li>
+                                <asp:HyperLink ID="HyperLinkComisiones" NavigateUrl="~/Comisiones.aspx" runat="server">
+                                    <i class="fa fa-circle-thin"></i>
+                                    <span>Comisiones</span>
+                                </asp:HyperLink>
+                            </li>
+                            <li>
+                                <asp:HyperLink ID="HyperLinkCursos" NavigateUrl="~/Cursos.aspx" runat="server">
+                                    <i class="fa fa-circle-thin"></i>
+                                    <span>Cursos</span>
+                                </asp:HyperLink>
+                            </li>
+                            <li>
+                                <asp:HyperLink ID="HyperLinkEspecialidades" NavigateUrl="~/Especialidades.aspx" runat="server">
+                                    <i class="fa fa-circle-thin"></i>
+                                    <span>Especialidades</span>
+                                </asp:HyperLink>
+                            </li>
+                            <li>
+                                <asp:HyperLink ID="HyperLinkMaterias" NavigateUrl="~/Materias.aspx" runat="server">
+                                    <i class="fa fa-circle-thin"></i>
+                                    <span>Materias</span>
+                                </asp:HyperLink>
+                            </li>
+                            <li>
+                                <asp:HyperLink ID="HyperLinkPlanes" NavigateUrl="~/Planes.aspx" runat="server">
+                                    <i class="fa fa-circle-thin"></i>
+                                    <span>Planes</span>
+                                </asp:HyperLink>
+                            </li>
+                        </ul>
                     </li>
                     <li runat="server" id="hideReportes">
                         <asp:HyperLink ID="HyperLinkReportes" NavigateUrl="#" runat="server">
@@ -191,7 +199,7 @@
         <aside class="right-side">
         <section class="content">
         <form id="bodyForm" runat="server">
-            <asp:LinkButton ID="lbCerrarSesion" runat="server" onclick="lbCerrarSesion_Click">Cerrar Sesion</asp:LinkButton>
+            <asp:LinkButton ID="lbCerrarSesion" runat="server" onclick="lbCerrarSesion_Click" CssClass="pull-right">Cerrar Sesion</asp:LinkButton>
             <div>
                 <asp:ContentPlaceHolder ID="bodyContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
             </div>

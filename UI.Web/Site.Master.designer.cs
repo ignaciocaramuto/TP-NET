@@ -60,13 +60,13 @@ namespace UI.Web
         protected global::System.Web.UI.WebControls.HyperLink HyperLinkNotas;
 
         /// <summary>
-        /// Control hideUsuarios.
+        /// Control hideABMC.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideUsuarios;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideABMC;
 
         /// <summary>
         /// Control HyperLinkUsuarios.
@@ -78,15 +78,6 @@ namespace UI.Web
         protected global::System.Web.UI.WebControls.HyperLink HyperLinkUsuarios;
 
         /// <summary>
-        /// Control hideComisiones.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideComisiones;
-
-        /// <summary>
         /// Control HyperLinkComisiones.
         /// </summary>
         /// <remarks>
@@ -94,15 +85,6 @@ namespace UI.Web
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink HyperLinkComisiones;
-
-        /// <summary>
-        /// Control hideCursos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideCursos;
 
         /// <summary>
         /// Control HyperLinkCursos.
@@ -114,15 +96,6 @@ namespace UI.Web
         protected global::System.Web.UI.WebControls.HyperLink HyperLinkCursos;
 
         /// <summary>
-        /// Control hideEspecialidades.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideEspecialidades;
-
-        /// <summary>
         /// Control HyperLinkEspecialidades.
         /// </summary>
         /// <remarks>
@@ -132,15 +105,6 @@ namespace UI.Web
         protected global::System.Web.UI.WebControls.HyperLink HyperLinkEspecialidades;
 
         /// <summary>
-        /// Control hideMaterias.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideMaterias;
-
-        /// <summary>
         /// Control HyperLinkMaterias.
         /// </summary>
         /// <remarks>
@@ -148,15 +112,6 @@ namespace UI.Web
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink HyperLinkMaterias;
-
-        /// <summary>
-        /// Control hidePlanes.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hidePlanes;
 
         /// <summary>
         /// Control HyperLinkPlanes.
