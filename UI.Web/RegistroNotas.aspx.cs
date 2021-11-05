@@ -14,9 +14,10 @@ namespace UI.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             this.LoadGridCursos();
-            if (this.GridViewCursos.SelectedIndex == -1)
+            if (this.gridViewCursos.SelectedIndex == -1)
             {
                 formPanel.Visible = false;
+                formPanelActions.Visible = false;
             }
         }
 
@@ -97,8 +98,8 @@ namespace UI.Web
             try
             {
                 CursoLogic curlog = new CursoLogic();
-                this.GridViewCursos.DataSource = curlog.GetCursosDocente(UsuarioActual.Persona.ID);
-                this.GridViewCursos.DataBind();
+                this.gridViewCursos.DataSource = curlog.GetCursosDocente(UsuarioActual.Persona.ID);
+                this.gridViewCursos.DataBind();
             }
             catch (Exception ex)
             {
@@ -116,8 +117,8 @@ namespace UI.Web
                     if (ai.Curso.ID == this.SelectedIDCursos)
                         alumnosInscriptos.Add(ai);
                 }
-                this.GridViewAlumnos.DataSource = alumnosInscriptos;
-                this.GridViewAlumnos.DataBind();
+                this.gridViewAlumnos.DataSource = alumnosInscriptos;
+                this.gridViewAlumnos.DataBind();
             }
             catch (Exception ex)
             {
@@ -128,15 +129,14 @@ namespace UI.Web
 
         private void EnableForm(bool enable)
         {
-            this.GridViewAlumnos.Visible = enable;
+            this.gridViewAlumnos.Visible = enable;
         }
 
         private void ClearForm()
         {
-            this.GridViewCursos.SelectedIndex = -1;
-            this.GridViewAlumnos.DataSource = null;
-            this.GridViewAlumnos.DataBind();
             this.lblAlumnos.Visible = false;
+            this.gridViewAlumnos.Visible = false;
+            this.btnVolver.Visible = false;
         }
 
         private void DeleteEntity(int id)
@@ -153,8 +153,8 @@ namespace UI.Web
 
         private void LoadEntity(AlumnoInscripcion ins)
         {
-            ins.Nota = Convert.ToInt32(this.ddlNota.SelectedValue);
-            ins.Condicion = this.ddlCondicion.SelectedValue;
+            ins.Nota = Convert.ToInt32(this.ddlNotas.SelectedValue);
+            ins.Condicion = this.ddlCondiciones.SelectedValue;
         }
 
         private void SaveEntity(AlumnoInscripcion ins)
@@ -171,28 +171,14 @@ namespace UI.Web
 
         protected void GridViewCursos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.SelectedIDCursos = (int)this.GridViewCursos.SelectedValue;
+            this.SelectedIDCursos = (int)this.gridViewCursos.SelectedValue;
             this.LoadGridAlumnos();
             this.formPanel.Visible = true;
         }
 
         protected void GridViewAlumnos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.SelectedIDInscripciones = (int)this.GridViewAlumnos.SelectedValue;
-        }
-
-
-        protected void lbBorrarNota_Click(object sender, EventArgs e)
-        {
-            if (this.IsEntitySelected)
-            {
-                this.Entity = Logic.GetOne(SelectedIDInscripciones);
-                this.Entity.Nota = 0;
-                this.Entity.Condicion = "Inscripto";
-                this.Entity.State = BusinessEntity.States.Modified;
-                this.SaveEntity(this.Entity);
-                this.LoadGridAlumnos();
-            }
+            this.SelectedIDInscripciones = (int)this.gridViewAlumnos.SelectedValue;
         }
 
         private bool Validar()
@@ -202,9 +188,9 @@ namespace UI.Web
             else return true;
         }
 
-
-        protected void lbAceptar_Click(object sender, EventArgs e)
+        protected void btnAceptar_Click(object sender, EventArgs e)
         {
+            this.btnVolver.Visible = true;
             if (this.Validar())
             {
                 this.Entity = Logic.GetOne(SelectedIDInscripciones);
@@ -215,5 +201,56 @@ namespace UI.Web
             this.LoadGridAlumnos();
         }
 
+        protected void gridViewCursos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Seleccionar")
+            {
+                int rowIndex = int.Parse(e.CommandArgument.ToString());
+                SelectedIDCursos = (int)gridViewCursos.DataKeys[rowIndex]["ID"];
+                this.LoadGridAlumnos();
+                this.btnVolver.Visible = true;
+                this.gridViewAlumnos.Visible = true;
+            }
+        }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.ClearForm();
+        }
+
+        protected void gridViewAlumnos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Borrar")
+            {
+                if (this.IsEntitySelected)
+                {
+                    int rowIndex = int.Parse(e.CommandArgument.ToString());
+                    SelectedIDInscripciones = (int)gridViewAlumnos.DataKeys[rowIndex]["ID"];
+                    this.Entity = Logic.GetOne(SelectedIDInscripciones);
+                    this.Entity.Nota = 0;
+                    this.Entity.Condicion = "Inscripto";
+                    this.Entity.State = BusinessEntity.States.Modified;
+                    this.SaveEntity(this.Entity);
+                    this.LoadGridAlumnos();
+                }
+            }
+
+            if (e.CommandName == "Modificar")
+            {
+                
+                    int rowIndex = int.Parse(e.CommandArgument.ToString());
+                    SelectedIDInscripciones = (int)gridViewAlumnos.DataKeys[rowIndex]["ID"];
+                    this.formPanel.Visible = true;
+                    this.formPanelActions.Visible = true;
+                    this.btnVolver.Visible = false;
+            }
+        }
+
+        protected void cancelarButton_Click(object sender, EventArgs e)
+        {
+            this.btnVolver.Visible = true;
+            this.formPanel.Visible = false;
+            this.LoadGridAlumnos();
+        }
     }
 }

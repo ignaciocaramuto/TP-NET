@@ -138,6 +138,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="RegistroNotas.aspx">
+                            <i class="fa fa-th"></i>
+                            <span>Registro de notas</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="Usuarios.aspx">
                             <i class="fa fa-th"></i>
                             <span>ABMC Usuarios</span>
