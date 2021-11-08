@@ -368,6 +368,7 @@
     <Content Include="Login.aspx" />
     <Content Include="LoginStyle.css" />
     <Content Include="Materias.aspx" />
+    <Content Include="noCorrespondeSeccion.aspx" />
     <Content Include="Personas.aspx" />
     <Content Include="Planes.aspx" />
     <Content Include="RegistroNotas.aspx" />
@@ -436,6 +437,13 @@
     </Compile>
     <Compile Include="Modes.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="noCorrespondeSeccion.aspx.cs">
+      <DependentUpon>noCorrespondeSeccion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="noCorrespondeSeccion.aspx.designer.cs">
+      <DependentUpon>noCorrespondeSeccion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Personas.aspx.cs">
       <DependentUpon>Personas.aspx</DependentUpon>

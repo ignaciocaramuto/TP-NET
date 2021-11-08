@@ -13,10 +13,17 @@ namespace UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.LoadGrid();
-            if (this.gridView.SelectedIndex == -1)
+            if ((string)Session["Privilegio"] != "Admin")
             {
-                gridActionsPanel.Visible = true;
+                Response.Redirect("noCorrespondeSeccion.aspx");
+            }
+            else
+            {
+                this.LoadGrid();
+                if (this.gridView.SelectedIndex == -1)
+                {
+                    gridActionsPanel.Visible = true;
+                }
             }
         }
 

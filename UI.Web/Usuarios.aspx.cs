@@ -12,8 +12,14 @@ namespace UI.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) LoadGrid();
-
+            if ((string)Session["Privilegio"] != "Admin")
+            {
+                Response.Redirect("noCorrespondeSeccion.aspx");
+            }
+            else
+            {
+                if (!IsPostBack) LoadGrid();
+            }
         }
 
         UsuarioLogic _logic;

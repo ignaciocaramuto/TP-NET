@@ -29,6 +29,24 @@ namespace UI.Web
             try
             {
                 Usuario usuarioActual = Logic.GetUsuarioForLogin(this.txtUsuario.Text, this.txtContraseña.Text);
+                if (this.txtUsuario.Text == "admin")
+                {
+                    this.Session["Privilegio"] = "Admin";
+                }
+                else if (usuarioActual.TipoPersona == "Docente")
+                {
+                    this.Session["Privilegio"] = "Docente";
+                }
+                else if (usuarioActual.TipoPersona == "No docente")
+                {
+                    this.Session["Privilegio"] = "No docente";
+                }
+                else if (usuarioActual.TipoPersona == "Alumno")
+                {
+                     this.Session["Privilegio"] = "Alumno";
+                }
+                
+
                 if (usuarioActual.ID != 0)
                 {
                     if (usuarioActual.Habilitado)

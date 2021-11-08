@@ -13,10 +13,17 @@ namespace UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.LoadGridInscripciones();
-            if (this.gridViewInscripciones.SelectedIndex == -1)
+            if ((string)Session["Privilegio"] != "Alumno")
             {
-                gridActionsPanel.Visible = true;
+                Response.Redirect("noCorrespondeSeccion.aspx");
+            }
+            else
+            {
+                this.LoadGridInscripciones();
+                if (this.gridViewInscripciones.SelectedIndex == -1)
+                {
+                    gridActionsPanel.Visible = true;
+                }
             }
         }
 

@@ -20,7 +20,7 @@
             </div>
             <form id="form1" runat="server">
                 <asp:TextBox ID="txtUsuario" class="fadeIn second" placeholder="Nombre de usuario" runat="server"></asp:TextBox>
-                <asp:TextBox ID="txtContraseña" class="fadeIn third" placeholder="Contraseña" runat="server"></asp:TextBox>
+                <asp:TextBox ID="txtContraseña" class="fadeIn third" placeholder="Contraseña" runat="server" ></asp:TextBox>
                 <asp:Label ID="lblError" class="label-error" runat="server" Text="Usuario y/o contraseña incorrecto/s" Visible="false"></asp:Label>
                 <asp:Button ID="btnIngresar" class="fadeIn fourth" runat="server" OnClick="btnIngresar_Click" Text="Ingresar" />
             </form>

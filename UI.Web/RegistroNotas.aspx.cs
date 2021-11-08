@@ -13,11 +13,18 @@ namespace UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.LoadGridCursos();
-            if (this.gridViewCursos.SelectedIndex == -1)
+            if ((string)Session["Privilegio"] != "Docente")
             {
-                formPanel.Visible = false;
-                formPanelActions.Visible = false;
+                Response.Redirect("noCorrespondeSeccion.aspx");
+            }
+            else
+            {
+                this.LoadGridCursos();
+                if (this.gridViewCursos.SelectedIndex == -1)
+                {
+                    formPanel.Visible = false;
+                    formPanelActions.Visible = false;
+                }
             }
         }
 

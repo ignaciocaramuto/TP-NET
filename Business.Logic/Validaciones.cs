@@ -29,5 +29,17 @@ namespace Business.Logic
                 return false;
             }
         }
+
+        public static bool esPrivilegioValido(string PrivilegioIngresado)
+        {
+            if (PrivilegioIngresado == "admin" || PrivilegioIngresado == "invitado")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
