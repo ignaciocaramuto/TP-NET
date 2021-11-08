@@ -27,8 +27,10 @@ namespace UI.Web
 
                         hideABMC.Visible = false;
 
-                        HyperLinkReportes.Visible = false;
-                        hideReportes.Visible = false;
+                        HyperLinkReporteCursos.Visible = false;
+                        HyperLinkReportePlanes.Visible = false;
+                        hideReporteCursos.Visible = false;
+                        hideReportePlanes.Visible = false;
                     }
                     else if (UsuarioActual.Persona.DescTipoPersona == "Docente")
                     {
@@ -40,8 +42,10 @@ namespace UI.Web
 
                         hideABMC.Visible = false;
 
-                        HyperLinkReportes.Visible = false;
-                        hideReportes.Visible = false;
+                        HyperLinkReporteCursos.Visible = false;
+                        HyperLinkReportePlanes.Visible = false;
+                        hideReporteCursos.Visible = false;
+                        hideReportePlanes.Visible = false;
                     }
                     else if (UsuarioActual.Persona.DescTipoPersona == "No docente")
                     {
@@ -53,8 +57,10 @@ namespace UI.Web
 
                         hideABMC.Visible = true;
 
-                        HyperLinkReportes.Visible = true;
-                        hideReportes.Visible = true;
+                        HyperLinkReporteCursos.Visible = true;
+                        HyperLinkReportePlanes.Visible = true;
+                        hideReporteCursos.Visible = true;
+                        hideReportePlanes.Visible = true;
                     }
                 }
             }

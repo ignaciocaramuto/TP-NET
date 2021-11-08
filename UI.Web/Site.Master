@@ -187,10 +187,16 @@
                             </li>
                         </ul>
                     </li>
-                    <li runat="server" id="hideReportes">
-                        <asp:HyperLink ID="HyperLinkReportes" NavigateUrl="#" runat="server">
+                    <li runat="server" id="hideReporteCursos">
+                        <asp:HyperLink ID="HyperLinkReporteCursos" NavigateUrl="~/ReporteCursosViewer.aspx" runat="server">
                             <i class="fa fa-line-chart"></i>
-                            <span>Reportes</span>
+                            <span>Reporte de Cursos</span>
+                        </asp:HyperLink>
+                    </li>
+                    <li runat="server" id="hideReportePlanes">
+                        <asp:HyperLink ID="HyperLinkReportePlanes" NavigateUrl="~/ReportePlanesViewer.aspx" runat="server">
+                            <i class="fa fa-line-chart"></i>
+                            <span>Reporte de Planes</span>
                         </asp:HyperLink>
                     </li>
                 </ul>

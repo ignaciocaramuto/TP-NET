@@ -328,6 +328,7 @@ namespace UI.Web
             //Valida si el nombre del comando de boton es editar o borrar
             if (e.CommandName == "Editar")
             {
+                this.formPanelActions.Visible = true;
                 //Determina el index de la fila de donde el boton fue clickeado
                 int rowIndex = int.Parse(e.CommandArgument.ToString());
 

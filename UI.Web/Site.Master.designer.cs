@@ -123,22 +123,40 @@ namespace UI.Web
         protected global::System.Web.UI.WebControls.HyperLink HyperLinkPlanes;
 
         /// <summary>
-        /// Control hideReportes.
+        /// Control hideReporteCursos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideReportes;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideReporteCursos;
 
         /// <summary>
-        /// Control HyperLinkReportes.
+        /// Control HyperLinkReporteCursos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkReportes;
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkReporteCursos;
+
+        /// <summary>
+        /// Control hideReportePlanes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hideReportePlanes;
+
+        /// <summary>
+        /// Control HyperLinkReportePlanes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkReportePlanes;
 
         /// <summary>
         /// Control bodyForm.
