@@ -4,12 +4,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="bodyContentPlaceHolder" runat="server">
     
-    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" AutoDataBind="True" GroupTreeImagesFolderUrl="" 
-        Height="1202px" ReportSourceID="CrystalReportSource1" ToolbarImagesFolderUrl="" 
-        ToolPanelWidth="200px" Width="1104px" />
-    <CR:CrystalReportSource ID="CrystalReportSource1" runat="server">
-        <Report FileName="C:\Users\Gianluca\source\repos\genexyz\Tp2GrupoPagVanSam\Util\ReportePlanes.rpt">
-        </Report>
-    </CR:CrystalReportSource>
+    
+    
+    <CR:CrystalReportViewer ID="crvPlanes" runat="server" AutoDataBind="true" />
+    
+    
     
 </asp:Content>

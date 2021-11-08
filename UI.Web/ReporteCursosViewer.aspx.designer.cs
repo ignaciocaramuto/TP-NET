@@ -15,21 +15,12 @@ namespace UI.Web
     {
 
         /// <summary>
-        /// Control CrystalReportViewer1.
+        /// Control crvCursos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::CrystalDecisions.Web.CrystalReportViewer CrystalReportViewer1;
-
-        /// <summary>
-        /// Control ReporteCursos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::CrystalDecisions.Web.CrystalReportSource ReporteCursos;
+        protected global::CrystalDecisions.Web.CrystalReportViewer crvCursos;
     }
 }
